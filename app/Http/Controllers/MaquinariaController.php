@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MaquinariaRequest;
+use App\Models\Categoria;
+use App\Models\Maquinaria;
+use DateTime;
 use Illuminate\Http\Request;
 
 class MaquinariaController extends Controller
@@ -13,7 +17,9 @@ class MaquinariaController extends Controller
      */
     public function index()
     {
-        return view('producto.index');
+        $categorias =Categoria::where('estado',1)->get();
+        $maquinarias =Maquinaria::paginate(10);
+        return view('producto.index',compact('categorias','maquinarias'));
     }
 
     /**
@@ -32,9 +38,21 @@ class MaquinariaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MaquinariaRequest $request)
     {
-        //
+        $requestdata=$request->except('_token');
+        $date = DateTime::createFromFormat('d/m/Y', $requestdata['fecha']);
+        $datos=Maquinaria::create([
+            'nombre'=>$requestdata['nombre'],
+            'categoria_id'=>$requestdata['categoria'],
+            'nombre'=>$requestdata['nombre'],
+            'fecha_compra'=>$date->format('d-m-Y'),
+            'precio'=>$requestdata['precio'],
+            'hora'=>$requestdata['hora'],
+            'semana'=>$requestdata['semana'],
+            'mes'=>$requestdata['mes'],
+            ]);
+        return redirect('maquinaria')->with('success', 'Maquinaria creada exitosamente!');
     }
 
     /**

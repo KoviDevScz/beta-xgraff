@@ -99,7 +99,26 @@
         <!-- End row -->
     </div>
     <!-- End Topbar -->
-    
+    <!-- Start Breadcrumbbar -->                    
+    <div class="breadcrumbbar">
+        <div class="row align-items-center">
+            <div class="col-md-8 col-lg-8">
+                <h4 class="page-title">@yield('title')</h4>
+                <div class="breadcrumb-list">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">@yield('page')</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                <div class="widgetbar">
+                    @yield('button')
+                </div>                        
+            </div>
+        </div>          
+    </div>
+    <!-- End Breadcrumbbar -->
     @yield('rightbar-content')
     @yield('content')
     <!-- Start Footerbar -->

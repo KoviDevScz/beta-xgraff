@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Descripción:</label>
+                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Categoría:</label>
                                             <div class="col-8 col-sm-8">
                                                 <input type="text" class="form-control {{ $errors->has('descripcion') ? 'is-invalid' : ''}}" name="descripcion" placeholder="Descripcion" value="{{ isset($categoria->descripcion) ? $categoria->descripcion : old('descripcion')}}">
                                                 {!! $errors->first('descripcion', '<p class="help-block text-danger">:message</p>') !!}
