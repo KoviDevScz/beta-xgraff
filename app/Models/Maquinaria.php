@@ -39,4 +39,9 @@ class Maquinaria extends Model
         return $this->belongsTo('App\Models\Categoria');
     }
 
+    public function detalle_alquiler()
+    {
+        return $this->hasMany('App\Models\Detalle_Alquiler_Maquinaria_Cliente');
+    }
+
 }

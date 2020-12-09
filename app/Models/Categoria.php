@@ -13,7 +13,7 @@ class Categoria extends Model
     protected $fillable = [
         'nombre', 'descripcion'
     ];
-    public function productos()
+    public function maquinarias()
     {
         return $this->hasMany('App\Models\Maquinaria');
     }
