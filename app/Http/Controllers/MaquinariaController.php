@@ -47,6 +47,7 @@ class MaquinariaController extends Controller
             'categoria_id'=>$requestdata['categoria'],
             'nombre'=>$requestdata['nombre'],
             'fecha_compra'=>$date->format('d-m-Y'),
+            'garantia'=>$requestdata['precio'],
             'precio'=>$requestdata['precio'],
             'hora'=>$requestdata['hora'],
             'semana'=>$requestdata['semana'],
@@ -86,7 +87,7 @@ class MaquinariaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**

@@ -19,6 +19,7 @@ class CreateMaquinariasTable extends Migration
             $table->string('nombre',100);
             $table->date('fecha_compra');
             $table->double('precio',8,2);
+            $table->double('garantia',8,2);
             $table->double('hora',8,2)->nullable();
             $table->double('semana',8,2)->nullable();
             $table->double('mes',8,2)->nullable();

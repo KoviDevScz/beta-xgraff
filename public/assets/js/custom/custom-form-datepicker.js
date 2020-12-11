@@ -22,7 +22,7 @@ $(document).ready(function() {
 	    dateFormat: 'MM yyyy'
 	});
     $('#time-format').datepicker({
-    	language: 'en',	    
+    	language: 'es',	    
 	    timeFormat: 'hh:ii aa',
 	    timepicker: true,
 	    dateTimeSeparator: ' - '

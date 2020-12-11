@@ -3,8 +3,8 @@
     <div class="sidebar">
         <!-- Start Logobar -->
         <div class="logobar">
-            <a href="{{url('/')}}" class="logo logo-large"><img src="assets/images/logo.svg" class="img-fluid" alt="logo"></a>
-            <a href="{{url('/')}}" class="logo logo-small"><img src="assets/images/small_logo.svg" class="img-fluid" alt="logo"></a>
+            <a href="{{url('/')}}" class="logo logo-large"><img src="{{asset('assets/images/logo.svg')}}" class="img-fluid" alt="logo"></a>
+            <a href="{{url('/')}}" class="logo logo-small"><img src="{{asset('assets/images/small_logo.svg')}}" class="img-fluid" alt="logo"></a>
         </div>
         <!-- End Logobar -->
         <!-- Start Navigationbar -->
@@ -17,12 +17,12 @@
                 </li> --}}  
                 <li>
                     <a href="{{url('/widgets')}}">
-                        <img src="assets/images/svg-icon/widgets.svg" class="img-fluid" alt="widgets"><span>Gestionar Cliente</span>
+                        <img src="{{asset('assets/images/svg-icon/widgets.svg')}}" class="img-fluid" alt="widgets"><span>Gestionar Cliente</span>
                     </a>
                 </li>
                 <li>
                     <a href="javaScript:void();">
-                        <img src="assets/images/svg-icon/ecommerce.svg" class="img-fluid" alt="ecommerce"><span>Gestionar Herramientas</span><i class="feather icon-chevron-right pull-right"></i>
+                        <img src="{{asset('assets/images/svg-icon/ecommerce.svg')}}" class="img-fluid" alt="ecommerce"><span>Gestionar Herramientas</span><i class="feather icon-chevron-right pull-right"></i>
                     </a>
                     <ul class="vertical-submenu">
                         <li><a href="{{url('categoria')}}">Gestionar Categoria</a></li>
@@ -31,10 +31,10 @@
                 </li>                
                 <li>
                     <a href="javaScript:void();">
-                        <img src="assets/images/svg-icon/ecommerce.svg" class="img-fluid" alt="ecommerce"><span>Gestionar <br> Movimientos</span><i class="feather icon-chevron-right pull-right"></i>
+                        <img src="{{asset('assets/images/svg-icon/ecommerce.svg')}}" class="img-fluid" alt="ecommerce"><span>Gestionar <br> Movimientos</span><i class="feather icon-chevron-right pull-right"></i>
                     </a>
                     <ul class="vertical-submenu">
-                        <li><a href="{{url('/ecommerce-product-detail')}}">Gestionar Alquiler</a></li>
+                        <li><a href="{{url('alquiler')}}">Gestionar Alquiler</a></li>
                         <li><a href="{{url('/ecommerce-product-list')}}">Gestionar Devolución</a></li>
                     </ul>
                 </li>                                       

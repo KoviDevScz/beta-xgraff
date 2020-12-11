@@ -24,4 +24,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('categoria', 'CategoriaController');
     Route::resource('maquinaria', 'MaquinariaController');
+    Route::resource('alquiler', 'AlquilerController');
 });

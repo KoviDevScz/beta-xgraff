@@ -6,8 +6,19 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+import Vue from 'vue'
+import { Datetime } from 'vue-datetime'
+// You need a specific loader for CSS files
+import 'vue-datetime/dist/vue-datetime.css'
+import Vuelidate from 'vuelidate'
 
+
+
+
+
+window.Vue = require('vue');
+Vue.use(Datetime)
+Vue.use(Vuelidate);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -18,8 +29,9 @@ window.Vue = require('vue');
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
+Vue.component('datetime', Datetime);
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('alquiler-component', require('./components/alquiler/AlquilerComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -25,7 +25,7 @@
         <!-- Start Infobar Setting Sidebar -->
         <div id="infobar-settings-sidebar" class="infobar-settings-sidebar">
             <div class="infobar-settings-sidebar-head d-flex w-100 justify-content-between">
-                <h4>Settings</h4><a href="javascript:void(0)" id="infobar-settings-close" class="infobar-settings-close"><img src="assets/images/svg-icon/close.svg" class="img-fluid menu-hamburger-close" alt="close"></a>
+                <h4>Settings</h4><a href="javascript:void(0)" id="infobar-settings-close" class="infobar-settings-close"><img src="{{asset('assets/images/svg-icon/close.svg')}}" class="img-fluid menu-hamburger-close" alt="close"></a>
             </div>
             <div class="infobar-settings-sidebar-body">
                 <div class="custom-mode-setting">
@@ -64,8 +64,6 @@
                 </div>
             </div>
         </div>
-        <div class="infobar-settings-sidebar-overlay"></div>
-        <!-- End Infobar Setting Sidebar -->
         <!-- Start Containerbar -->
         <div id="containerbar">     
             <!-- Start Leftbar -->
@@ -90,7 +88,8 @@
     @yield('script')
     <!-- Core JS -->
     <script src="{{ asset('assets/js/core.js') }}"></script>
-    {{-- <script src="{{mix('js/app.js')}}"></script> --}}
+    <script src="{{mix('js/app.js')}}"></script>
     <!-- End JS -->
+    </script>
 </body>
 </html>

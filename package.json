@@ -19,5 +19,12 @@
         "sass-loader": "^10.1.0",
         "vue": "^2.6.12",
         "vue-template-compiler": "^2.6.12"
+    },
+    "dependencies": {
+        "luxon": "^1.25.0",
+        "moment": "^2.29.1",
+        "vue-datetime": "^1.0.0-beta.14",
+        "vuelidate": "^0.7.6",
+        "weekstart": "^1.0.1"
     }
 }

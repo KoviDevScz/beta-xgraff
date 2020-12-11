@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Maquinaria;
+use App\User;
 use Illuminate\Http\Request;
 
 class AlquilerController extends Controller
@@ -13,7 +15,7 @@ class AlquilerController extends Controller
      */
     public function index()
     {
-        //
+        return view('alquiler.index');
     }
 
     /**
@@ -23,7 +25,9 @@ class AlquilerController extends Controller
      */
     public function create()
     {
-        //
+        $maquinarias = Maquinaria::where('estado',1)->get();
+        $clientes = User::get();
+        return view('alquiler.create',compact('maquinarias','clientes'));
     }
 
     /**
