@@ -1,9 +1,16 @@
 @extends('layouts.app')
 @section('title')
-    XGRAFF - Maquinaria
+XGRAFF - Maquinaria
+@endsection
+@section('title-page') 
+Maquinarias
 @endsection
 @section('page')
     Maquinarias
+@endsection
+@section('link-page')
+    <li class="breadcrumb-item"><a href="{{url('/')}}">CMS</a></li>
+    <li class="breadcrumb-item active" aria-current="page">@yield('page')</li>
 @endsection
 @section('style')
 <!-- Sweet Alert css -->

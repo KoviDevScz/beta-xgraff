@@ -2,9 +2,62 @@
 @section('title')
     XGRAFF - Categoria
 @endsection
+@section('title-page') 
+    Categorias
+@endsection
 @section('page')
     Categorias
 @endsection
+@section('link-page')
+    <li class="breadcrumb-item"><a href="{{url('/')}}">CMS</a></li>
+    <li class="breadcrumb-item active" aria-current="page">@yield('page')</li>
+@endsection
+@section('button')
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary-rgba" data-toggle="modal" data-target="#crearmodal">
+    <i class="feather icon-plus mr-2"></i>Crear 
+</button>
+<!-- Modal -->
+<div class="modal fade" id="crearmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content ">
+            <form class="form-validate" action="{{route('categoria.store')}}" id="form" method="post">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Crear nueva categoría</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Nombre <span class="text-danger">*</span>:</label>
+                            <div class="col-8 col-sm-8">
+                                <input type="text" class="form-control {{ $errors->has('nombre') ? 'is-invalid' : ''}}" name="nombre" placeholder="Nombre" value="{{ isset($categoria->nombre) ? $categoria->nombre : old('nombre')}}">
+                                {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!}
+                            </div>
+                        </div>                                            
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Categoría:</label>
+                            <div class="col-8 col-sm-8">
+                                <input type="text" class="form-control {{ $errors->has('descripcion') ? 'is-invalid' : ''}}" name="descripcion" placeholder="Descripcion" value="{{ isset($categoria->descripcion) ? $categoria->descripcion : old('descripcion')}}">
+                                {!! $errors->first('descripcion', '<p class="help-block text-danger">:message</p>') !!}
+                            </div>
+                        </div>                                            
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center align-items-center row">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endsection 
 @section('style')
 <!-- Sweet Alert css -->
 <link href="{{ asset('assets/plugins/sweet-alert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
@@ -15,70 +68,6 @@
 <link href="{{ asset('assets/plugins/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection 
 @section('rightbar-content')
-<!-- Start Breadcrumbbar -->                    
-<div class="breadcrumbbar">
-    <div class="row align-items-center">
-        <div class="col-md-8 col-lg-8">
-            <h4 class="page-title">@yield('page')</h4>
-            <div class="breadcrumb-list">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{url('/home')}}">CMS</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">@yield('page')</li>
-                </ol>
-            </div>
-        </div>
-        <div class="col-md-4 col-lg-4">
-            <div class="widgetbar">
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary-rgba" data-toggle="modal" data-target="#crearmodal">
-                    <i class="feather icon-plus mr-2"></i>Crear 
-                </button>
-                <!-- Modal -->
-                
-                <div class="modal fade" id="crearmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered " role="document">
-                        <div class="modal-content ">
-                            <form class="form-validate" action="{{route('categoria.store')}}" id="form" method="post">
-                                @csrf
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalCenterTitle">Crear nueva categoría</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Nombre <span class="text-danger">*</span>:</label>
-                                            <div class="col-8 col-sm-8">
-                                                <input type="text" class="form-control {{ $errors->has('nombre') ? 'is-invalid' : ''}}" name="nombre" placeholder="Nombre" value="{{ isset($categoria->nombre) ? $categoria->nombre : old('nombre')}}">
-                                                {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!}
-                                            </div>
-                                        </div>                                            
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Categoría:</label>
-                                            <div class="col-8 col-sm-8">
-                                                <input type="text" class="form-control {{ $errors->has('descripcion') ? 'is-invalid' : ''}}" name="descripcion" placeholder="Descripcion" value="{{ isset($categoria->descripcion) ? $categoria->descripcion : old('descripcion')}}">
-                                                {!! $errors->first('descripcion', '<p class="help-block text-danger">:message</p>') !!}
-                                            </div>
-                                        </div>                                            
-                                    </div>
-                                </div>
-                                <div class="modal-footer justify-content-center align-items-center row">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-success">Guardar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>                        
-        </div>
-    </div>         
-</div>
-<!-- End Breadcrumbbar -->
 <div class="breadcrumbbar" style="margin-top: 15px">
     <div class="card ">
         @if(session()->get('success'))

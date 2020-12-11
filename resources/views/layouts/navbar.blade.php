@@ -16,7 +16,7 @@
                     </a>
                 </li> --}}  
                 <li>
-                    <a href="{{url('/widgets')}}">
+                    <a href="{{url('cliente')}}">
                         <img src="{{asset('assets/images/svg-icon/widgets.svg')}}" class="img-fluid" alt="widgets"><span>Gestionar Cliente</span>
                     </a>
                 </li>
