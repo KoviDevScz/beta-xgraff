@@ -64,6 +64,7 @@
 
                                                 @if (Route::has('register'))
                                                 <p class="mb-0 mt-3">No tengo una cuenta? <a href="{{url('/register')}}">Regístrate</a></p>
+                                                @endif
                                             @endauth
                                         </div>
                                     @endif
