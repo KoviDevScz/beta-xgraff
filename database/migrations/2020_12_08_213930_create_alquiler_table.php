@@ -19,8 +19,7 @@ class CreateAlquilerTable extends Migration
             $table->unsignedBigInteger('empleado_id');
             $table->double('monto_total',8,2)->unsigned();
             $table->double('garantia',8,2)->unsigned();
-            $table->dateTime('fecha_alquiler');
-            $table->dateTime('fecha_devolucion');
+            $table->dateTime('fecha_alquiler');            
             $table->unsignedTinyInteger('estado')->default(1);
             $table->timestamps();
             $table->softDeletes();

@@ -48,6 +48,15 @@ Registar
 <script src="{{ asset('assets/plugins/datepicker/datepicker.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datepicker/i18n/datepicker.es.js') }}"></script>
 <script src="{{ asset('assets/js/custom/custom-form-datepicker.js') }}"></script>
+<!-- Parsley js -->
+<script src="{{ asset('assets/plugins/validatejs/validate.min.js') }}"></script>
+<!-- Datatable js -->
+<script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
+<!-- Sweet-Alert js -->
+<script src="{{ asset('assets/plugins/sweet-alert2/sweetalert2.min.js') }}"></script>
 <script>
     $("#touchspin-value-attribute").TouchSpin({
         min: 0,

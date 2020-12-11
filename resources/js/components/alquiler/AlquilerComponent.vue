@@ -11,8 +11,8 @@
                         <div class="row">
                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right"> <strong>Cliente<span class="text-danger">*</span>:</strong> </label>
                             <div class="col-8 col-sm-8">
-                                <select class="form-control" ><
-                                        <option v-for="client in cliente" value="" v-bind:value="client.id" v-model="cliente_select" >{{client.name}} </option>
+                                <select class="form-control" v-model="cliente_select" ><
+                                        <option v-for="client in cliente" value="" v-bind:value="client.id"  >{{client.name}} </option>
                                 </select>
                                 <!-- {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!} -->
                             </div>
@@ -102,17 +102,19 @@
                                     <th>Nombre</th>
                                     <th>Cantidad</th>
                                     <th>Precio</th>
+                                    <th>Fecha devolución</th>
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class=text-center>
                                 <tr v-if="isloadingProduct" >
                                     <td rowspan="2" colspan="4" align="center">No hay maquinaria cargadas...</td>
                                 </tr>                                    
                                 <tr v-else v-for="item in products" :key="item.id" class="text-center">                                    
                                     <td >{{item.nombre_producto}}</td>
                                     <td >{{item.cantidad_producto}}</td>
-                                    <td > {{item.precio_producto}}</button></td>
+                                    <td >{{item.precio_producto}}</button></td>
+                                    <td >{{item.dia}}</button></td>
                                     <td ><button class="btn btn btn-round btn-outline-danger" @click.prevent="products.splice(item.id,1)"> <i class="feather icon-trash-2"></i></button></td>
                                 </tr>
                             </tbody>
@@ -140,7 +142,7 @@
                     </div>                    
                     <div class="justify-content-center align-items-center row ">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-success ml-3">Guardar</button>
+                        <button type="submit" class="btn btn-success ml-3" v-on:click.prevent="agregar">Guardar</button>
                     </div>
                 </div> 
             </div>
@@ -154,7 +156,7 @@ import moment from 'moment'
 
 
 export default {
-    props: ['maquinarias','clientes'],
+    props: ['maquinarias','clientes','token'],
     mounted() {
         
         },
@@ -186,6 +188,8 @@ export default {
             nombre:'', 
             garantia:0,
             garantia2:0,
+            token2:this.token,
+            currentTime: null,
             isloadingProduct:true,
             totales:0
         }
@@ -193,20 +197,55 @@ export default {
     updated(){
             this.validaciones();
             this.fecha();
+            this.created() 
         },
     /* validations:  {
         tiempo:{required},
         validacionform:['tiempo']
     }, */
     computed: {
-        
+
     },
     methods:{
         fecha(){
             this.fechas= moment().format('MMMM Do YYYY, h:mm:ss a');
         },
-        agregar(){
-
+        async agregar(){
+            try {
+                const response = await axios.post('/alquiler', {
+                    cliente_id:this.cliente_select,
+                    garantia:this.garantia2,
+                    total:this.total,
+                    products:this.products,
+                }).then(response => {
+                        /* let temp =  []
+                        response.data.forEach((item) => {
+                            producto_id = item.producto_id ;
+                            cantidad = item.cantidad_producto;
+                            monto= item.precio_producto;
+                            temp.push(item);
+                        });
+                        this.products = temp; */
+                        console.log(response.data)
+                    });
+                    swal({
+                        title: "Creado exitosamente",
+                        type: 'success',
+                        showConfirmButton:false,
+                        timer: 2000,
+                    });
+                console.log(response);
+            } catch (error) {
+                swal({
+                    title: "Fallo algo",
+                    type: 'success',
+                    showConfirmButton:false,
+                    timer: 2000
+                });
+                console.log(error);
+            }
+            /* e.preventDefault(); */
+            
         },
         validaciones(){
             /* if (this.$v.validacionform.$invalid){
@@ -243,6 +282,16 @@ export default {
             }
             if (!this.products==[]||this.tiempo.tiempo!=0||this.tiempo.check==true||this.tiempo.check2==true||this.tiempo.check3==true&&this.producto_select!=''&&this.cantidad!=0) {
                 this.isloadingProduct=false;
+                if (this.tiempo.check==true) {
+                    var date = moment().add(this.tiempo.tiempo, 'hours').format('DD MM YYYY hh:mm:ss');
+                }
+                if (this.tiempo.check2==true) {
+                    var date = moment().add(this.tiempo.tiempo, 'weeks').format('DD MM YYYY hh:mm:ss');
+                }
+                if (this.tiempo.check3==true) {
+                    var date = moment().add(this.tiempo.tiempo, 'months').format('DD MM YYYY hh:mm:ss');
+                }
+                console.log(date)
                 this.products.push(
                 {  
                     'garantia':this.garantia,
@@ -251,7 +300,11 @@ export default {
                     'producto_id':this.producto_select,
                     'cantidad_producto':this.cantidad,
                     'precio_producto':this.subtotal,
-                    
+                    'dia':date,
+                    'tiempo':this.tiempo.tiempo,
+                    'hora':this.tiempo.check,
+                    'semana':this.tiempo.check2,
+                    'mes':this.tiempo.check3,
                 });
                 this.calculartotal();
                 this.id++;
@@ -294,8 +347,15 @@ export default {
                 this.garantia2=Math.max(item.garantia);
             })
             this.total +=this.products.reduce((n, {precio_producto}) => n + precio_producto, 0)
-                console.log(this.garantia,this.total)
+        },
+        updateCurrentTime() {
+            this.currentTime = moment().format("DD MM YYYY hh:mm:ss");
+        },
+        created() {
+            this.currentTime = moment().format("DD MM YYYY hh:mm:ss");
+            setInterval(() => this.updateCurrentTime(), 1 * 1000);
         }
-    },   
+    } ,  
+    
 }
 </script>

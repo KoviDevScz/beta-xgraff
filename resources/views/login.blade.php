@@ -35,7 +35,8 @@
                                     @if (Route::has('login'))
                                         <div class="top-right links">
                                             @auth
-                                                <a href="{{ url('/home') }}">Home</a>
+                                                <h1>Ya estas logueado en el sistema</h1>
+                                                <p>Deseas ir al <a href="{{ url('/home') }}">panel administratvo </a></p>
                                             @else
                                             <form action="{{ route('login') }}" method="POST">
                                                     @csrf
@@ -62,12 +63,12 @@
                                                 <button type="submit" class="btn btn-success btn-lg btn-block font-18">Iniciar sesión </button>
                                             </form> 
 
-                                                @if (Route::has('register'))
-                                                <p class="mb-0 mt-3">No tengo una cuenta? <a href="{{url('/register')}}">Regístrate</a></p>
+                                            @if (Route::has('register'))
+                                            <p class="mb-0 mt-3">No tengo una cuenta? <a href="{{url('/register')}}">Regístrate</a></p>
+                                            @endif
                                             @endauth
                                         </div>
                                     @endif
-                                    
                                 </div>
                             </div>
                         </div>

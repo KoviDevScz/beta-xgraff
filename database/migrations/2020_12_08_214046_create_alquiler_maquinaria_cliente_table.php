@@ -19,6 +19,7 @@ class CreateAlquilerMaquinariaClienteTable extends Migration
             $table->unsignedBigInteger('maquinaria_id');
             $table->double('cantidad',8,2)->unsigned();
             $table->double('monto',8,2)->unsigned();
+            $table->dateTime('fecha_devolucion')->date_format('d-y-M');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('alquiler_id')->references('id')->on('alquileres');

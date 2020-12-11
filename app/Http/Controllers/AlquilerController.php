@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alquiler;
 use App\Models\Maquinaria;
 use App\User;
+use DateTime;
 use Illuminate\Http\Request;
 
 class AlquilerController extends Controller
@@ -38,7 +40,21 @@ class AlquilerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
+        $requestdata=$request->except('_token');
+        $date = DateTime::createFromFormat('d/m/Y', $requestdata['fecha']);
+        $datos= Alquiler::create([
+            'nombre'=>$requestdata['nombre'],
+            'categoria_id'=>$requestdata['categoria'],
+            'nombre'=>$requestdata['nombre'],
+            'fecha_compra'=>$date->format('d-m-Y'),
+            'garantia'=>$requestdata['precio'],
+            'precio'=>$requestdata['precio'],
+            'hora'=>$requestdata['hora'],
+            'semana'=>$requestdata['semana'],
+            'mes'=>$requestdata['mes'],
+            ]);
+        return redirect('alquiler')->with('success', 'Maquinaria creada exitosamente!');
     }
 
     /**
