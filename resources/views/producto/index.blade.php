@@ -73,13 +73,15 @@ Maquinarias
                                     <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Categoría<span class="text-danger">*</span>:</label>
                                     <div class="col-8 col-sm-8">
                                         @if (!$categorias->isEmpty())
-                                            @foreach ($categorias as $categoria)
+                                            
                                                 <select class="form-control {{ $errors->has('categoria') ? 'is-invalid' : ''}}" id="formControlSelect" name="categoria" >
                                                     <option value="">Selecione una categoria</option>
+                                                    @foreach ($categorias as $categoria)
                                                     <option value="{{  $categoria->id }}" {{ old('categoria') == $categoria->id ? 'selected' : '' }}>{{$categoria->nombre}}</option>
+                                                @endforeach
                                                 </select>
                                                 {!! $errors->first('categoria', '<p class="help-block text-danger">:message</p>') !!}
-                                            @endforeach
+                                            
                                         @else
                                         <input type="text" class="form-control is-invalid {{ $errors->has('categoria') ? 'is-invalid' : ''}}" name="categoria" disabled value="No hay categorias creadas">
                                             {!! $errors->first('categoria', '<p class="help-block text-danger">:message</p>') !!}
@@ -171,8 +173,219 @@ Maquinarias
                                         <td>{{$maquinaria->precio}}</td>
                                         <td >{!! ($maquinaria->estado == 1) ? ( '<span class="badge badge-success shadow">Activo</span>'): '<span class="badge badge-danger shadow">Deshabilitado</span>' !!}
                                         <td class="justify-content-center align-items-center row">
-                                            <button class="btn btn btn-round btn-outline-warning"> <i class="feather icon-settings"></i></button>
-                                            <button class="btn btn btn-round btn-outline-info ml-2 mr-2"> <i class="feather icon-upload"></i></button>
+                                            <button type="button" class="btn btn btn-round btn-outline-warning" data-toggle="modal" data-target="#editarmaqui{{$maquinaria->id}}">
+                                                <i class="feather icon-settings"></i>
+                                            </button>
+                                            <div class="modal fade" id="editarmaqui{{$maquinaria->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg " role="document">
+                                                    <div class="modal-content ">
+                                                        <form class="form-validate" action="{{route('maquinaria.update',$maquinaria->id)}}" id="form" method="post">
+                                                            @csrf @method('PUT')
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalCenterTitle">Crear nueva maquinaria</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body row">
+                                                                <div class="col-6">
+                                                                    <blockquote class="blockquote text-center">
+                                                                        <h6 class="control-label font-10"><strong>Todos las campos con (<span class="text-danger">*</span>) son requeridos.</strong></h6>
+                                                                    </blockquote>
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Nombre<span class="text-danger">*</span>:</label>
+                                                                            <div class="col-8 col-sm-8">
+                                                                                <input type="text" class="form-control {{ $errors->has('nombre') ? 'is-invalid' : ''}}" name="nombre" placeholder="Nombre" value="{{ isset($maquinaria->nombre) ? $maquinaria->nombre : old('nombre')}}">
+                                                                                {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!}
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Fecha de compra<span class="text-danger">*</span>:</label>
+                                                                            <div class="col-8 col-sm-8">
+                                                                                <div class="input-group">                                  
+                                                                                    <input type="text" id="default-date" class="datepicker-here form-control {{ $errors->has('fecha') ? 'is-invalid' : ''}}" placeholder="dd/mm/yyyy" aria-describedby="basic-addon2" required name="fecha" value="{{ isset($maquinaria->fecha) ? $maquinaria->fecha : old('fecha')}}"/>
+                                                                                        <div class="input-group-append">
+                                                                                            <span class="input-group-text" id="basic-addon2"><i class="feather icon-calendar"></i></span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                {!! $errors->first('descripcion', '<p class="help-block text-danger">:message</p>') !!}
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Categoría<span class="text-danger">*</span>:</label>
+                                                                            <div class="col-8 col-sm-8">
+                                                                                @if (!$categorias->isEmpty())
+                                                                                    
+                                                                                        <select class="form-control {{ $errors->has('categoria') ? 'is-invalid' : ''}}" id="formControlSelect" name="categoria" >
+                                                                                            <option value="">Selecione una categoria</option>
+                                                                                            @foreach ($categorias as $categoria)
+                                                                                            <option value="{{  $categoria->id }}" {{ old('categoria') == $categoria->id ? 'selected' : '' }}>{{$categoria->nombre}}</option>
+                                                                                        @endforeach
+                                                                                        </select>
+                                                                                        {!! $errors->first('categoria', '<p class="help-block text-danger">:message</p>') !!}
+                                                                                    
+                                                                                @else
+                                                                                <input type="text" class="form-control is-invalid {{ $errors->has('categoria') ? 'is-invalid' : ''}}" name="categoria" disabled value="No hay categorias creadas">
+                                                                                    {!! $errors->first('categoria', '<p class="help-block text-danger">:message</p>') !!}
+                                                                                    <p class="help-block text-danger">No hay ninguna categoria</p>
+                                                                                @endif                                                
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Precio<span class="text-danger">*</span>:</label>
+                                                                            <div class="col-8 col-sm-8">
+                                                                                <input type="text" class="form-control {{ $errors->has('precio') ? 'is-invalid' : ''}}" name="precio" placeholder="precio" value="{{ isset($maquinaria->precio) ? $maquinaria->precio : old('precio')}}">
+                                                                                {!! $errors->first('precio', '<p class="help-block text-danger">:message</p>') !!}
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Hora:</label>
+                                                                            <div class="col-8 col-sm-8">
+                                                                                <input type="text" class="form-control {{ $errors->has('hora') ? 'is-invalid' : ''}}" name="hora" placeholder="hora" value="{{ isset($maquinaria->hora) ? $maquinaria->hora : old('hora')}}">
+                                                                                {!! $errors->first('hora', '<p class="help-block text-danger">:message</p>') !!}
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Semana:</label>
+                                                                            <div class="col-8 col-sm-8">
+                                                                                <input type="text" class="form-control {{ $errors->has('semana') ? 'is-invalid' : ''}}" name="semana" placeholder="semana" value="{{ isset($maquinaria->semana) ? $maquinaria->semana : old('semana')}}">
+                                                                                {!! $errors->first('semana', '<p class="help-block text-danger">:message</p>') !!}
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Mes:</label>
+                                                                            <div class="col-8 col-sm-8">
+                                                                                <input type="text" class="form-control {{ $errors->has('mes') ? 'is-invalid' : ''}}" name="mes" placeholder="mes" value="{{ isset($maquinaria->mes) ? $maquinaria->mes : old('mes')}}">
+                                                                                {!! $errors->first('mes', '<p class="help-block text-danger">:message</p>') !!}
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer justify-content-center align-items-center row">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                                <button type="submit" class="btn btn-success">Guardar</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+
+                                            <button type="button" class="btn btn-round btn-primary-rgba" data-toggle="modal" data-target="#mostrarmaqui{{$maquinaria->id}}">
+                                                <i class="feather icon-upload"></i>
+                                            </button>
+                                            <div class="modal fade" id="mostrarmaqui{{$maquinaria->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg " role="document">
+                                                    <div class="modal-content ">
+                                                        <form class="form-validate" action="{{route('maquinaria.store')}}" id="form" method="post">
+                                                            @csrf
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalCenterTitle">Mostrar datos Maquinaria</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body row">
+                                                                <div class="col-6">
+                                                                    <blockquote class="blockquote text-center">
+                                                                        <h6 class="control-label font-10"><strong>Todos las campos con (<span class="text-danger">*</span>) son requeridos.</strong></h6>
+                                                                    </blockquote>
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Nombre<span class="text-danger">*</span>:</label>
+                                                                            <div class="col-8 col-sm-8">
+                                                                                <input type="text" class="form-control" disabled name="nombre" placeholder="Nombre" value="{{$maquinaria->nombre}}">
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Fecha de compra<span class="text-danger">*</span>:</label>
+                                                                            <div class="col-8 col-sm-8">
+                                                                                <div class="input-group">                                  
+                                                                                    <input type="text" id="default-date" class="datepicker-here form-control" disabled placeholder="dd/mm/yyyy" aria-describedby="basic-addon2" required name="fecha" value="{{$maquinaria->fecha}}"/>
+                                                                                        <div class="input-group-append">
+                                                                                            <span class="input-group-text" id="basic-addon2"><i class="feather icon-calendar"></i></span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                    
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Categoría<span class="text-danger">*</span>:</label>
+                                                                            <div class="col-8 col-sm-8">     
+                                                                                   
+                                                                                        <select class="form-control {{ $errors->has('categoria') ? 'is-invalid' : ''}}" disabled id="formControlSelect" name="categoria" >
+                                                                                            @foreach ($categorias as $categoria)
+                                                                                            <option value="{{  $categoria->id }}" {{ old('categoria') == $categoria->id ? 'selected' : '' }}>{{$categoria->nombre}}</option>
+                                                                                            @endforeach
+                                                                                        </select>                                                    
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Precio<span class="text-danger">*</span>:</label>
+                                                                            <div class="col-8 col-sm-8">
+                                                                                <input type="text" class="form-control " name="precio" disabled placeholder="precio" value="{{$maquinaria->precio}}">
+                                                                                
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Hora:</label>
+                                                                            <div class="col-8 col-sm-8">
+                                                                                <input type="text" class="form-control " name="hora" disabled placeholder="hora" value="{{ $maquinaria->hora}}">
+                                                                              
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Semana:</label>
+                                                                            <div class="col-8 col-sm-8">
+                                                                                <input type="text" class="form-control " disabled name="semana" placeholder="semana" value="{{$maquinaria->semana}}"> 
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="row">
+                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Mes:</label>
+                                                                            <div class="col-8 col-sm-8">
+                                                                                <input type="text" class="form-control" disabled name="mes" placeholder="mes" value="{{$maquinaria->mes}}">
+                                                                            </div>
+                                                                        </div>                                            
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer justify-content-center align-items-center row">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>   
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <button class="btn btn btn-round btn-outline-danger"> <i class="feather icon-trash-2"></i></button>
                                         </td>
                                     </tr>
