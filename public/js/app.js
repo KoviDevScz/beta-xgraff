@@ -2118,28 +2118,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 
 
-/*const alphae = helpers.regex('alphae', /^[a-zA-Z\s?:[\u00C0-\u00FF]+]*$/);  Expresion regular letras y espacio */
-
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['maquinarias', 'clientes', 'token'],
+  props: ['maquinarias', 'clientes', 'token', 'vendedores'],
   mounted: function mounted() {},
   data: function data() {
     return {
       btn: false,
       nombre_producto: '',
       cliente: JSON.parse(this.clientes),
-      empleados: [],
-      cliente_select: '',
+      empleados: JSON.parse(this.vendedores),
+      cliente_select: 0,
+      vendedor_select: 0,
       fechas: '',
       fecha_devolucion: '',
       maquinas: JSON.parse(this.maquinarias),
-      cantidad: 0,
-      producto_select: '',
+      cantidad: 1,
+      producto_select: 0,
       tiempo: {
         check: false,
         check2: false,
         check3: false,
-        tiempo: 0
+        tiempo: 1
       },
       id: 0,
       subtotal: 0,
@@ -2154,11 +2153,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       token2: this.token,
       currentTime: null,
       isloadingProduct: true,
+      garantia_mayor: 0,
+      boolcliente: false,
+      boolvendedor: false,
+      boolproductoselect: false,
+      boolcantidad: false,
+      boolcheck: false,
+      boolcheck2: false,
+      boolcheck3: false,
       totales: 0
     };
   },
   updated: function updated() {
-    this.validaciones();
     this.fecha();
     this.created();
   },
@@ -2182,38 +2188,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                _context.next = 3;
+
+                if (!(Object.keys(_this.products).length !== 0)) {
+                  _context.next = 7;
+                  break;
+                }
+
+                _context.next = 4;
                 return axios.post('/alquiler', {
                   cliente_id: _this.cliente_select,
-                  garantia: _this.garantia2,
+                  garantia: _this.garantia_mayor,
                   total: _this.total,
                   products: _this.products
                 }).then(function (response) {
-                  /* let temp =  []
-                  response.data.forEach((item) => {
-                      producto_id = item.producto_id ;
-                      cantidad = item.cantidad_producto;
-                      monto= item.precio_producto;
-                      temp.push(item);
+                  swal({
+                    title: "Creado exitosamente",
+                    type: 'success',
+                    showConfirmButton: false,
+                    timer: 2000
                   });
-                  this.products = temp; */
+                  window.location.replace('/alquiler');
                   console.log(response.data);
                 });
 
-              case 3:
+              case 4:
                 response = _context.sent;
-                swal({
-                  title: "Creado exitosamente",
-                  type: 'success',
-                  showConfirmButton: false,
-                  timer: 2000
-                });
-                console.log(response);
-                _context.next = 12;
+                _context.next = 9;
                 break;
 
-              case 8:
-                _context.prev = 8;
+              case 7:
+                console.log('no productos en el detalle');
+                swal({
+                  title: "Por favor seleccione articulos!",
+                  type: 'warning'
+                });
+
+              case 9:
+                _context.next = 15;
+                break;
+
+              case 11:
+                _context.prev = 11;
                 _context.t0 = _context["catch"](0);
                 swal({
                   title: "Fallo algo",
@@ -2223,63 +2238,73 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
                 console.log(_context.t0);
 
-              case 12:
+              case 15:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 8]]);
+        }, _callee, null, [[0, 11]]);
       }))();
     },
-    validaciones: function validaciones() {
-      /* if (this.$v.validacionform.$invalid){
-          this.btn=false;
-      }
-      else{
-          this.btn=true;
-      } */
-    },
     añadir: function aAdir() {
-      if (this.tiempo.check == true) {
-        this.subtotal = 0;
-        this.tiempo.check2 = false;
-        this.tiempo.check3 = false;
-        this.subtotal = this.hora_producto * this.tiempo.tiempo;
-        console.log(this.subtotal);
+      if (this.cliente_select == 0) {
+        this.boolcliente = true;
       }
 
-      if (this.tiempo.check2 == true) {
-        this.subtotal = 0;
-        this.tiempo.check = false;
-        this.tiempo.check3 = false;
-        this.subtotal = this.semana_producto * this.tiempo.tiempo;
-        console.log(this.subtotal);
+      if (this.producto_select == 0) {
+        this.boolproductoselect = true;
       }
 
-      if (this.tiempo.check3 == true) {
-        this.subtotal = 0;
-        this.tiempo.check = false;
-        this.tiempo.check2 = false;
-        this.subtotal = this.mes_producto * this.tiempo.tiempo;
-        console.log(this.subtotal);
+      if (this.tiempo.check == false) {
+        this.boolckeck = true;
+        this.boolckeck2 = true;
+        this.boolckeck3 = true;
       }
 
-      if (!this.products == [] || this.tiempo.tiempo != 0 || this.tiempo.check == true || this.tiempo.check2 == true || this.tiempo.check3 == true && this.producto_select != '' && this.cantidad != 0) {
-        this.isloadingProduct = false;
-
+      if (this.boolcliente == false && this.boolproductoselect == false && this.boolcheck == false) {
         if (this.tiempo.check == true) {
-          var date = moment__WEBPACK_IMPORTED_MODULE_2___default()().add(this.tiempo.tiempo, 'hours').format('DD MM YYYY hh:mm:ss');
+          this.subtotal = 0;
+          this.tiempo.check2 = false;
+          this.tiempo.check3 = false;
+          this.subtotal = this.hora_producto * this.tiempo.tiempo;
         }
 
         if (this.tiempo.check2 == true) {
-          var date = moment__WEBPACK_IMPORTED_MODULE_2___default()().add(this.tiempo.tiempo, 'weeks').format('DD MM YYYY hh:mm:ss');
+          this.subtotal = 0;
+          this.tiempo.check = false;
+          this.tiempo.check3 = false;
+          this.subtotal = this.semana_producto * this.tiempo.tiempo;
+          console.log(this.subtotal);
         }
 
         if (this.tiempo.check3 == true) {
-          var date = moment__WEBPACK_IMPORTED_MODULE_2___default()().add(this.tiempo.tiempo, 'months').format('DD MM YYYY hh:mm:ss');
+          this.subtotal = 0;
+          this.tiempo.check = false;
+          this.tiempo.check2 = false;
+          this.subtotal = this.mes_producto * this.tiempo.tiempo;
+          console.log(this.subtotal);
         }
 
-        console.log(date);
+        this.isloadingProduct = false;
+
+        if (this.tiempo.check == true) {
+          var date = moment__WEBPACK_IMPORTED_MODULE_2___default()().add(this.tiempo.tiempo, 'hours').format('DD-MM-YYYY hh:mm:ss');
+        }
+
+        if (this.tiempo.check2 == true) {
+          var date = moment__WEBPACK_IMPORTED_MODULE_2___default()().add(this.tiempo.tiempo, 'weeks').format('DD-MM-YYYY hh:mm:ss');
+        }
+
+        if (this.tiempo.check3 == true) {
+          var date = moment__WEBPACK_IMPORTED_MODULE_2___default()().add(this.tiempo.tiempo, 'months').format('DD-MM-YYYY hh:mm:ss');
+        }
+
+        this.garantia_mayor;
+
+        if (this.garantia_mayor < this.garantia) {
+          this.garantia_mayor = this.garantia;
+        }
+
         this.products.push({
           'garantia': this.garantia,
           'id': this.id,
@@ -2295,17 +2320,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
         this.calculartotal();
         this.id++;
-        this.cantidad = 0;
-        this.producto_select = "";
-        this.tiempo.tiempo = 0;
+        this.cantidad = 1;
+        this.producto_select = 0;
+        this.tiempo.tiempo = 1;
         this.tiempo.check = false;
         this.tiempo.check2 = false;
         this.tiempo.check3 = false;
       } else {
-        this.isloadingProduct = true;
+        swal({
+          title: "Debe selecionar los campos requeridos para el detalle!",
+          type: 'error'
+        });
       }
     },
     obtenernombre: function obtenernombre(pk) {
+      this.boolproductoselect = false;
+
       if (pk != '') {
         this.nombre_producto = this.maquinas[pk - 1].nombre;
         this.hora_producto = this.maquinas[pk - 1].hora;
@@ -2315,14 +2345,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     check: function check(key) {
+      this.boolckeck = false;
+      this.boolckeck2 = false;
+      this.boolckeck3 = false;
       this.tiempo.check2 = false;
       this.tiempo.check3 = false;
     },
     check1: function check1(key) {
+      this.boolckeck2 = false;
+      this.boolckeck = false;
+      this.boolckeck3 = false;
       this.tiempo.check = false;
       this.tiempo.check3 = false;
     },
     check2: function check2(key) {
+      this.boolcheck3 = false;
+      this.boolcheck2 = false;
+      this.boolcheck = false;
       this.tiempo.check = false;
       this.tiempo.check2 = false;
     },
@@ -2341,12 +2380,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, 0);
     },
     updateCurrentTime: function updateCurrentTime() {
-      this.currentTime = moment__WEBPACK_IMPORTED_MODULE_2___default()().format("DD MM YYYY hh:mm:ss");
+      this.currentTime = moment__WEBPACK_IMPORTED_MODULE_2___default()().format("DD-MM-YYYY hh:mm:ss");
     },
     created: function created() {
       var _this3 = this;
 
-      this.currentTime = moment__WEBPACK_IMPORTED_MODULE_2___default()().format("DD MM YYYY hh:mm:ss");
+      this.currentTime = moment__WEBPACK_IMPORTED_MODULE_2___default()().format("DD-MM-YYYY hh:mm:ss");
       setInterval(function () {
         return _this3.updateCurrentTime();
       }, 1 * 1000);
@@ -52272,6 +52311,7 @@ var render = function() {
     _c(
       "form",
       {
+        staticClass: "form-group",
         on: {
           submit: function($event) {
             return _vm.agregar()
@@ -52279,448 +52319,531 @@ var render = function() {
         }
       },
       [
-        _c("div", { staticClass: "card-body row " }, [
-          _c("div", { staticClass: "col-md-6 table-bordered " }, [
+        _c("div", { staticClass: "card-body row" }, [
+          _c("div", { staticClass: "col-12 table-bordered" }, [
             _vm._m(0),
             _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("div", { staticClass: "row" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-8 col-sm-8" }, [
-                  _c(
-                    "select",
-                    {
-                      directives: [
+            _c(
+              "div",
+              { staticClass: "justify-content-center align-items-center mt-1" },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-4 col-sm-4" }, [
+                      _c(
+                        "select",
                         {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.cliente_select,
-                          expression: "cliente_select"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.cliente_select = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
-                    },
-                    [
-                      _vm._v("<\n                                    "),
-                      _vm._l(_vm.cliente, function(client) {
-                        return _c(
-                          "option",
-                          {
-                            attrs: { value: "" },
-                            domProps: { value: client.id }
-                          },
-                          [_vm._v(_vm._s(client.name) + " ")]
-                        )
-                      })
-                    ],
-                    2
-                  )
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._m(2),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("div", { staticClass: "row" }, [
-                _vm._m(3),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.nombre_producto,
-                      expression: "nombre_producto"
-                    }
-                  ],
-                  attrs: { type: "hidden", name: "nombre_producto" },
-                  domProps: { value: _vm.nombre_producto },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.nombre_producto = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-8 col-sm-8" }, [
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.producto_select,
-                          expression: "producto_select"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      on: {
-                        change: [
-                          function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.producto_select = $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          },
-                          function($event) {
-                            return _vm.obtenernombre(_vm.producto_select)
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cliente_select,
+                              expression: "cliente_select"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: { "is-invalid": _vm.boolcliente },
+                          on: {
+                            change: [
+                              function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.cliente_select = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              },
+                              function($event) {
+                                _vm.boolcliente = false
+                              }
+                            ]
                           }
-                        ]
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "" } }, [
-                        _vm._v("Selecionar")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.maquinas, function(producto) {
-                        return _c(
-                          "option",
-                          { domProps: { value: producto.id } },
-                          [_vm._v(_vm._s(producto.nombre))]
-                        )
-                      })
-                    ],
-                    2
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group mt-2" }, [
-                _c("div", { staticClass: "row" }, [
-                  _vm._m(4),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-8 col-sm-8" }, [
+                        },
+                        [
+                          _c(
+                            "option",
+                            { attrs: { value: "0", selected: "" } },
+                            [_vm._v("Selecionar")]
+                          ),
+                          _vm._v(" "),
+                          _vm._l(_vm.cliente, function(client) {
+                            return _c(
+                              "option",
+                              {
+                                attrs: { value: "" },
+                                domProps: { value: client.id }
+                              },
+                              [_vm._v(_vm._s(client.nombre) + " ")]
+                            )
+                          })
+                        ],
+                        2
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-4 col-sm-4" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.vendedor_select,
+                              expression: "vendedor_select"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.vendedor_select = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "option",
+                            { attrs: { value: "0", selected: "" } },
+                            [_vm._v("Selecionar")]
+                          ),
+                          _vm._v(" "),
+                          _vm._l(_vm.empleados, function(empleado) {
+                            return _c(
+                              "option",
+                              { domProps: { value: empleado.id } },
+                              [_vm._v(_vm._s(empleado.name) + " ")]
+                            )
+                          })
+                        ],
+                        2
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _vm._m(3),
+                    _vm._v(" "),
                     _c("input", {
                       directives: [
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.cantidad,
-                          expression: "cantidad"
+                          value: _vm.nombre_producto,
+                          expression: "nombre_producto"
                         }
                       ],
-                      staticClass: "form-control",
-                      attrs: {
-                        type: "number",
-                        min: "0",
-                        max: "100",
-                        name: "cantidad"
-                      },
-                      domProps: { value: _vm.cantidad },
+                      attrs: { type: "hidden", name: "nombre_producto" },
+                      domProps: { value: _vm.nombre_producto },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.cantidad = $event.target.value
+                          _vm.nombre_producto = $event.target.value
                         }
                       }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "row col-12 justify-content-center align-items-center "
-                },
-                [
-                  _vm._m(5),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group col-6" }, [
-                    _vm._m(6),
+                    }),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
+                    _c("div", { staticClass: "col-4 col-sm-4" }, [
                       _c(
-                        "div",
-                        { staticClass: "form-check form-check-inline" },
-                        [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.tiempo.check,
-                                expression: "tiempo.check"
-                              }
-                            ],
-                            staticClass: "form-check-input",
-                            attrs: {
-                              type: "checkbox",
-                              name: "inlineRadioOptions",
-                              id: "inlineRadio1"
-                            },
-                            domProps: {
-                              value: true,
-                              checked: Array.isArray(_vm.tiempo.check)
-                                ? _vm._i(_vm.tiempo.check, true) > -1
-                                : _vm.tiempo.check
-                            },
-                            on: {
-                              change: [
-                                function($event) {
-                                  var $$a = _vm.tiempo.check,
-                                    $$el = $event.target,
-                                    $$c = $$el.checked ? true : false
-                                  if (Array.isArray($$a)) {
-                                    var $$v = true,
-                                      $$i = _vm._i($$a, $$v)
-                                    if ($$el.checked) {
-                                      $$i < 0 &&
-                                        _vm.$set(
-                                          _vm.tiempo,
-                                          "check",
-                                          $$a.concat([$$v])
-                                        )
-                                    } else {
-                                      $$i > -1 &&
-                                        _vm.$set(
-                                          _vm.tiempo,
-                                          "check",
-                                          $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1))
-                                        )
-                                    }
-                                  } else {
-                                    _vm.$set(_vm.tiempo, "check", $$c)
-                                  }
-                                },
-                                function($event) {
-                                  return _vm.check(_vm.tiempo.check)
-                                }
-                              ]
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "label",
+                        "select",
+                        {
+                          directives: [
                             {
-                              staticClass: "form-check-label",
-                              attrs: { for: "inlineRadio1" }
-                            },
-                            [_vm._v("Hora")]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-check form-check-inline" },
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.producto_select,
+                              expression: "producto_select"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: { "is-invalid": _vm.boolproductoselect },
+                          on: {
+                            change: [
+                              function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.producto_select = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              },
+                              function($event) {
+                                return _vm.obtenernombre(_vm.producto_select)
+                              }
+                            ]
+                          }
+                        },
                         [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.tiempo.check2,
-                                expression: "tiempo.check2"
-                              }
-                            ],
-                            staticClass: "form-check-input",
-                            attrs: {
-                              type: "checkbox",
-                              name: "inlineRadioOptions",
-                              id: "inlineRadio2"
-                            },
-                            domProps: {
-                              value: true,
-                              checked: Array.isArray(_vm.tiempo.check2)
-                                ? _vm._i(_vm.tiempo.check2, true) > -1
-                                : _vm.tiempo.check2
-                            },
-                            on: {
-                              change: [
-                                function($event) {
-                                  var $$a = _vm.tiempo.check2,
-                                    $$el = $event.target,
-                                    $$c = $$el.checked ? true : false
-                                  if (Array.isArray($$a)) {
-                                    var $$v = true,
-                                      $$i = _vm._i($$a, $$v)
-                                    if ($$el.checked) {
-                                      $$i < 0 &&
-                                        _vm.$set(
-                                          _vm.tiempo,
-                                          "check2",
-                                          $$a.concat([$$v])
-                                        )
-                                    } else {
-                                      $$i > -1 &&
-                                        _vm.$set(
-                                          _vm.tiempo,
-                                          "check2",
-                                          $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1))
-                                        )
-                                    }
-                                  } else {
-                                    _vm.$set(_vm.tiempo, "check2", $$c)
-                                  }
-                                },
-                                function($event) {
-                                  return _vm.check1(_vm.tiempo.check2)
-                                }
-                              ]
-                            }
-                          }),
-                          _vm._v(" "),
                           _c(
-                            "label",
-                            {
-                              staticClass: "form-check-label",
-                              attrs: { for: "inlineRadio2" }
-                            },
-                            [_vm._v("Semana")]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "form-check form-check-inline" },
-                        [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.tiempo.check3,
-                                expression: "tiempo.check3"
-                              }
-                            ],
-                            staticClass: "form-check-input",
-                            attrs: {
-                              type: "checkbox",
-                              name: "inlineRadioOptions",
-                              id: "inlineRadio3"
-                            },
-                            domProps: {
-                              value: true,
-                              checked: Array.isArray(_vm.tiempo.check3)
-                                ? _vm._i(_vm.tiempo.check3, true) > -1
-                                : _vm.tiempo.check3
-                            },
-                            on: {
-                              change: [
-                                function($event) {
-                                  var $$a = _vm.tiempo.check3,
-                                    $$el = $event.target,
-                                    $$c = $$el.checked ? true : false
-                                  if (Array.isArray($$a)) {
-                                    var $$v = true,
-                                      $$i = _vm._i($$a, $$v)
-                                    if ($$el.checked) {
-                                      $$i < 0 &&
-                                        _vm.$set(
-                                          _vm.tiempo,
-                                          "check3",
-                                          $$a.concat([$$v])
-                                        )
-                                    } else {
-                                      $$i > -1 &&
-                                        _vm.$set(
-                                          _vm.tiempo,
-                                          "check3",
-                                          $$a
-                                            .slice(0, $$i)
-                                            .concat($$a.slice($$i + 1))
-                                        )
-                                    }
-                                  } else {
-                                    _vm.$set(_vm.tiempo, "check3", $$c)
-                                  }
-                                },
-                                function($event) {
-                                  return _vm.check2(_vm.tiempo.check3)
-                                }
-                              ]
-                            }
-                          }),
+                            "option",
+                            { attrs: { value: "0", selected: "" } },
+                            [_vm._v("Selecionar")]
+                          ),
                           _vm._v(" "),
-                          _c(
-                            "label",
-                            {
-                              staticClass: "form-check-label",
-                              attrs: { for: "inlineRadio3" }
-                            },
-                            [_vm._v("Mes")]
-                          )
-                        ]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _vm.tiempo.check || _vm.tiempo.check2 || _vm.tiempo.check3
-                      ? _c("div", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.tiempo.tiempo,
-                                expression: "tiempo.tiempo"
-                              }
-                            ],
-                            staticClass: "form-control col-6",
-                            staticStyle: { border: "0.5px solid #0080ff" },
-                            attrs: {
-                              type: "number",
-                              name: "tiempo",
-                              value: "0",
-                              min: "0"
-                            },
-                            domProps: { value: _vm.tiempo.tiempo },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.tiempo,
-                                  "tiempo",
-                                  $event.target.value
-                                )
-                              }
-                            }
+                          _vm._l(_vm.maquinas, function(producto) {
+                            return _c(
+                              "option",
+                              { domProps: { value: producto.id } },
+                              [_vm._v(_vm._s(producto.nombre))]
+                            )
                           })
-                        ])
-                      : _vm._e()
-                  ])
-                ]
-              )
-            ]),
+                        ],
+                        2
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group mt-2" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _vm._m(4),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-4 col-sm-4" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.cantidad,
+                              expression: "cantidad"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            min: "1",
+                            value: "1",
+                            max: "100",
+                            name: "cantidad"
+                          },
+                          domProps: { value: _vm.cantidad },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.cantidad = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "col-12 justify-content-center align-items-center "
+                    },
+                    [
+                      _vm._m(5),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group col-6" }, [
+                        _vm._m(6),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group row" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "form-check form-check-inline",
+                              class: { "is-invalid": _vm.boolcheck }
+                            },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.tiempo.check,
+                                    expression: "tiempo.check"
+                                  }
+                                ],
+                                staticClass: "form-check-input",
+                                class: { "is-invalid": _vm.boolcheck },
+                                attrs: {
+                                  type: "checkbox",
+                                  name: "inlineRadioOptions",
+                                  id: "inlineRadio1"
+                                },
+                                domProps: {
+                                  checked: Array.isArray(_vm.tiempo.check)
+                                    ? _vm._i(_vm.tiempo.check, null) > -1
+                                    : _vm.tiempo.check
+                                },
+                                on: {
+                                  change: [
+                                    function($event) {
+                                      var $$a = _vm.tiempo.check,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = null,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            _vm.$set(
+                                              _vm.tiempo,
+                                              "check",
+                                              $$a.concat([$$v])
+                                            )
+                                        } else {
+                                          $$i > -1 &&
+                                            _vm.$set(
+                                              _vm.tiempo,
+                                              "check",
+                                              $$a
+                                                .slice(0, $$i)
+                                                .concat($$a.slice($$i + 1))
+                                            )
+                                        }
+                                      } else {
+                                        _vm.$set(_vm.tiempo, "check", $$c)
+                                      }
+                                    },
+                                    function($event) {
+                                      return _vm.check(_vm.tiempo.check)
+                                    }
+                                  ]
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "form-check-label",
+                                  attrs: { for: "inlineRadio1" }
+                                },
+                                [_vm._v("Hora")]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "form-check form-check-inline",
+                              class: { "is-invalid": _vm.boolcheck }
+                            },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.tiempo.check2,
+                                    expression: "tiempo.check2"
+                                  }
+                                ],
+                                staticClass: "form-check-input",
+                                class: { "is-invalid": _vm.boolcheck2 },
+                                attrs: {
+                                  type: "checkbox",
+                                  name: "inlineRadioOptions",
+                                  id: "inlineRadio2"
+                                },
+                                domProps: {
+                                  value: true,
+                                  checked: Array.isArray(_vm.tiempo.check2)
+                                    ? _vm._i(_vm.tiempo.check2, true) > -1
+                                    : _vm.tiempo.check2
+                                },
+                                on: {
+                                  change: [
+                                    function($event) {
+                                      var $$a = _vm.tiempo.check2,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = true,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            _vm.$set(
+                                              _vm.tiempo,
+                                              "check2",
+                                              $$a.concat([$$v])
+                                            )
+                                        } else {
+                                          $$i > -1 &&
+                                            _vm.$set(
+                                              _vm.tiempo,
+                                              "check2",
+                                              $$a
+                                                .slice(0, $$i)
+                                                .concat($$a.slice($$i + 1))
+                                            )
+                                        }
+                                      } else {
+                                        _vm.$set(_vm.tiempo, "check2", $$c)
+                                      }
+                                    },
+                                    function($event) {
+                                      return _vm.check1(_vm.tiempo.check2)
+                                    }
+                                  ]
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "form-check-label",
+                                  attrs: { for: "inlineRadio2" }
+                                },
+                                [_vm._v("Semana")]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "form-check form-check-inline" },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.tiempo.check3,
+                                    expression: "tiempo.check3"
+                                  }
+                                ],
+                                staticClass: "form-check-input",
+                                class: { "is-invalid": _vm.boolcheck3 },
+                                attrs: {
+                                  type: "checkbox",
+                                  name: "inlineRadioOptions",
+                                  id: "inlineRadio3"
+                                },
+                                domProps: {
+                                  value: true,
+                                  checked: Array.isArray(_vm.tiempo.check3)
+                                    ? _vm._i(_vm.tiempo.check3, true) > -1
+                                    : _vm.tiempo.check3
+                                },
+                                on: {
+                                  change: [
+                                    function($event) {
+                                      var $$a = _vm.tiempo.check3,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = true,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            _vm.$set(
+                                              _vm.tiempo,
+                                              "check3",
+                                              $$a.concat([$$v])
+                                            )
+                                        } else {
+                                          $$i > -1 &&
+                                            _vm.$set(
+                                              _vm.tiempo,
+                                              "check3",
+                                              $$a
+                                                .slice(0, $$i)
+                                                .concat($$a.slice($$i + 1))
+                                            )
+                                        }
+                                      } else {
+                                        _vm.$set(_vm.tiempo, "check3", $$c)
+                                      }
+                                    },
+                                    function($event) {
+                                      return _vm.check2(_vm.tiempo.check3)
+                                    }
+                                  ]
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "label",
+                                {
+                                  staticClass: "form-check-label",
+                                  attrs: { for: "inlineRadio3" }
+                                },
+                                [_vm._v("Mes")]
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm.tiempo.check ||
+                        _vm.tiempo.check2 ||
+                        _vm.tiempo.check3
+                          ? _c("div", { staticClass: "form-group" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.tiempo.tiempo,
+                                    expression: "tiempo.tiempo"
+                                  }
+                                ],
+                                staticClass: "form-control col-6",
+                                staticStyle: { border: "0.5px solid #0080ff" },
+                                attrs: {
+                                  type: "number",
+                                  name: "tiempo",
+                                  value: "1",
+                                  min: "1"
+                                },
+                                domProps: { value: _vm.tiempo.tiempo },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.tiempo,
+                                      "tiempo",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          : _vm._e()
+                      ])
+                    ]
+                  )
+                ])
+              ]
+            ),
             _vm._v(" "),
             _c(
               "div",
@@ -52749,79 +52872,87 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
+          _c("div", { staticClass: "col-12" }, [
             _vm._m(7),
             _vm._v(" "),
-            _c(
-              "table",
-              {
-                staticClass: "table table-bordered mt-3",
-                attrs: { id: "default-datatable" }
-              },
-              [
-                _vm._m(8),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  { staticClass: "text-center" },
-                  [
-                    _vm.isloadingProduct
-                      ? _c("tr", [
-                          _c(
-                            "td",
-                            {
-                              attrs: {
-                                rowspan: "2",
-                                colspan: "4",
-                                align: "center"
-                              }
-                            },
-                            [_vm._v("No hay maquinaria cargadas...")]
-                          )
-                        ])
-                      : _vm._l(_vm.products, function(item) {
-                          return _c(
-                            "tr",
-                            { key: item.id, staticClass: "text-center" },
-                            [
-                              _c("td", [_vm._v(_vm._s(item.nombre_producto))]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(_vm._s(item.cantidad_producto))
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.precio_producto))]),
-                              _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(item.dia))]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "btn btn btn-round btn-outline-danger",
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        return _vm.products.splice(item.id, 1)
+            _c("div", { staticClass: "row table-responsive" }, [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-bordered mt-3 ",
+                  attrs: { id: "default-datatable" }
+                },
+                [
+                  _vm._m(8),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    { staticClass: "text-center" },
+                    [
+                      _vm.isloadingProduct
+                        ? _c("tr", [
+                            _c(
+                              "td",
+                              {
+                                attrs: {
+                                  rowspan: "2",
+                                  colspan: "4",
+                                  align: "center"
+                                }
+                              },
+                              [_vm._v("No hay maquinaria cargadas...")]
+                            )
+                          ])
+                        : _vm._l(_vm.products, function(item) {
+                            return _c(
+                              "tr",
+                              { key: item.id, staticClass: "text-center" },
+                              [
+                                _c("td", [
+                                  _vm._v(_vm._s(item.nombre_producto))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(item.cantidad_producto))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(item.precio_producto))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(item.garantia))]),
+                                _vm._v(" "),
+                                _c("td", [_vm._v(_vm._s(item.dia))]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "btn btn btn-round btn-outline-danger",
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.products.splice(item.id, 1)
+                                        }
                                       }
-                                    }
-                                  },
-                                  [
-                                    _c("i", {
-                                      staticClass: "feather icon-trash-2"
-                                    })
-                                  ]
-                                )
-                              ])
-                            ]
-                          )
-                        })
-                  ],
-                  2
-                )
-              ]
-            ),
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "feather icon-trash-2"
+                                      })
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          })
+                    ],
+                    2
+                  )
+                ]
+              )
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "col" }, [
               _c("div", { staticClass: "form-group" }, [
@@ -52898,7 +53029,9 @@ var render = function() {
                       "label",
                       { staticClass: "col-4 col-sm-4 mt-1 control-label" },
                       [
-                        _c("strong", [_vm._v(" " + _vm._s(_vm.garantia2))]),
+                        _c("strong", [
+                          _vm._v(" " + _vm._s(_vm.garantia_mayor))
+                        ]),
                         _vm._v(" Bs. ")
                       ]
                     )
@@ -52963,7 +53096,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "label",
-      { staticClass: "col-4 col-sm-4 mt-1 p-0 control-label text-right" },
+      { staticClass: "col-5 col-sm-5 mt-1 p-0 control-label text-right" },
       [
         _c("strong", [
           _vm._v("Cliente"),
@@ -52977,33 +53110,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "label",
-          { staticClass: "col-4 col-sm-4 mt-1 p-0 control-label text-right" },
-          [
-            _c("strong", [
-              _vm._v("Vendedor"),
-              _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
-              _vm._v(":")
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-8 col-sm-8" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              name: "nombre",
-              placeholder: "Nombre del vendedor",
-              value: ""
-            }
-          })
+    return _c(
+      "label",
+      { staticClass: "col-5 col-sm-5 mt-1 p-0 control-label text-right" },
+      [
+        _c("strong", [
+          _vm._v("Vendedor"),
+          _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
+          _vm._v(":")
         ])
-      ])
-    ])
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -53011,7 +53128,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "label",
-      { staticClass: "col-4 col-sm-4 mt-1 p-0 control-label text-right" },
+      { staticClass: "col-5 col-sm-5 mt-1 p-0 control-label text-right" },
       [
         _c("strong", [
           _vm._v("Producto"),
@@ -53027,7 +53144,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "label",
-      { staticClass: "col-4 col-sm-4 mt-1 p-0 control-label text-right" },
+      { staticClass: "col-5 col-sm-5 mt-1 p-0 control-label text-right" },
       [
         _c("strong", [
           _vm._v("Cantidad"),
@@ -53041,7 +53158,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "m-0 p-0" }, [
+    return _c("div", { staticClass: "from-group" }, [
       _c("label", { staticClass: "mt-1 p-0 control-label" }, [
         _c("strong", [
           _vm._v(" Tiempo"),
@@ -53082,6 +53199,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Cantidad")]),
         _vm._v(" "),
         _c("th", [_vm._v("Precio")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Garantia")]),
         _vm._v(" "),
         _c("th", [_vm._v("Fecha devolución")]),
         _vm._v(" "),

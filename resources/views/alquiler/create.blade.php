@@ -2,17 +2,22 @@
 Registar - Alquiler
 @endsection
 @section('title-page') 
-Registar Alquiler
+Registar
 @endsection
 @section('page') 
 Registar
 @endsection  
 @extends('layouts.app')
 @section('style')
+<!-- Sweet Alert css -->
+<link href="{{ asset('assets/plugins/sweet-alert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
 <!-- Touchspin css -->
 <link href="{{ asset('assets/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet" type="text/css" />
-<!-- Datepicker css -->
-<link href="{{ asset('assets/plugins/datepicker/datepicker.min.css') }}" rel="stylesheet" type="text/css">
+<!-- DataTables css -->
+<link href="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/plugins/datatables/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- Responsive Datatable css -->
+<link href="{{ asset('assets/plugins/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
 @endsection 
 @section('link-page')
     <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
@@ -27,8 +32,10 @@ Registar
         <!-- Start col -->
         <div class="col-md-12 col-lg-12 col-xl-12">
             <alquiler-component 
+                token="{{csrf_token()}}"
                 maquinarias="{{$maquinarias}}"
                 clientes="{{$clientes}}"
+                vendedores="{{$vendedores}}"
                 {{-- empleados="{{$}}" --}}
                 >
             </alquiler-component>

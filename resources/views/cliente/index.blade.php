@@ -126,8 +126,8 @@ Cliente
                             <td>{{$cliente->telf}}</td>
                             <td>{{$cliente->estado}}</td>
                             <td class="justify-content-center align-items-center row">
-                                <button class="btn btn btn-round btn-outline-warning" data-toggle="modal" data-target="#editarmodal$cliente->id" > <i class="feather icon-settings"></i></button>
-                                <div class="modal fade" id="editarmodal$cliente->id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <button class="btn btn btn-round btn-outline-warning" data-toggle="modal" data-target="#editarmodal{{$cliente->id}}" > <i class="feather icon-settings"></i></button>
+                                <div class="modal fade" id="editarmodal{{$cliente->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered " role="document">
                                         <div class="modal-content ">
                                             <form class="form-validate" action="{{route('cliente.update',$cliente->id)}}" id="form" method="post">
@@ -135,7 +135,7 @@ Cliente
                                                 @method('PUT')
                                                 <input type="hidden" value="$cliente->id" name="id">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Crear cliente</h5>
+                                                <h5 class="modal-title" id="exampleModalCenterTitle">Modificar cliente  {{$cliente->nombre}}</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -180,20 +180,20 @@ Cliente
                                                 </div>
                                                 <div class="modal-footer justify-content-center align-items-center row">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                    <button type="submit" class="btn btn-success">Guardar</button>
+                                                    <button type="submit" class="btn btn-warning">Modificar</button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn btn-round btn-outline-info ml-2 mr-2"  data-toggle="modal" data-target="#infomodal$cliente->id"> <i class="feather icon-upload"></i></button>
-                                <div class="modal fade" id="infomodal".$cliente->id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <button class="btn btn btn-round btn-outline-info ml-2 mr-2"  data-toggle="modal" data-target="#infomodal{{$cliente->id}}"> <i class="feather icon-upload"></i></button>
+                                <div class="modal fade" id="infomodal{{$cliente->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered " role="document">
                                         <div class="modal-content ">
                                             <form class="form-validate" action="{{route('cliente.store')}}" id="form" method="post">
                                                 @csrf
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Crear cliente</h5>
+                                                <div class="modal-header text-white bg-info">
+                                                <h5 class="modal-title" id="exampleModalCenterTitle">Informacion del cliente  {{$cliente->nombre}}</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                     </button>
@@ -237,13 +237,37 @@ Cliente
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer justify-content-center align-items-center row">
-                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn btn-round btn-outline-danger"> <i class="feather icon-trash-2"></i></button>
+                                <button class="btn btn btn-round btn-outline-danger" data-toggle="modal" data-target="#eliminarmodal{{$cliente->id}}"> <i class="feather icon-trash-2"></i></button>
+                                <div class="modal fade" id="eliminarmodal{{$cliente->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered " role="document">
+                                        <div class="modal-content ">
+                                            <form class="form-validate" action="{{route('cliente.destroy',$cliente->id)}}" id="form" method="post">
+                                                @csrf
+                                                <div class="modal-header text-white bg-danger">
+                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Eliminar cliente - {{$cliente->nombre}}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="container">
+                                                        <h6> Estas seguro de eliminar al cliente?</h6>
+                                                    <h3 class="justify-content-center align-items-center "> El cliente  <strong>{{$cliente->nombre}}</strong> </h3>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer justify-content-center align-items-center row">
+                                                    <button type="submit" class="btn btn-danger" data-dismiss="modal">Eliminar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         @endforeach

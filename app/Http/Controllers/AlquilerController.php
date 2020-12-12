@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alquiler;
+use App\Models\Cliente;
+use App\Models\Detalle_Alquiler_Maquinaria_Cliente;
 use App\Models\Maquinaria;
 use App\User;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AlquilerController extends Controller
 {
@@ -28,8 +31,9 @@ class AlquilerController extends Controller
     public function create()
     {
         $maquinarias = Maquinaria::where('estado',1)->get();
-        $clientes = User::get();
-        return view('alquiler.create',compact('maquinarias','clientes'));
+        $clientes = Cliente::where('estado',1)->get();
+        $vendedores = User::where('estado',1)->get();
+        return view('alquiler.create',compact('maquinarias','clientes','vendedores'));
     }
 
     /**
@@ -40,21 +44,31 @@ class AlquilerController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        //dd($request->products);
+        $producto=$request->products;
         $requestdata=$request->except('_token');
-        $date = DateTime::createFromFormat('d/m/Y', $requestdata['fecha']);
+        /* $date = DateTime::createFromFormat('d/m/Y', $requestdata['fecha']); */
         $datos= Alquiler::create([
-            'nombre'=>$requestdata['nombre'],
-            'categoria_id'=>$requestdata['categoria'],
-            'nombre'=>$requestdata['nombre'],
-            'fecha_compra'=>$date->format('d-m-Y'),
-            'garantia'=>$requestdata['precio'],
-            'precio'=>$requestdata['precio'],
-            'hora'=>$requestdata['hora'],
-            'semana'=>$requestdata['semana'],
-            'mes'=>$requestdata['mes'],
+            'cliente_id'=>$requestdata['cliente_id'],
+            'empleado_id'=>1,
+            'monto_total'=>$requestdata['total'],
+            'garantia'=>$requestdata['garantia'],
+            'fecha_alquiler'=>date('Y-m-d'),
             ]);
-        return redirect('alquiler')->with('success', 'Maquinaria creada exitosamente!');
+            if($datos){
+            foreach ($producto as $key => $value) {
+                /* dd($value['dia']);
+                $value['dia']=str_replace(' ','-',$value['dia']); */
+                Detalle_Alquiler_Maquinaria_Cliente::create([
+                    'alquiler_id'=>$datos->id,
+                    'maquinaria_id'=>$value['producto_id'],
+                    'cantidad'=>$value['cantidad_producto'],
+                    'monto'=>$value['precio_producto'],
+                    'fecha_devolucion'=>date("Y-m-d h:i:s",strtotime($value['dia']) ),
+                ]);
+            }
+        }
+        return redirect('alquiler')->with('success', 'alquiler creada exitosamente!');
     }
 
     /**
