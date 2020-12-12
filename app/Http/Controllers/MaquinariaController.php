@@ -64,7 +64,7 @@ class MaquinariaController extends Controller
      */
     public function show($id)
     {
-        //
+       
     }
 
     /**
@@ -87,7 +87,20 @@ class MaquinariaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $requestData = $request->except('_token','_method');
+        $date = DateTime::createFromFormat('d/m/Y', $requestData['fecha']);
+        $editar = Maquinaria::where('id',$id)-> update([
+            'nombre'=>$requestData['nombre'],
+            'categoria_id'=>$requestData['categoria'],
+            'nombre'=>$requestData['nombre'],
+            'fecha_compra'=>$date->format('d/m/Y'),
+            'garantia'=>$requestData['precio'],
+            'precio'=>$requestData['precio'],
+            'hora'=>$requestData['hora'],
+            'semana'=>$requestData['semana'],
+            'mes'=>$requestData['mes'],
+            ]);
+        return redirect('maquinaria')->with('flash_message', 'Maquinaria Editada!');
     }
 
     /**
