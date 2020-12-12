@@ -18,7 +18,7 @@ class MaquinariaController extends Controller
     public function index()
     {
         $categorias =Categoria::where('estado',1)->get();
-        $maquinarias =Maquinaria::paginate(10);
+        $maquinarias =Maquinaria::get();
         return view('producto.index',compact('categorias','maquinarias'));
     }
 
@@ -111,6 +111,7 @@ class MaquinariaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Maquinaria::where('id',$id)->delete();
+        return back()->with('delete', 'Maquinaria eliminada exitosamente!');
     }
 }

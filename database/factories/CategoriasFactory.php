@@ -6,12 +6,19 @@ use App\Model;
 use App\Models\Categoria;
 use Faker\Generator as Faker;
 
-$this->categorias=['Maquinaria Pesada','Maquinaria Ligera','Maquinaria Itermedia','Herramientas Pesadas','Herramientas Ligeras','Herramientas Itermedias'];
+$this->categorias=[ 'MINICARGADOR CON ACCESORIOS',
+                    'MINI EXCAVADORA',
+                    'TRACTOR',
+                    'MONTACARGA',
+                    'ELEVADORES DE PERSONA',
+                    'GENERADORES',
+                    'COMPACTADOR MANUAL',
+                    'HERRAMIENTAS CHICAS'];
 $this->indice_categoria=0;
 $factory->define(Categoria::class, function (Faker $faker) {
     $i = $this->indice_categoria++;
     return [
         'nombre'=>$this->categorias[$i],
-        'descripcion'=>"demostracion",
+        'descripcion'=>$this->categorias[$i],
     ];
 });

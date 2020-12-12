@@ -1,6 +1,5 @@
 <template lang="">
     <div class="card">
-        
         <form v-on:submit="agregar()" class="form-group">
             <div class="card-body row">
                 <div class="col-12 table-bordered">
@@ -54,10 +53,10 @@
                             </div>                                            
                         </div>
                         <div class="col-12 justify-content-center align-items-center " >
-                            <div class="from-group">
+                            <div class="from-group col-sm-4">
                                 <label class="mt-1 p-0 control-label"> <strong> Tiempo<span class="text-danger">*</span>: </strong></label>
                             </div>
-                            <div class="form-group col-6">
+                            <div class="form-group">
                                 <blockquote class="blockquote text-center">
                                     <h6 class="control-label font-10 p-0 mt-3"><strong>Selecione 1 opción.</strong></h6>
                                 </blockquote>

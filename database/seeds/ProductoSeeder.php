@@ -12,6 +12,6 @@ class ProductoSeeder extends Seeder
      */
     public function run()
     {
-        factory(Maquinaria::class)->times(15)->create();
+        factory(Maquinaria::class)->times(11)->create();
     }
 }

@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 | model instances for testing / seeding your application's database.
 |
 */
-$this->correo_usuario=['Admin','Cajera'];
+$this->correo_usuario=['Admin','Vendedor'];
 $this->indice_rolusu=0;
 $factory->define(User::class, function (Faker $faker) {
     $i=$this->indice_rolusu++;

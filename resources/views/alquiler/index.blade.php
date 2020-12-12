@@ -9,9 +9,9 @@ Alquiler
 
 @endsection
 @section('button')
-<a class="btn btn-primary-rgba" href="{{url('alquiler/create')}}" >
-    <i class="feather icon-plus mr-2"></i>Crear 
-</a>
+    <a class="btn btn-primary-rgba" href="{{url('alquiler/create')}}" >
+        <i class="feather icon-plus mr-2"></i>Crear 
+    </a>
 @endsection 
 @section('rightbar-content')
 <!-- Start Contentbar -->    

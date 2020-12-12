@@ -53,7 +53,7 @@ class AlquilerController extends Controller
             'empleado_id'=>1,
             'monto_total'=>$requestdata['total'],
             'garantia'=>$requestdata['garantia'],
-            'fecha_alquiler'=>date('Y-m-d'),
+            'fecha_alquiler'=>date('Y-m-d H:i:m'),
             ]);
             if($datos){
             foreach ($producto as $key => $value) {
@@ -102,7 +102,11 @@ class AlquilerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $requestdata=$request->except('_token','method');
+        $datos=Alquiler::create([
+            'estado'=>$requestdata['estado'],
+            ]);
+        return redirect('alquiler')->with('update', 'Alquiler anulado!.');
     }
 
     /**

@@ -14,7 +14,7 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categorias= Categoria::latest()->paginate(10);
+        $categorias= Categoria::latest()->paginate(5);
         return view('categoria.index',compact('categorias'));
     }
 
@@ -90,7 +90,13 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $requestdata=$request->except('_token','method');
+        $datos=Categoria::where('id',$id)->update([
+            'nombre'=>$requestdata['nombre'],
+            'descripcion'=>$requestdata['descripcion'],
+            'estado'=>$requestdata['estado']
+            ]);
+        return redirect('categoria')->with('update', 'Categoría modificada exitosamente!');
     }
 
     /**
@@ -101,6 +107,8 @@ class CategoriaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+        Categoria::where('id',$id)->delete();
+        return back()->with('delete', 'Categoría  eliminada exitosamente!');
     }
 }

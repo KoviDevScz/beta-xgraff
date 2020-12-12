@@ -147,42 +147,58 @@ Maquinarias
         <!-- Start col -->
         <div class="col-md-12 col-lg-12 col-xl-12">
             <div class="card">
+                <div class="card-head">
+                    <h3 class="text-center mt-3">Lista de maquinaria</h3>
+                </div>
                 <div class="card-body">
                     @if(session()->get('success'))
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        {{ session()->get('success') }}
-                    </div>
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            {{ session()->get('success') }}
+                        </div>
+                    @endif
+                    @if(session()->get('update'))
+                        <div class="alert alert-warning alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            {{ session()->get('update') }}
+                        </div>
+                    @endif
+                    @if(session()->get('delete'))
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            {{ session()->get('delete') }}
+                        </div>
                     @endif
                     <div class="table-responsive">
-                        <table id="default-datatable" class="display table table-bordered">
+
+                        <table id="default-datatable" class="display table table-bordered"  border="1" cellspacing="0" cellpadding="0" style="border: 1px, solid, #000">
                             <thead>
                                 <tr class="text-center">
                                     <th>Nombre</th>
                                     <th>Categoria</th>
                                     <th>Precio</th>
                                     <th>Estado</th>
-                                    <th >Acciones</th>
+                                    <th  >Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($maquinarias as $maquinaria)
                                     <tr class="text-center">
-                                        <td>{{$maquinaria->nombre}}</td>
-                                        <td>{{$maquinaria->categoria->nombre}}</td>
+                                        <td class="text-left"width="30%" >{{$maquinaria->nombre}}</td>
+                                        <td width="20%">{{$maquinaria->categoria->nombre}}</td>
                                         <td>{{$maquinaria->precio}}</td>
                                         <td >{!! ($maquinaria->estado == 1) ? ( '<span class="badge badge-success shadow">Activo</span>'): '<span class="badge badge-danger shadow">Deshabilitado</span>' !!}
-                                        <td class="justify-content-center align-items-center row">
-                                            <button type="button" class="btn btn btn-round btn-outline-warning" data-toggle="modal" data-target="#editarmaqui{{$maquinaria->id}}">
+                                        <td class="justify-content-center align-items-center p-2" colspan="3" >
+                                            <button type="button" class="btn btn btn-round btn-outline-warning m-r-5" data-toggle="modal" data-target="#editarmaqui{{$maquinaria->id}}">
                                                 <i class="feather icon-settings"></i>
                                             </button>
                                             <div class="modal fade" id="editarmaqui{{$maquinaria->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg " role="document">
                                                     <div class="modal-content ">
-                                                        <form class="form-validate" action="{{route('maquinaria.update',$maquinaria->id)}}" id="form" method="post">
+                                                        <form class="form-validate" action="{{route('maquinaria.update',$maquinaria->id)}}" id="form{{$maquinaria->id}}" method="post">
                                                             @csrf @method('PUT')
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalCenterTitle">Crear nueva maquinaria</h5>
+                                                            <div class="modal-header text-white bg-warning ">
+                                                                <h5 class="modal-title" id="exampleModalCenterTitle">Modificar maquinaria</h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                                 </button>
@@ -206,7 +222,7 @@ Maquinarias
                                                                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Fecha de compra<span class="text-danger">*</span>:</label>
                                                                             <div class="col-8 col-sm-8">
                                                                                 <div class="input-group">                                  
-                                                                                    <input type="text" id="default-date" class="datepicker-here form-control {{ $errors->has('fecha') ? 'is-invalid' : ''}}" placeholder="dd/mm/yyyy" aria-describedby="basic-addon2" required name="fecha" value="{{ isset($maquinaria->fecha) ? $maquinaria->fecha : old('fecha')}}"/>
+                                                                                    <input type="text" class="datepicker-here form-control {{ $errors->has('fecha') ? 'is-invalid' : ''}}"  aria-describedby="basic-addon2" required name="fecha" value="{{ $maquinaria->fecha}}"/>
                                                                                         <div class="input-group-append">
                                                                                             <span class="input-group-text" id="basic-addon2"><i class="feather icon-calendar"></i></span>
                                                                                         </div>
@@ -219,23 +235,24 @@ Maquinarias
                                                                         <div class="row">
                                                                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Categoría<span class="text-danger">*</span>:</label>
                                                                             <div class="col-8 col-sm-8">
-                                                                                @if (!$categorias->isEmpty())
-                                                                                    
-                                                                                        <select class="form-control {{ $errors->has('categoria') ? 'is-invalid' : ''}}" id="formControlSelect" name="categoria" >
-                                                                                            <option value="">Selecione una categoria</option>
-                                                                                            @foreach ($categorias as $categoria)
-                                                                                            <option value="{{  $categoria->id }}" {{ old('categoria') == $categoria->id ? 'selected' : '' }}>{{$categoria->nombre}}</option>
-                                                                                        @endforeach
-                                                                                        </select>
-                                                                                        {!! $errors->first('categoria', '<p class="help-block text-danger">:message</p>') !!}
-                                                                                    
-                                                                                @else
-                                                                                <input type="text" class="form-control is-invalid {{ $errors->has('categoria') ? 'is-invalid' : ''}}" name="categoria" disabled value="No hay categorias creadas">
-                                                                                    {!! $errors->first('categoria', '<p class="help-block text-danger">:message</p>') !!}
-                                                                                    <p class="help-block text-danger">No hay ninguna categoria</p>
-                                                                                @endif                                                
+                                                                                <select class="form-control form-control-sm" name="categoria_id{{$maquinaria->id}}">
+                                                                                    <option value="{{$maquinaria->categoria_id}}"> {{$maquinaria->categoria->nombre}}</option>
+                                                                                    @foreach ($categorias as $categoria)
+                                                                                        <option value="{{$maquinaria->categoria_id}}">{{$categoria->nombre}}</option>
+                                                                                    @endforeach
+                                                                                </select>                                              
                                                                             </div>
                                                                         </div>                                            
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label  class="col-sm-4 mt-1 p-0 control-label text-right">Estado:</label>
+                                                                        <div class="col-sm-8">
+                                                                            <select class="js-example-basic-single form-control" id="estado{{$maquinaria->id}}"  name="estado" value="{{ isset($maquinaria->estado) ? $maquinaria->estado : old('estado')}}" >
+                                                                                <option value="1" >Activo</option>
+                                                                                <option value="0" >Deshabilitado</option>
+                                                                                {!! $errors->first('estado', '<p class="help-block text-danger">:message</p>') !!}
+                                                                            </select>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-6">
@@ -279,21 +296,19 @@ Maquinarias
                                                             </div>
                                                             <div class="modal-footer justify-content-center align-items-center row">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                                <button type="submit" class="btn btn-success">Guardar</button>
+                                                                <button type="submit" class="btn btn-success">Modificar</button>
                                                             </div>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
-                                            
-
-                                            <button type="button" class="btn btn-round btn-primary-rgba" data-toggle="modal" data-target="#mostrarmaqui{{$maquinaria->id}}">
+                                            <button type="button" class="btn btn-round btn-primary-rgba m-r-5" data-toggle="modal" data-target="#mostrarmaqui{{$maquinaria->id}}">
                                                 <i class="feather icon-upload"></i>
                                             </button>
                                             <div class="modal fade" id="mostrarmaqui{{$maquinaria->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg " role="document">
                                                     <div class="modal-content ">
-                                                        <form class="form-validate" action="{{route('maquinaria.store')}}" id="form" method="post">
+                                                        <form class="form-validate" action="{{route('maquinaria.store')}}" id="form{{$maquinaria->id}}" method="post">
                                                             @csrf
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title" id="exampleModalCenterTitle">Mostrar datos Maquinaria</h5>
@@ -319,12 +334,11 @@ Maquinarias
                                                                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Fecha de compra<span class="text-danger">*</span>:</label>
                                                                             <div class="col-8 col-sm-8">
                                                                                 <div class="input-group">                                  
-                                                                                    <input type="text" id="default-date" class="datepicker-here form-control" disabled placeholder="dd/mm/yyyy" aria-describedby="basic-addon2" required name="fecha" value="{{$maquinaria->fecha}}"/>
+                                                                                    <input type="text" class="datepicker-here form-control" disabled  aria-describedby="basic-addon2" required name="fecha" value="{{$maquinaria->fecha}}"/>
                                                                                         <div class="input-group-append">
                                                                                             <span class="input-group-text" id="basic-addon2"><i class="feather icon-calendar"></i></span>
                                                                                         </div>
                                                                                     </div>
-                                                                    
                                                                             </div>
                                                                         </div>                                            
                                                                     </div>
@@ -332,12 +346,11 @@ Maquinarias
                                                                         <div class="row">
                                                                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Categoría<span class="text-danger">*</span>:</label>
                                                                             <div class="col-8 col-sm-8">     
-                                                                                   
-                                                                                        <select class="form-control {{ $errors->has('categoria') ? 'is-invalid' : ''}}" disabled id="formControlSelect" name="categoria" >
-                                                                                            @foreach ($categorias as $categoria)
-                                                                                            <option value="{{  $categoria->id }}" {{ old('categoria') == $categoria->id ? 'selected' : '' }}>{{$categoria->nombre}}</option>
-                                                                                            @endforeach
-                                                                                        </select>                                                    
+                                                                                <select class="form-control {{ $errors->has('categoria') ? 'is-invalid' : ''}}" disabled id="formControlSelect{{$maquinaria->id}}" name="categoria" >
+                                                                                    @foreach ($categorias as $categoria)
+                                                                                    <option value="{{  $categoria->id }}" {{ old('categoria') == $categoria->id ? 'selected' : '' }}>{{$categoria->nombre}}</option>
+                                                                                    @endforeach
+                                                                                </select>                                                    
                                                                             </div>
                                                                         </div>                                            
                                                                     </div>
@@ -357,7 +370,6 @@ Maquinarias
                                                                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Hora:</label>
                                                                             <div class="col-8 col-sm-8">
                                                                                 <input type="text" class="form-control " name="hora" disabled placeholder="hora" value="{{ $maquinaria->hora}}">
-                                                                              
                                                                             </div>
                                                                         </div>                                            
                                                                     </div>
@@ -386,16 +398,45 @@ Maquinarias
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button class="btn btn btn-round btn-outline-danger"> <i class="feather icon-trash-2"></i></button>
+                                            <button class="btn btn btn-round btn-outline-danger" data-toggle="modal" data-target="#eliminarmodal{{$maquinaria->id}}"> <i class="feather icon-trash-2"></i></button>
+                                            <div class="modal fade" id="eliminarmodal{{$maquinaria->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered " role="document">
+                                                    <div class="modal-content ">
+                                                        <form class="form-validate" action="{{route('maquinaria.destroy',$maquinaria->id)}}" id="form" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <div class="modal-header bg-danger">
+                                                                <h5 class="modal-title" id="exampleModalCenterTitle">Eliminar maquinaría</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <input type="hidden" value="{{$categoria->id}}" name="id"> 
+                                                                <div class="container">
+                                                                    <h6> Estas seguro de eliminar la maquinaria?</h6>
+                                                                <h3 class="justify-content-center align-items-center "> La maquinaria <strong>{{$maquinaria->nombre}}</strong> </h3>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer justify-content-center align-items-center row">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach                        
                             </tbody>
                             
                         </table>
-                        <div>
-                            {{$maquinarias->links()}}
-                        </div>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                {{-- {{$maquinarias->links()}} --}}
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>            
@@ -426,13 +467,33 @@ Maquinarias
             });
         </script>    
     @endif
+    @if(session()->get('update'))
+        <script>
+            swal({
+                title: "{!!session()->get('update')!!}",
+                type: 'success',
+                showConfirmButton:false,
+                timer: 2000
+            });
+        </script>    
+    @endif
+    @if(session()->get('delete'))
+        <script>
+            swal({
+                title: "{!!session()->get('delete')!!}",
+                type: 'success',
+                showConfirmButton:false,
+                timer: 2000
+            });
+        </script>    
+    @endif
 <!-- Datepicker JS -->
 <script src="{{ asset('assets/plugins/datepicker/datepicker.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/datepicker/i18n/datepicker.es.js') }}"></script>
+<script src="{{ asset('assets/plugins/datepicker/i18n/datepicker.en.js') }}"></script>
 <script>
      $(document).ready(function () {
         $('#default-date').datepicker({
-            language: 'es',
+            language: 'en',
             dateFormat: 'dd/mm/yyyy',
         });
         $('#form').validate({ 
@@ -521,8 +582,8 @@ Maquinarias
         $('#default-datatable').DataTable( {
             //Esto sirve que se auto ajuste la tabla al aplicar un filtro
             "scrollCollapse": true,
-            "autoWidth": false,
             "paging": false,
+            autoWidth: false, 
             responsive: true,
             "bInfo": false,
             language: {
@@ -547,6 +608,13 @@ Maquinarias
             },
             "aoColumnDefs": [
                 { 'bSortable': false, 'aTargets': [ 4 ] }
+            ],
+            columnDefs: [
+                { width: '200px', targets: 0 }, //step 2, column 1 out of 4
+                { width: '100px', targets: 1 }, //step 2, column 2 out of 4
+                { width: '50px', targets: 2 },  //step 2, column 3 out of 4
+                { width: '50px', targets: 3 },  //step 2, column 3 out of 4
+                { width: '250px', targets:4  }  //step 2, column 3 out of 4
             ]
         });
     });
