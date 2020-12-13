@@ -19,7 +19,7 @@ class MaquinariaController extends Controller
     {
         $categorias =Categoria::where('estado',1)->get();
         $maquinarias =Maquinaria::get();
-        return view('producto.index',compact('categorias','maquinarias'));
+        return view('maquinaria.index',compact('categorias','maquinarias'));
     }
 
     /**

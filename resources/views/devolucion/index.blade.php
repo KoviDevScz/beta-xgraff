@@ -1,22 +1,22 @@
 @section('title') 
-Alquiler
+Devolucion
 @endsection
 @section('title-page') 
-Alquiler
+Devolución
 @endsection
 @section('page') 
-Alquiler
+Devolución
 @endsection 
 @section('link-page')
     <li class="breadcrumb-item"><a href="{{url('/')}}">CMS</a></li>
     <li class="breadcrumb-item active" aria-current="page">@yield('page')</li>
-@endsection 
+@endsection
 @extends('layouts.app')
 @section('style')
 
 @endsection
 @section('button')
-    <a class="btn btn-primary-rgba" href="{{url('alquiler/create')}}" >
+    <a class="btn btn-primary-rgba" href="{{url('devolucion/create')}}" >
         <i class="feather icon-plus mr-2"></i>Crear 
     </a>
 @endsection 
@@ -27,6 +27,7 @@ Alquiler
     <div class="row">
         <!-- Start col -->
         <div class="col-md-12 col-lg-12 col-xl-12">
+            <!-- TODO:Crear Devolucion -->
             <div class="card">
                 @if(session()->get('success'))
                     <div class="alert alert-success alert-dismissible">
@@ -50,7 +51,7 @@ Alquiler
                     </div>
                 @endif
                 <div class="card-head">
-                    <h3 class="text-center mt-3">Lista de alquileres</h3>
+                    <h3 class="text-center mt-3">Lista de devolución</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive m-b-30">

@@ -1,24 +1,19 @@
 @section('title') 
-Alquiler
+Devolucion
 @endsection
 @section('title-page') 
-Alquiler
+Registrar
 @endsection
 @section('page') 
-Alquiler
+Registrar
 @endsection 
 @section('link-page')
     <li class="breadcrumb-item"><a href="{{url('/')}}">CMS</a></li>
     <li class="breadcrumb-item active" aria-current="page">@yield('page')</li>
-@endsection 
+@endsection
 @extends('layouts.app')
 @section('style')
 
-@endsection
-@section('button')
-    <a class="btn btn-primary-rgba" href="{{url('alquiler/create')}}" >
-        <i class="feather icon-plus mr-2"></i>Crear 
-    </a>
 @endsection 
 @section('rightbar-content')
 <!-- Start Contentbar -->    
@@ -28,31 +23,43 @@ Alquiler
         <!-- Start col -->
         <div class="col-md-12 col-lg-12 col-xl-12">
             <div class="card">
-                @if(session()->get('success'))
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        {{-- <h4><i class="icon fa fa-check"></i></h4> --}}
-                        {{ session()->get('success') }}
-                    </div>
-                @endif
-                @if(session()->get('update'))
-                    <div class="alert alert-warning alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        {{-- <h4><i class="icon fa fa-check"></i></h4> --}}
-                        {{ session()->get('update') }}
-                    </div>
-                @endif
-                @if(session()->get('delete'))
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        {{-- <h4><i class="icon fa fa-check"></i></h4> --}}
-                        {{ session()->get('delete') }}
-                    </div>
-                @endif
-                <div class="card-head">
-                    <h3 class="text-center mt-3">Lista de alquileres</h3>
+                <div class="card-head col mx-auto">
+                    <h4 class="text-center mt-3">Buscar alquiler</h4>
+                    <form class=" justify-content-center">
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="text-right col-5 col-form-label "> <strong> Codigo alquiler:</strong></label>
+                            <input type="text" class="form-control col-2" id="inputEmail3" placeholder="codigo">
+                            <button type="button" class="btn btn-primary  ml-1">Buscar</button>
+                        </div>
+                    </form>
+                    <form class="row col-12 mt-3">
+                        <div class="form-group">
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-4 text-right col-form-label ">Email</label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group row">
+                                <label for="inputPassword3" class="col-4 col-form-label text-right">Password</label>
+                                <div class="col-8">
+                                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="button" class="btn btn-primary">Sign in</button>
+                            </div>
+                        </div>
+                    </form>
+                    
                 </div>
-                <div class="card-body">
+                
+                <div class="card-body ">
                     <div class="table-responsive m-b-30">
                         <table class="table table-hover">
                             <thead>

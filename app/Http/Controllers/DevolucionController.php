@@ -13,7 +13,7 @@ class DevolucionController extends Controller
      */
     public function index()
     {
-        //
+        return view('devolucion.index');
     }
 
     /**
@@ -21,9 +21,9 @@ class DevolucionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        return view('devolucion.create');
     }
 
     /**

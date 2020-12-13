@@ -35,7 +35,7 @@
                     </a>
                     <ul class="vertical-submenu">
                         <li><a href="{{url('alquiler')}}">Gestionar Alquiler</a></li>
-                        <li><a href="{{url('/ecommerce-product-list')}}">Gestionar Devolución</a></li>
+                        <li><a href="{{url('devolucion')}}">Gestionar Devolución</a></li>
                     </ul>
                 </li>                                       
             </ul>
