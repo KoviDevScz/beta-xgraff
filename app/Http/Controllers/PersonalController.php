@@ -15,7 +15,8 @@ class PersonalController extends Controller
      */
     public function index()
     {
-       return view('personal.index');
+       $personals=Personal::paginate(5);
+       return view('personal.index',compact('personals'));
     }
 
     /**
@@ -36,7 +37,23 @@ class PersonalController extends Controller
      */
     public function store(PersonalRequest $request)
     {
-        
+        $requestdata=$request->except('_token');
+        $personal=new Personal;
+
+            $personal->nombre=$requestdata['nombre'];
+            $personal->ci=$requestdata['ci'];
+            $personal->telf=$requestdata['telf'];
+            $personal->direccion=$requestdata['direccion'];
+
+            if ($files = $request->file('foto')) {
+                $destinationPath = 'public/img/personal/';
+                $profileImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
+                $files->move($destinationPath, $profileImage);
+                $personal->foto=$profileImage;
+            }
+        $personal->save();
+        return redirect('personal')->with('success', 'personal registrado exitosamente!');
+      
     }
 
     /**
@@ -70,7 +87,16 @@ class PersonalController extends Controller
      */
     public function update(PersonalRequest $request,$id )
     {
-        
+        $requestdata=$request->except('_token');
+        Personal::where('id',$id)->update([
+            'nombre'=>$requestdata['nombre'],
+            'ci'=>$requestdata['ci'],
+            'direccion'=>$requestdata['direccion'],
+            'estado'=>$requestdata['estado']
+           
+
+            ]);
+        return redirect('personal')->with('update', 'personal modificado exitosamente!');
     }
 
     /**
@@ -81,6 +107,7 @@ class PersonalController extends Controller
      */
     public function destroy($id)
     {
-        
+        Personal::where('id',$id)->delete();
+        return back()->with('delete', 'personal  eliminado exitosamente!');
     }
 }

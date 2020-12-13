@@ -17,6 +17,7 @@ class CreatePersonalTable extends Migration
             $table->id();
             $table->string('nombre',150);
             $table->string('ci',10);
+            $table->string('telf',15);
             $table->string('direccion',150);
             $table->string('foto',250)->nullable();
             $table->unsignedTinyInteger('estado')->default(1);
