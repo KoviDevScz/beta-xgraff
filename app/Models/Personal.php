@@ -11,6 +11,6 @@ class Personal extends Model
     protected $table='personals';
     protected $primaryKey='id';
     protected $fillable = [
-       'nombre','ci','direccion','foto'
+       'nombre','ci', 'telf','direccion','foto',
     ];
 }

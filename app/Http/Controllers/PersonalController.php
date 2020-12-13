@@ -15,8 +15,8 @@ class PersonalController extends Controller
      */
     public function index()
     {
-        $datos ['personal']=Personal::paginate(5);
-       return view('personal.index',$datos);
+       $personals=Personal::paginate(5);
+       return view('personal.index',compact('personals'));
     }
 
     /**
@@ -38,16 +38,22 @@ class PersonalController extends Controller
     public function store(PersonalRequest $request)
     {
         $requestdata=$request->except('_token');
-        if($request->hasFile('foto')){
-            $datospersonal['foto']=$request->file('foto')->store('uploads','public');
+        $personal=new Personal;
 
-        }
-        Personal::create([
-            'nombre'=>$requestdata['nombre'],
-            'ci'=>$requestdata['ci'],
-            'direccion'=>$requestdata['direccion'],
-            ]);
+            $personal->nombre=$requestdata['nombre'];
+            $personal->ci=$requestdata['ci'];
+            $personal->telf=$requestdata['telf'];
+            $personal->direccion=$requestdata['direccion'];
+
+            if ($files = $request->file('foto')) {
+                $destinationPath = 'public/img/personal/';
+                $profileImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
+                $files->move($destinationPath, $profileImage);
+                $personal->foto=$profileImage;
+            }
+        $personal->save();
         return redirect('personal')->with('success', 'personal registrado exitosamente!');
+      
     }
 
     /**
