@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ClienteRequest;
-use App\Models\Cliente;
+use App\Http\Requests\PersonalRequest;
+use App\Models\Personal;
 use Illuminate\Http\Request;
 
 class PersonalController extends Controller
@@ -34,7 +34,7 @@ class PersonalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ClienteRequest $request)
+    public function store(PersonalRequest $request)
     {
         
     }
@@ -68,7 +68,7 @@ class PersonalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ClienteRequest $request,$id )
+    public function update(PersonalRequest $request,$id )
     {
         
     }
