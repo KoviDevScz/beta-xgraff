@@ -15,7 +15,8 @@ class PersonalController extends Controller
      */
     public function index()
     {
-       return view('personal.index');
+        $datos ['personal']=Personal::paginate(5);
+       return view('personal.index',$datos);
     }
 
     /**
@@ -36,7 +37,17 @@ class PersonalController extends Controller
      */
     public function store(PersonalRequest $request)
     {
-        
+        $requestdata=$request->except('_token');
+        if($request->hasFile('foto')){
+            $datospersonal['foto']=$request->file('foto')->store('uploads','public');
+
+        }
+        Personal::create([
+            'nombre'=>$requestdata['nombre'],
+            'ci'=>$requestdata['ci'],
+            'direccion'=>$requestdata['direccion'],
+            ]);
+        return redirect('personal')->with('success', 'personal registrado exitosamente!');
     }
 
     /**
@@ -70,7 +81,16 @@ class PersonalController extends Controller
      */
     public function update(PersonalRequest $request,$id )
     {
-        
+        $requestdata=$request->except('_token');
+        Personal::where('id',$id)->update([
+            'nombre'=>$requestdata['nombre'],
+            'ci'=>$requestdata['ci'],
+            'direccion'=>$requestdata['direccion'],
+            'estado'=>$requestdata['estado']
+           
+
+            ]);
+        return redirect('personal')->with('update', 'personal modificado exitosamente!');
     }
 
     /**
@@ -81,6 +101,7 @@ class PersonalController extends Controller
      */
     public function destroy($id)
     {
-        
+        Personal::where('id',$id)->delete();
+        return back()->with('delete', 'personal  eliminado exitosamente!');
     }
 }
