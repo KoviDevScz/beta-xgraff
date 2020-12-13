@@ -6,7 +6,7 @@ use App\Http\Requests\ClienteRequest;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
 
-class PersonalController extends Controller
+class ClienteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,8 @@ class PersonalController extends Controller
      */
     public function index()
     {
-       
+        $clientes= Cliente::get();
+        return view('cliente.index',compact('clientes'));
     }
 
     /**
@@ -36,7 +37,14 @@ class PersonalController extends Controller
      */
     public function store(ClienteRequest $request)
     {
-        
+        $requestdata=$request->except('_token');
+        Cliente::create([
+            'nombre'=>$requestdata['nombre'],
+            'ci'=>$requestdata['ci'],
+            'telf'=>$requestdata['telf'],
+            'direccion'=>$requestdata['direccion']
+            ]);
+        return redirect('cliente')->with('success', 'Cliente creada exitosamente!');
     }
 
     /**
@@ -68,9 +76,18 @@ class PersonalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ClienteRequest $request,$id )
+    public function update(ClienteRequest $request, $id)
     {
-        
+        $requestdata=$request->except('_token');
+        $requestdata=$request->except('_token');
+        Cliente::where('id',$id)->update([
+            'nombre'=>$requestdata['nombre'],
+            'ci'=>$requestdata['ci'],
+            'telf'=>$requestdata['telf'],
+            'direccion'=>$requestdata['direccion'],
+            'estado'=>$requestdata['estado']
+            ]);
+        return redirect('cliente')->with('update', 'Cliente modificado exitosamente!');
     }
 
     /**
@@ -81,6 +98,7 @@ class PersonalController extends Controller
      */
     public function destroy($id)
     {
-        
+        Cliente::where('id',$id)->delete();
+        return back()->with('danger', 'Cliente modificado exitosamente!');
     }
 }

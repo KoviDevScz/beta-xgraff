@@ -577,7 +577,7 @@ Maquinarias
                 }
             }
         });
-        /* --- Form - Datepicker -- */
+       /* --- Form - Datepicker -- */
         
         $('#default-datatable').DataTable( {
             //Esto sirve que se auto ajuste la tabla al aplicar un filtro

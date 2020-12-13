@@ -37,6 +37,14 @@
                         <li><a href="{{url('alquiler')}}">Gestionar Alquiler</a></li>
                         <li><a href="{{url('devolucion')}}">Gestionar Devolución</a></li>
                     </ul>
+                </li>      
+                <li>
+                    <a href="javaScript:void();">
+                        <img src="{{asset('assets/images/svg-icon/ecommerce.svg')}}" class="img-fluid" alt="ecommerce"><span>Gestionar <br> Personal</span><i class="feather icon-chevron-right pull-right"></i>
+                    </a>
+                    <ul class="vertical-submenu">
+                        <li><a href="{{url('personal')}}">Gestionar Personal</a></li>
+                    </ul>
                 </li>                                       
             </ul>
         </div>
