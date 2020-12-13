@@ -18,7 +18,9 @@ class MaquinariaController extends Controller
     public function index()
     {
         $categorias =Categoria::where('estado',1)->get();
-        $maquinarias =Maquinaria::get();
+        $maquinarias =Maquinaria::paginate(10);
+        $aux = new DateTime($maquinarias[0]->fecha_compra);
+        $fecha_ejemplo = $aux->format('Y-m-d');
         return view('maquinaria.index',compact('categorias','maquinarias'));
     }
 
@@ -41,12 +43,11 @@ class MaquinariaController extends Controller
     public function store(MaquinariaRequest $request)
     {
         $requestdata=$request->except('_token');
-        $date = DateTime::createFromFormat('d/m/Y', $requestdata['fecha']);
-        $datos=Maquinaria::create([
+        Maquinaria::create([
             'nombre'=>$requestdata['nombre'],
             'categoria_id'=>$requestdata['categoria'],
             'nombre'=>$requestdata['nombre'],
-            'fecha_compra'=>$date->format('d-m-Y'),
+            'fecha_compra'=>date("Y-m-d h:i:s",strtotime($requestdata['fecha']) ),
             'garantia'=>$requestdata['precio'],
             'precio'=>$requestdata['precio'],
             'hora'=>$requestdata['hora'],
@@ -88,19 +89,18 @@ class MaquinariaController extends Controller
     public function update(Request $request, $id)
     {
         $requestData = $request->except('_token','_method');
-        $date = DateTime::createFromFormat('d/m/Y', $requestData['fecha']);
-        $editar = Maquinaria::where('id',$id)-> update([
+        Maquinaria::where('id',$id)-> update([
             'nombre'=>$requestData['nombre'],
             'categoria_id'=>$requestData['categoria'],
             'nombre'=>$requestData['nombre'],
-            'fecha_compra'=>$date->format('d/m/Y'),
+            'fecha_compra'=>date("Y-m-d h:i:s",strtotime($requestData['fecha']) ),
             'garantia'=>$requestData['precio'],
             'precio'=>$requestData['precio'],
             'hora'=>$requestData['hora'],
             'semana'=>$requestData['semana'],
             'mes'=>$requestData['mes'],
             ]);
-        return redirect('maquinaria')->with('flash_message', 'Maquinaria Editada!');
+        return redirect('maquinaria')->with('update', 'Maquinaria Editada!');
     }
 
     /**

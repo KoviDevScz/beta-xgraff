@@ -26,7 +26,7 @@ class Maquinaria extends Model
      * @var array
     */
     protected $casts = [
-        'fecha_compra' => 'datetime:d-m-Y hh:ss',
+        'fecha_compra' => 'datetime:Y-m-d',
     ];
     protected $fillable = [
         'nombre','categoria_id', 

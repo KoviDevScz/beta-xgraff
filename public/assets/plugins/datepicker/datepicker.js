@@ -13,7 +13,7 @@
         defaults = {
             classes: '',
             inline: false,
-            language: 'ru',
+            language: 'es',
             startDate: new Date(),
             firstDay: '',
             weekends: [6, 0],

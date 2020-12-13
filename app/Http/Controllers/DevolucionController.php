@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alquiler;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DevolucionController extends Controller
 {
@@ -11,8 +13,11 @@ class DevolucionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        
+        
+
         return view('devolucion.index');
     }
 
@@ -22,8 +27,26 @@ class DevolucionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {
-        return view('devolucion.create');
+    {   
+        $productos=[];
+        $alquiler=[];
+        if($request->get('busqueda')){
+            $alquiler = Alquiler::where("id", "LIKE", "%{$request->get('busqueda')}%")
+                ->paginate(5);
+
+            return view('devolucion.create')->with('buscar', $alquiler);
+        }
+        /* $id=$request->get('buscar');
+            $alquiler=DB::table('alquileres')
+            ->select('alquileres.*','detalle_alquiler_maquinaria_cliente.id as dal_id')
+            ->join('detalle_alquiler_maquinaria_cliente','detalle_alquiler_maquinaria_cliente.alquiler_id','=','alquileres.id')
+            ->where('alquileres.id','=',$id)
+            ->get();
+        $productos= DB::table('alquileres')
+                    ->select('alquileres.*','detalle_alquiler_maquinaria_cliente.id as dal_id')
+                    ->join('detalle_alquiler_maquinaria_cliente','detalle_alquiler_maquinaria_cliente.alquiler_id','=','alquileres.id')
+                    ->get(); */
+        return view('devolucion.create',compact('productos','alquiler'));
     }
 
     /**
