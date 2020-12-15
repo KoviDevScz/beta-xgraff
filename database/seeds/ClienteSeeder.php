@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Empleados;
+use App\Models\Cliente;
 use Illuminate\Database\Seeder;
 
-class EmpledosSeeder extends Seeder
+class ClienteSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,6 +13,6 @@ class EmpledosSeeder extends Seeder
     public function run()
     {
         //
-        factory(Empleados::class)->times(4)->create();
+        factory(Cliente::class)->times(4)->create();
     }
 }
