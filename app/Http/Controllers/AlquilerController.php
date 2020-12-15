@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Alquiler;
 use App\Models\Cliente;
 use App\Models\Detalle_Alquiler_Maquinaria_Cliente;
+use App\Models\Empleados;
 use App\Models\Maquinaria;
+use App\Models\Personal;
 use App\User;
 use DateTime;
 use Illuminate\Http\Request;
@@ -32,7 +34,7 @@ class AlquilerController extends Controller
     {
         $maquinarias = Maquinaria::where('estado',1)->get();
         $clientes = Cliente::where('estado',1)->get();
-        $vendedores = User::where('estado',1)->get();
+        $vendedores = Personal::where('estado',1)->get();
         return view('alquiler.create',compact('maquinarias','clientes','vendedores'));
     }
 
@@ -47,10 +49,9 @@ class AlquilerController extends Controller
         //dd($request->products);
         $producto=$request->products;
         $requestdata=$request->except('_token');
-        /* $date = DateTime::createFromFormat('d/m/Y', $requestdata['fecha']); */
         $datos= Alquiler::create([
             'cliente_id'=>$requestdata['cliente_id'],
-            'empleado_id'=>1,
+            'personal_id'=>$requestdata['personal_id'],
             'monto_total'=>$requestdata['total'],
             'garantia'=>$requestdata['garantia'],
             'fecha_alquiler'=>date('Y-m-d H:i:m'),

@@ -23,9 +23,9 @@
                             <div class="row">
                                 <label class="col-5 col-sm-5 mt-1 p-0 control-label text-right"><strong>Vendedor<span class="text-danger">*</span>:</strong> </label>
                                 <div class="col-4 col-sm-4">
-                                    <select class="form-control" v-model="vendedor_select"  >
+                                    <select class="form-control" v-model="vendedor_select" @change="boolvendedor=false"  >
                                             <option value="0" selected>Selecionar</option> 
-                                            <option v-for="empleado in empleados" v-bind:value="empleado.id"  >{{empleado.name}} </option>
+                                            <option v-for="empleado in empleados" v-bind:value="empleado.id"  >{{empleado.nombre}} </option>
                                     </select>
                                     <!-- {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!} -->
                                 </div>
@@ -33,21 +33,21 @@
                         </div>
                     <div class="form-group">
                         <div class="row">
-                            <label class="col-5 col-sm-5 mt-1 p-0 control-label text-right"><strong>Producto<span class="text-danger">*</span>:</strong></label>
+                            <label class=" mt-1 p-0 control-label text-right"><strong>Producto<span class="text-danger">*</span>:</strong></label>
                             <input type="hidden" name="nombre_producto" v-model="nombre_producto">
-                            <div class="col-4 col-sm-4">
+                            <div class="col-4 ">
                                 <select class="form-control" v-model="producto_select" @change="obtenernombre(producto_select)"  :class="{'is-invalid': boolproductoselect}" >
-                                    <option value="0" selected>Selecionar</option>                          
-                                    <option v-for="producto in maquinas" :value="producto.id"  >{{producto.nombre}}</option>
+                                    <option  value="0" selected>Selecionar</option>                          
+                                    <option style="width=50px" v-for="producto in maquinas" :value="producto.id"  >{{producto.nombre}}</option>
                                 </select>
                                 <!-- {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!} -->
                             </div>
                         </div> 
                         <div class="form-group mt-2">
                             <div class="row">
-                                <label class="col-5 col-sm-5 mt-1 p-0 control-label text-right"><strong>Cantidad<span class="text-danger">*</span>:</strong> </label>
+                                <label class="mt-1 p-0 control-label text-right"><strong>Cantidad<span class="text-danger">*</span>:</strong> </label>
                                 <div class="col-4 col-sm-4">
-                                    <input type="number" class="form-control" v-model="cantidad" min="1" value="1" max=100 name="cantidad" ></input>
+                                    <input type="number" class="form-control col-8 " v-model="cantidad" min="1" value="1" max=100 name="cantidad" ></input>
                                     <!-- {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!} -->
                                 </div>
                             </div>                                            
@@ -84,7 +84,7 @@
                     
                     
                     <div class="justify-content-center align-items-center row mt-1">
-                        <button type="button" class="btn btn-primary " v-on:click="añadir()" :disabled="btn=false"><i class="feather icon-plus"></i> Añadir</button>
+                        <button type="button" class="btn btn-primary " v-on:click="añadir()" ><i class="feather icon-plus"></i> Añadir</button>
                     </div>
                 </div>
                 <div class="col-12">
@@ -113,7 +113,7 @@
                                     <td >{{item.precio_producto}}</td>
                                     <td >{{item.garantia}}</td>
                                     <td >{{item.dia}}</td>
-                                    <td ><button class="btn btn btn-round btn-outline-danger" @click.prevent="products.splice(item.id,1)"> <i class="feather icon-trash-2"></i></button></td>
+                                    <td ><button class="btn btn btn-round btn-outline-danger" @change="boolcliente=true"  @click.prevent="products.splice(item.id,1)"> <i class="feather icon-trash-2"></i></button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -122,7 +122,7 @@
                         <div class="form-group">
                             <div class="row justify-content-center align-items-center">
                                 <label class="col-sm-6 mt-1 p-0 control-label text-right"><strong>Subtotal:</strong></label>
-                                <input class="col-6 col-sm-6 mt-1  control-label"@change="calculartotal()"  v-model="subtotal" type="hidden" min="0"> 
+                                <input class="col-6 col-sm-6 mt-1  control-label" @change="calculartotal()"  v-model="subtotal" type="hidden" min="0"> 
                                 <label class="col-4 col-sm-4 mt-1 control-label"  > {{totales}} Bs. </label>
                             </div>                                            
                         </div>
@@ -221,6 +221,7 @@ export default {
             try {
                 if(Object.keys(this.products).length !== 0){
                     const response = await axios.post('/alquiler', {
+                    personal_id:this.vendedor_select,
                     cliente_id:this.cliente_select,
                     garantia:this.garantia_mayor,
                     total:this.total,
@@ -238,9 +239,9 @@ export default {
                 }else{
                     console.log('no productos en el detalle');
                     swal({
-                            title: "Por favor seleccione articulos!",
-                            type: 'warning',
-                        });
+                        title: "No hay articulos en el detalle!",
+                        type: 'warning',
+                    });
                 }
             } catch (error) {
                 swal({
@@ -249,17 +250,18 @@ export default {
                     showConfirmButton:false,
                     timer: 2000
                 });
-                console.log(error);
+                console.log(error.response);
             }
             /* e.preventDefault(); */
             
         },
-        
         añadir(){
             if(this.cliente_select==0){
                 this.boolcliente=true;
             }
-            
+            if(this.vendedor_select==0){
+                this.boolvendedor=true;
+            }
             if(this.producto_select==0){
                 this.boolproductoselect=true;
             }
@@ -291,50 +293,48 @@ export default {
                 console.log(this.subtotal);
                 
             }
-                this.isloadingProduct=false;
-                if (this.tiempo.check==true) {
-                    var date = moment().add(this.tiempo.tiempo, 'hours').format('DD-MM-YYYY hh:mm:ss');
-                }
-                if (this.tiempo.check2==true) {
-                    var date = moment().add(this.tiempo.tiempo, 'weeks').format('DD-MM-YYYY hh:mm:ss');
-                }
-                if (this.tiempo.check3==true) {
-                    var date = moment().add(this.tiempo.tiempo, 'months').format('DD-MM-YYYY hh:mm:ss');
-                }
-                this.garantia_mayor
-                if(this.garantia_mayor<this.garantia){
-                    this.garantia_mayor=this.garantia;
-                }
-                this.products.push(
-                {  
-                    'garantia':this.garantia,
-                    'id':this.id,
-                    'nombre_producto':this.nombre_producto,
-                    'producto_id':this.producto_select,
-                    'cantidad_producto':this.cantidad,
-                    'precio_producto':this.subtotal,
-                    'dia':date,
-                    'tiempo':this.tiempo.tiempo,
-                    'hora':this.tiempo.check,
-                    'semana':this.tiempo.check2,
-                    'mes':this.tiempo.check3,
-                });
-                this.calculartotal();
-                this.id++;
-                this.cantidad=1;
-                this.producto_select=0;
-                this.tiempo.tiempo=1;
-                this.tiempo.check=false;
-                this.tiempo.check2=false;
-                this.tiempo.check3=false; 
+            this.isloadingProduct=false;
+            if (this.tiempo.check==true) {
+                var date = moment().add(this.tiempo.tiempo, 'hours').format('DD-MM-YYYY hh:mm:ss');
             }
-            else{
-                swal({
-                    title: "Debe selecionar los campos requeridos para el detalle!",
-                    type: 'error',
-                });
+            if (this.tiempo.check2==true) {
+                var date = moment().add(this.tiempo.tiempo, 'weeks').format('DD-MM-YYYY hh:mm:ss');
             }
-            
+            if (this.tiempo.check3==true) {
+                var date = moment().add(this.tiempo.tiempo, 'months').format('DD-MM-YYYY hh:mm:ss');
+            }
+            this.garantia_mayor
+            if(this.garantia_mayor<this.garantia){
+                this.garantia_mayor=this.garantia;
+            }
+            this.products.push(
+            {  
+                'garantia':this.garantia,
+                'id':this.id,
+                'nombre_producto':this.nombre_producto,
+                'producto_id':this.producto_select,
+                'cantidad_producto':this.cantidad,
+                'precio_producto':this.subtotal,
+                'dia':date,
+                'tiempo':this.tiempo.tiempo,
+                'hora':this.tiempo.check,
+                'semana':this.tiempo.check2,
+                'mes':this.tiempo.check3,
+            });
+            this.calculartotal();
+            this.id++;
+            this.cantidad=1;
+            this.producto_select=0;
+            this.tiempo.tiempo=1;
+            this.tiempo.check=false;
+            this.tiempo.check2=false;
+            this.tiempo.check3=false; 
+        }else{
+            swal({
+                title: "Debe selecionar los campos requeridos para el detalle!",
+                type: 'error',
+            });
+        }
         },
         obtenernombre:function(pk){
             this.boolproductoselect=false;
@@ -345,7 +345,13 @@ export default {
                 this.mes_producto= this.maquinas[pk-1].mes;
                 this.garantia= this.maquinas[pk-1].precio;
             }
-            
+            if(pk==0){
+                this.nombre_producto="";
+                this.hora_producto= 0;
+                this.semana_producto= 0;
+                this.mes_producto= 0;
+                this.garantia= 0;
+            }
         },
         check:function(key){
             this.boolckeck=false;

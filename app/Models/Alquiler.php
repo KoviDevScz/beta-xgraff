@@ -31,7 +31,7 @@ class Alquiler extends Model
         'fecha_devolucion' => 'datetime:d-m-Y hh:ss',
     ];
     protected $fillable = [
-        'cliente_id','empleado_id', 
+        'cliente_id','personal_id', 
         'monto_total', 'garantia',
         'fecha_alquiler','fecha_devolucion'
     ];
@@ -40,8 +40,8 @@ class Alquiler extends Model
     {
         return $this->belongsTo('App\Models\Cliente');
     }
-    public function empleado()
+    public function personal()
     {
-        return $this->belongsTo('App\Models\Empleado');
+        return $this->belongsTo('App\Models\Personal');
     }
 }

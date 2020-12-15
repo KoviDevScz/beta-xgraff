@@ -16,7 +16,7 @@ class CreateAlquilerTable extends Migration
         Schema::create('alquileres', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('cliente_id');
-            $table->unsignedBigInteger('empleado_id');
+            $table->unsignedBigInteger('personal_id');
             $table->double('monto_total',8,2)->unsigned();
             $table->double('garantia',8,2)->unsigned();
             $table->dateTime('fecha_alquiler');            
@@ -24,7 +24,7 @@ class CreateAlquilerTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('cliente_id')->references('id')->on('clientes');
-            $table->foreign('empleado_id')->references('id')->on('empleados');
+            $table->foreign('personal_id')->references('id')->on('personals');
         });
     }
 

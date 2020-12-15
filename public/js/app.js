@@ -2195,6 +2195,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _context.next = 4;
                 return axios.post('/alquiler', {
+                  personal_id: _this.vendedor_select,
                   cliente_id: _this.cliente_select,
                   garantia: _this.garantia_mayor,
                   total: _this.total,
@@ -2218,7 +2219,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 7:
                 console.log('no productos en el detalle');
                 swal({
-                  title: "Por favor seleccione articulos!",
+                  title: "No hay articulos en el detalle!",
                   type: 'warning'
                 });
 
@@ -2235,7 +2236,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   showConfirmButton: false,
                   timer: 2000
                 });
-                console.log(_context.t0);
+                console.log(_context.t0.response);
 
               case 15:
               case "end":
@@ -2248,6 +2249,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     añadir: function aAdir() {
       if (this.cliente_select == 0) {
         this.boolcliente = true;
+      }
+
+      if (this.vendedor_select == 0) {
+        this.boolvendedor = true;
       }
 
       if (this.producto_select == 0) {
@@ -2341,6 +2346,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         this.semana_producto = this.maquinas[pk - 1].semana;
         this.mes_producto = this.maquinas[pk - 1].mes;
         this.garantia = this.maquinas[pk - 1].precio;
+      }
+
+      if (pk == 0) {
+        this.nombre_producto = "";
+        this.hora_producto = 0;
+        this.semana_producto = 0;
+        this.mes_producto = 0;
+        this.garantia = 0;
       }
     },
     check: function check(key) {
@@ -52407,19 +52420,24 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.vendedor_select = $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            }
+                            change: [
+                              function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.vendedor_select = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              },
+                              function($event) {
+                                _vm.boolvendedor = false
+                              }
+                            ]
                           }
                         },
                         [
@@ -52433,7 +52451,7 @@ var render = function() {
                             return _c(
                               "option",
                               { domProps: { value: empleado.id } },
-                              [_vm._v(_vm._s(empleado.name) + " ")]
+                              [_vm._v(_vm._s(empleado.nombre) + " ")]
                             )
                           })
                         ],
@@ -52468,7 +52486,7 @@ var render = function() {
                       }
                     }),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-4 col-sm-4" }, [
+                    _c("div", { staticClass: "col-4 " }, [
                       _c(
                         "select",
                         {
@@ -52513,7 +52531,10 @@ var render = function() {
                           _vm._l(_vm.maquinas, function(producto) {
                             return _c(
                               "option",
-                              { domProps: { value: producto.id } },
+                              {
+                                staticStyle: {},
+                                domProps: { value: producto.id }
+                              },
                               [_vm._v(_vm._s(producto.nombre))]
                             )
                           })
@@ -52537,7 +52558,7 @@ var render = function() {
                               expression: "cantidad"
                             }
                           ],
-                          staticClass: "form-control",
+                          staticClass: "form-control col-8 ",
                           attrs: {
                             type: "number",
                             min: "1",
@@ -52568,7 +52589,7 @@ var render = function() {
                     [
                       _vm._m(5),
                       _vm._v(" "),
-                      _c("div", { staticClass: "form-group col-6" }, [
+                      _c("div", { staticClass: "form-group" }, [
                         _vm._m(6),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-group row" }, [
@@ -52855,7 +52876,7 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-primary ",
-                    attrs: { type: "button", disabled: (_vm.btn = false) },
+                    attrs: { type: "button" },
                     on: {
                       click: function($event) {
                         _vm.añadir()
@@ -52930,6 +52951,9 @@ var render = function() {
                                       staticClass:
                                         "btn btn btn-round btn-outline-danger",
                                       on: {
+                                        change: function($event) {
+                                          _vm.boolcliente = true
+                                        },
                                         click: function($event) {
                                           $event.preventDefault()
                                           return _vm.products.splice(item.id, 1)
@@ -53125,39 +53149,31 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "col-5 col-sm-5 mt-1 p-0 control-label text-right" },
-      [
-        _c("strong", [
-          _vm._v("Producto"),
-          _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
-          _vm._v(":")
-        ])
-      ]
-    )
+    return _c("label", { staticClass: " mt-1 p-0 control-label text-right" }, [
+      _c("strong", [
+        _vm._v("Producto"),
+        _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
+        _vm._v(":")
+      ])
+    ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "col-5 col-sm-5 mt-1 p-0 control-label text-right" },
-      [
-        _c("strong", [
-          _vm._v("Cantidad"),
-          _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
-          _vm._v(":")
-        ])
-      ]
-    )
+    return _c("label", { staticClass: "mt-1 p-0 control-label text-right" }, [
+      _c("strong", [
+        _vm._v("Cantidad"),
+        _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
+        _vm._v(":")
+      ])
+    ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "from-group" }, [
+    return _c("div", { staticClass: "from-group col-sm-4" }, [
       _c("label", { staticClass: "mt-1 p-0 control-label" }, [
         _c("strong", [
           _vm._v(" Tiempo"),
