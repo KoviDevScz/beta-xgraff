@@ -72,7 +72,7 @@ class MaquinariaController extends Controller
      */
     public function show($id)
     {
-       
+        
     }
 
     /**

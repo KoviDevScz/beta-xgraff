@@ -4,63 +4,60 @@
             <div class="card-body row">
                 <div class="col-12 table-bordered">
                     <blockquote class="blockquote text-center">
+                        <h3 class="control-label font-24 mt-3"><strong>Registrar alquiler</strong></h3>
+                    </blockquote>
+                    <blockquote class="blockquote text-center">
                         <h6 class="control-label font-10"><strong>Todos las campos con (<span class="text-danger">*</span>) son requeridos.</strong></h6>
                     </blockquote>
                     <div class="justify-content-center align-items-center mt-1">
-                        <div class="form-group">
-                            <div class="row">
-                                <label class="col-5 col-sm-5 mt-1 p-0 control-label text-right"> <strong>Cliente<span class="text-danger">*</span>:</strong> </label>
-                                <div class="col-4 col-sm-4">
-                                    <select class="form-control" v-model="cliente_select" :class="{'is-invalid': boolcliente}" @change="boolcliente=false" >
-                                            <option value="0" selected>Selecionar</option> 
-                                            <option v-for="client in cliente" value="" v-bind:value="client.id"  >{{client.nombre}} </option>
-                                    </select>
-                                    <!-- {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!} -->
-                                </div>
+                        <div class="form-group row">
+                            <label class="col-5 col-sm-5 mt-1 p-0 control-label text-right"> <strong>Cliente<span class="text-danger">*</span>:</strong> </label>
+                            <div class="col-4 col-sm-4">
+                                <select class="form-control" v-model="cliente_select" :class="{'is-invalid': boolcliente}" @change="boolcliente=false" >
+                                        <option value="0" selected>Selecionar</option> 
+                                        <option v-for="client in cliente" value="" v-bind:value="client.id"  >{{client.nombre}} </option>
+                                </select>
+                                <!-- {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!} -->
+                            </div>                                      
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-5 col-sm-5 mt-1 p-0 control-label text-right"><strong>Vendedor<span class="text-danger">*</span>:</strong> </label>
+                            <div class="col-4 col-sm-4">
+                                <select class="form-control" v-model="vendedor_select" @change="boolvendedor=false"  >
+                                        <option value="0" selected>Selecionar</option> 
+                                        <option v-for="empleado in empleados" v-bind:value="empleado.id"  >{{empleado.nombre}} </option>
+                                </select>
+                                <!-- {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!} -->
                             </div>                                            
                         </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <label class="col-5 col-sm-5 mt-1 p-0 control-label text-right"><strong>Vendedor<span class="text-danger">*</span>:</strong> </label>
-                                <div class="col-4 col-sm-4">
-                                    <select class="form-control" v-model="vendedor_select" @change="boolvendedor=false"  >
-                                            <option value="0" selected>Selecionar</option> 
-                                            <option v-for="empleado in empleados" v-bind:value="empleado.id"  >{{empleado.nombre}} </option>
-                                    </select>
-                                    <!-- {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!} -->
-                                </div>
-                            </div>                                            
-                        </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <label class=" mt-1 p-0 control-label text-right"><strong>Producto<span class="text-danger">*</span>:</strong></label>
+                        <div class="form-group row">
+                            <label class=" mt-1 p-0 control-label text-right col-5"><strong>Producto<span class="text-danger">*</span>:</strong></label>
                             <input type="hidden" name="nombre_producto" v-model="nombre_producto">
-                            <div class="col-4 ">
+                            <div class="col-4 col-sm-4 ">
                                 <select class="form-control" v-model="producto_select" @change="obtenernombre(producto_select)"  :class="{'is-invalid': boolproductoselect}" >
                                     <option  value="0" selected>Selecionar</option>                          
                                     <option style="width=50px" v-for="producto in maquinas" :value="producto.id"  >{{producto.nombre}}</option>
                                 </select>
                                 <!-- {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!} -->
                             </div>
-                        </div> 
+                        </div>
+                    <div class="form-group"> 
                         <div class="form-group mt-2">
                             <div class="row">
-                                <label class="mt-1 p-0 control-label text-right"><strong>Cantidad<span class="text-danger">*</span>:</strong> </label>
+                                <label class="mt-1 p-0 control-label text-right col-5"><strong>Cantidad<span class="text-danger">*</span>:</strong> </label>
                                 <div class="col-4 col-sm-4">
-                                    <input type="number" class="form-control col-8 " v-model="cantidad" min="1" value="1" max=100 name="cantidad" ></input>
+                                    <input type="number" class="form-control " v-model="cantidad" min="1" value="1" max=100 name="cantidad" ></input>
                                     <!-- {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!} -->
                                 </div>
                             </div>                                            
                         </div>
-                        <div class="col-12 justify-content-center align-items-center " >
-                            <div class="from-group col-sm-4">
-                                <label class="mt-1 p-0 control-label"> <strong> Tiempo<span class="text-danger">*</span>: </strong></label>
-                            </div>
-                            <div class="form-group">
-                                <blockquote class="blockquote text-center">
+                        <div class="col-12 justify-content-center align-items-center row" >
+                            <label class="mt-1 p-0 control-label col-2 ml-3 text-right"> <strong> Tiempo<span class="text-danger">*</span>: </strong></label>
+                            <div class="form-group col-4">
                                     <h6 class="control-label font-10 p-0 mt-3"><strong>Selecione 1 opción.</strong></h6>
+                                <blockquote class="blockquote text-center">
                                 </blockquote>
-                                <div class="form-group row">
+                                <div class="form-group row ml-3">
                                     <div class="form-check form-check-inline" :class="{'is-invalid': boolcheck}">
                                         <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio1" v-model="tiempo.check" @change="check(tiempo.check)" :class="{'is-invalid': boolcheck}">
                                         <label class="form-check-label" for="inlineRadio1">Hora</label>
@@ -81,15 +78,13 @@
                         </div>
                     </div>
                     </div>
-                    
-                    
                     <div class="justify-content-center align-items-center row mt-1">
                         <button type="button" class="btn btn-primary " v-on:click="añadir()" ><i class="feather icon-plus"></i> Añadir</button>
                     </div>
                 </div>
                 <div class="col-12">
                     <blockquote class="blockquote text-center">
-                        <h3 class="control-label font-16"><strong>Detalle del alquiler</strong></h3>
+                        <h3 class="control-label font-16 mt-3"><strong>Detalle del alquiler</strong></h3>
                     </blockquote>
                     <div class="row table-responsive">
                         <table id="default-datatable" class="table table-bordered mt-3 ">
@@ -107,13 +102,13 @@
                                 <tr v-if="isloadingProduct" >
                                     <td rowspan="2" colspan="4" align="center">No hay maquinaria cargadas...</td>
                                 </tr>                                    
-                                <tr v-else v-for="item in products" :key="item.id" class="text-center">                                    
+                                <tr v-else v-for="(item,index) in products" :key="item.id" class="text-center">                                    
                                     <td >{{item.nombre_producto}}</td>
                                     <td >{{item.cantidad_producto}}</td>
                                     <td >{{item.precio_producto}}</td>
                                     <td >{{item.garantia}}</td>
                                     <td >{{item.dia}}</td>
-                                    <td ><button class="btn btn btn-round btn-outline-danger" @change="boolcliente=true"  @click.prevent="products.splice(item.id,1)"> <i class="feather icon-trash-2"></i></button></td>
+                                    <td ><button class="btn btn btn-round btn-outline-danger"   @click.prevent="eliminarcolumna(index)"> <i class="feather icon-trash-2"></i></button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -128,14 +123,14 @@
                         </div>
                         <div class="form-group">
                             <div class="row justify-content-center align-items-center">
-                                <label class="col-sm-6 p-0 control-label text-right" ><strong>Total:</strong> </label>
-                                <label class="col-4 col-sm-4 mt-1 control-label"  > {{total}} Bs. </label>
+                                <label class="col-sm-6 p-0 control-label text-right"  ><strong>Total:</strong> </label>
+                                <label class="col-4 col-sm-4 mt-1 control-label"    v-model="total" > {{total}} Bs. </label>
                             </div>                                            
                         </div>
                         <div class="form-group">
                             <div class="row justify-content-center align-items-center">
                                 <label class="col-sm-6 p-0 control-label text-right" ><strong>Garantia:</strong> </label>
-                                <label class="col-4 col-sm-4 mt-1 control-label"  ><strong> {{garantia_mayor}}</strong> Bs. </label>
+                                <label class="col-4 col-sm-4 mt-1 control-label" @change="garantiamayor()" v-model="garantia_mayor" ><strong> {{garantia_mayor}}</strong> Bs. </label>
                             </div>                                            
                         </div>
                     </div>                    
@@ -168,7 +163,7 @@ export default {
             cliente_select:0,
             vendedor_select:0,
             fechas:'',
-            fecha_devolucion:'',
+            fechadevolucion:'',
             maquinas:JSON.parse(this.maquinarias),
             cantidad:1,
             producto_select:0,
@@ -199,23 +194,25 @@ export default {
             boolcheck:false,
             boolcheck2:false,
             boolcheck3:false,
+            fecha_devolucion2:'',
             totales:0
         }
     },
     updated(){
             this.fecha();
-            this.created() 
-        },
+            this.created();
+            
+    },
     /* validations:  {
         tiempo:{required},
         validacionform:['tiempo']
     }, */
     computed: {
-
+        
     },
     methods:{
         fecha(){
-            this.fechas= moment().format('MMMM Do YYYY, h:mm:ss a');
+            this.fechas= moment().format('MMMM Do YYYY, h:mm a');
         },
         async agregar(){
             try {
@@ -295,18 +292,15 @@ export default {
             }
             this.isloadingProduct=false;
             if (this.tiempo.check==true) {
-                var date = moment().add(this.tiempo.tiempo, 'hours').format('DD-MM-YYYY hh:mm:ss');
+                var date = moment().add(this.tiempo.tiempo, 'hours').format('DD-MM-YYYY h:mm a');
             }
             if (this.tiempo.check2==true) {
-                var date = moment().add(this.tiempo.tiempo, 'weeks').format('DD-MM-YYYY hh:mm:ss');
+                var date = moment().add(this.tiempo.tiempo, 'weeks').format('DD-MM-YYYY h:mm a');
             }
             if (this.tiempo.check3==true) {
-                var date = moment().add(this.tiempo.tiempo, 'months').format('DD-MM-YYYY hh:mm:ss');
+                var date = moment().add(this.tiempo.tiempo, 'months').format('DD-MM-YYYY h:mm a');
             }
-            this.garantia_mayor
-            if(this.garantia_mayor<this.garantia){
-                this.garantia_mayor=this.garantia;
-            }
+            this.garantiamayor();
             this.products.push(
             {  
                 'garantia':this.garantia,
@@ -321,6 +315,7 @@ export default {
                 'semana':this.tiempo.check2,
                 'mes':this.tiempo.check3,
             });
+            this.garantiamayor();
             this.calculartotal();
             this.id++;
             this.cantidad=1;
@@ -336,6 +331,27 @@ export default {
             });
         }
         },
+        restar(){
+            this.total =this.total-this.totales;
+            this.totales =this.totales-this.totales;
+            this.calculartotal();
+            this.garantiamayor();
+        },
+        garantiamayor(){
+            this.calculartotal();
+            this.garantia_mayor=0;
+            if(this.garantia_mayor<this.garantia){
+                this.garantia_mayor=this.garantia;
+            }
+            if(this.garantia_mayor>this.garantia2){   
+                this.garantia_mayor=this.garantia2;
+            }
+        },
+        eliminarcolumna(index){
+            this.products.splice(index,1);
+            this.restar();
+        },
+        
         obtenernombre:function(pk){
             this.boolproductoselect=false;
             if (pk!='') {
@@ -383,16 +399,19 @@ export default {
             })
             this.total +=this.products.reduce((n, {precio_producto}) => n + precio_producto, 0)
         },
+        calcularfecha(){
+            /* this.fechadevolucion = 0;
+            this.products.forEach((item) => { 
+                this.fechadevolucion=Math.max(item.dia);
+            }) */
+        },
         updateCurrentTime() {
-
-            this.currentTime = moment().format("DD-MM-YYYY hh:mm:ss");
+            this.currentTime = moment().format("DD-MM-YYYY h:mm a");
         },
         created() {
-            this.currentTime = moment().format("DD-MM-YYYY hh:mm:ss");
+            this.currentTime = moment().format("DD-MM-YYYY h:mm a");
             setInterval(() => this.updateCurrentTime(), 1 * 1000);
         }
-
-    } ,  
-    
+    },
 }
 </script>
