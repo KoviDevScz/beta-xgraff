@@ -54,33 +54,38 @@ Alquiler
                 </div>
                 <div class="card-body">
                     <div class="table-responsive m-b-30">
-                        <table class="table table-hover">
-                            <thead>
+                        <table class="table table-hover table-striped">
+                            <thead class="thead-dark text-center">
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">Codigo</th>
+                                    <th scope="col">Nombre del cliente</th>
+                                    <th scope="col">Monto Total</th>
+                                    <th scope="col">Garantia</th>
+                                    <th scope="col">Fecha del alquiler</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td colspan="2">Larry the Bird</td>
-                                    <td>@twitter</td>
-                                </tr>
+                            <tbody class="table-striped text-center">
+                                @forelse ($alquileres as $alquiler)
+                                <tr class="text-center">
+                                        <th scope="row">{{$alquiler->id}}</th>
+                                        <th >{{$alquiler->cliente->nombre}}</th>
+                                        <td>{{$alquiler->monto_total}}</td>
+                                        <td>{{$alquiler->garantia}}</td>
+                                        <td>{{$alquiler->fecha_alquiler->format('d-m-Y H:i')}}</td>
+                                        <td>{{$alquiler->estado}}</td>
+                                        <td>
+                                            <a class="btn btn btn-round btn-outline-warning m-r-5" href="{{route('alquiler.edit',$alquiler->id )}}" ><i class="feather icon-settings"></i></a>
+                                            <button type="button" class="btn btn btn-round btn-outline-info m-r-5" data-toggle="modal" data-target="#infoalquiler{{$alquiler->id}}"><i class="feather icon-settings"></i></button>
+                                            <button type="button" class="btn btn btn-round btn-outline-danger m-r-5" data-toggle="modal" data-target="#editarmaqui{{$alquiler->id}}"><i class="feather icon-settings"></i></button>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr class="text-center">
+                                        <th colspan="4" scope="col">No hay alquileres registrados</th>                                    
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

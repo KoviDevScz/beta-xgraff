@@ -11,6 +11,10 @@ class Personal extends Model
     protected $table='personals';
     protected $primaryKey='id';
     protected $fillable = [
-       'nombre','ci', 'telf','direccion','foto',
+        'nombre','ci', 'telf','direccion','foto',
     ];
+    public function detalle_alquiler()
+    {
+        return $this->hasMany('App\Models\Detalle_Alquiler_Maquinaria_Cliente');
+    }
 }

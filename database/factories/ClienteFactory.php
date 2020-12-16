@@ -84,7 +84,7 @@ $this->direccion=[
 
 $this->indice_cliente=0;
 $factory->define(Cliente::class, function(Faker $faker){
-    $i = $this-> indice_cliente++;
+    $i = $this->indice_cliente++;
     return [
         'nombre'=>$this->nombre[$i],
         'ci'=>$this->ci[$i],

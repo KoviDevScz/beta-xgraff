@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Devolucion extends Model
 {
     use SoftDeletes;
+    protected $table='devoluciones';
     protected $primaryKey='id';
     /**
      * The attributes that should be mutated to dates.
@@ -18,7 +19,6 @@ class Devolucion extends Model
         'fecha_retiro',
         'fecha_devolucion',
     ];
-
     
     /**
      * The attributes that should be cast to native types.
@@ -31,7 +31,7 @@ class Devolucion extends Model
     ];
     protected $fillable = [
         'alquiler_id','cliente_id','empleado_id', 
-        'garantia_devolucion','fecha_alquiler','fecha_devolucion'
+        'garantia_devolucion','fecha_alquiler','fecha_retiro'
     ];
     public function cliente()
     {

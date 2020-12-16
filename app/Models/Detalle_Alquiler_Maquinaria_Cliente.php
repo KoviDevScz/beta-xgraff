@@ -22,4 +22,8 @@ class Detalle_Alquiler_Maquinaria_Cliente extends Model
     {
         return $this->belongsTo('App\Models\Alquiler');
     }
+    public function personal()
+    {
+        return $this->hasMany('App\Models\Personal');
+    }
 }

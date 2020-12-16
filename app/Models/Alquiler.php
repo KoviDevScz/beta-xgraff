@@ -44,4 +44,8 @@ class Alquiler extends Model
     {
         return $this->belongsTo('App\Models\Personal');
     }
+    public function detalle()
+    {
+        return $this->belongsTo('App\Models\Detalle_Alquiler_Maquinaria_Cliente');
+    }
 }

@@ -13,6 +13,6 @@ class PersonalSeeder extends Seeder
     public function run()
     {
         //
-        factory(Personal::class)->times(5)->create();
+        factory(Personal::class)->times(4)->create();
     }
 }

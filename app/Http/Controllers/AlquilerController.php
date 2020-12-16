@@ -12,6 +12,7 @@ use App\User;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AlquilerController extends Controller
 {
@@ -22,7 +23,8 @@ class AlquilerController extends Controller
      */
     public function index()
     {
-        return view('alquiler.index');
+        $alquileres=Alquiler::paginate(10);
+        return view('alquiler.index',compact('alquileres'));
     }
 
     /**
@@ -54,7 +56,7 @@ class AlquilerController extends Controller
             'personal_id'=>$requestdata['personal_id'],
             'monto_total'=>$requestdata['total'],
             'garantia'=>$requestdata['garantia'],
-            'fecha_alquiler'=>date('Y-m-d H:i:m'),
+            'fecha_alquiler'=>date('Y-m-d H:i'),
             ]);
             if($datos){
             foreach ($producto as $key => $value) {
@@ -91,7 +93,16 @@ class AlquilerController extends Controller
      */
     public function edit($id)
     {
-        //
+        if ($id!=0) {
+            $alquiler=Alquiler::where('id',$id)->get();
+            $maquinarias=DB::table('detalle_alquiler_maquinaria_cliente')
+                                ->select('maquinarias.*','detalle_alquiler_maquinaria_cliente.id as detalle_id','detalle_alquiler_maquinaria_cliente.*')
+                                ->join('maquinarias','maquinarias.id','=','detalle_alquiler_maquinaria_cliente.maquinaria_id')
+                                ->get();
+            return view('devolucion.create',compact('alquiler','maquinarias' ));
+        } else {
+            return back()->with('error','No hay alquiler con ese codigo');
+        }
     }
 
     /**

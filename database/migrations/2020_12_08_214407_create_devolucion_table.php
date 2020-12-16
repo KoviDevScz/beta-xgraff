@@ -17,16 +17,16 @@ class CreateDevolucionTable extends Migration
             $table->id();
             $table->unsignedBigInteger('alquiler_id');
             $table->unsignedBigInteger('cliente_id');
-            $table->unsignedBigInteger('empleado_id')->nullable();
+            $table->unsignedBigInteger('personal_id')->nullable();
             $table->double('garantia_devolucion')->nullable();
-            $table->dateTime('fecha_retiro');
+            $table->dateTime('fecha_alquiler');
             $table->dateTime('fecha_devolucion')->nullable();
             $table->unsignedTinyInteger('estado')->default(1);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('alquiler_id')->references('id')->on('alquileres');
             $table->foreign('cliente_id')->references('id')->on('clientes');
-            $table->foreign('empleado_id')->references('id')->on('empleados');
+            $table->foreign('personal_id')->references('id')->on('personals');
         });
     }
 

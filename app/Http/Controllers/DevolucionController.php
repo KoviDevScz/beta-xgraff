@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alquiler;
+use App\Models\Detalle_Alquiler_Maquinaria_Cliente;
+use App\Models\Devolucion;
+use App\Models\Maquinaria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,8 +19,6 @@ class DevolucionController extends Controller
     public function index(Request $request)
     {
         
-        
-
         return view('devolucion.index');
     }
 
@@ -27,26 +28,8 @@ class DevolucionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {   
-        $productos=[];
-        $alquiler=[];
-        if($request->get('busqueda')){
-            $alquiler = Alquiler::where("id", "LIKE", "%{$request->get('busqueda')}%")
-                ->paginate(5);
-
-            return view('devolucion.create')->with('buscar', $alquiler);
-        }
-        /* $id=$request->get('buscar');
-            $alquiler=DB::table('alquileres')
-            ->select('alquileres.*','detalle_alquiler_maquinaria_cliente.id as dal_id')
-            ->join('detalle_alquiler_maquinaria_cliente','detalle_alquiler_maquinaria_cliente.alquiler_id','=','alquileres.id')
-            ->where('alquileres.id','=',$id)
-            ->get();
-        $productos= DB::table('alquileres')
-                    ->select('alquileres.*','detalle_alquiler_maquinaria_cliente.id as dal_id')
-                    ->join('detalle_alquiler_maquinaria_cliente','detalle_alquiler_maquinaria_cliente.alquiler_id','=','alquileres.id')
-                    ->get(); */
-        return view('devolucion.create',compact('productos','alquiler'));
+    {  
+        //
     }
 
     /**
@@ -57,7 +40,32 @@ class DevolucionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /* dd($request); */
+        $maquinarias=DB::table('detalle_alquiler_maquinaria_cliente')
+                                ->select('maquinarias.*','detalle_alquiler_maquinaria_cliente.id as detalle_id','detalle_alquiler_maquinaria_cliente.*')
+                                ->join('maquinarias','maquinarias.id','=','detalle_alquiler_maquinaria_cliente.maquinaria_id')
+                                ->get();
+        $requestdata=$request->except('_token');
+        $datos= Devolucion::create([
+            'alquiler_id'=>$requestdata['alquiler_id'],
+            'cliente_id'=>$requestdata['cliente_id'],
+            'empleado_id'=>$requestdata['personal_id'],
+            'garantia_devolucion'=>$requestdata['garantia'],
+            'fecha_retiro'=>date("Y-m-d h:i",strtotime($requestdata['fecha'])),
+            'fecha_devolucion'=>date('Y-m-d H:i'),
+        ]);
+            if($datos){
+            foreach ($maquinarias as $key => $value) {
+                /* dd($value['dia']);
+                $value['dia']=str_replace(' ','-',$value['dia']); */
+                Detalle_Alquiler_Maquinaria_Cliente::create([
+                    'alquiler_id'=>$datos->id,
+                    'maquinaria_id'=>$value['maquinaria_id'],
+                    'cantidad'=>$value['cantidad'],
+                ]);
+            }
+        }
+        return redirect('devolucion')->with('success', 'alquiler devuelto exitosamente!');
     }
 
     /**

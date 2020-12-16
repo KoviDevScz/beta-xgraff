@@ -9,7 +9,7 @@ class Empleados extends Model
 {
     use SoftDeletes;
     
-    protected $table='empleados';
+    protected $table='personals';
     protected $primaryKey='id';
     
     protected $fillable = [

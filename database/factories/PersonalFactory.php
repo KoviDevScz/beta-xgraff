@@ -5,7 +5,7 @@
 use App\Model;
 use App\Models\Personal;
 use Faker\Generator as Faker;
-
+/* 
 $this->nombre=[
     'Carlos',
     'Susana',
@@ -35,7 +35,7 @@ $this->direccion=[
 ];
 
 $this->indice_personal=0;
-$factory->define(Personal::class, function(Faker $faker){
+$factory->define(Empleado::class, function(Faker $faker){
     $i = $this->indice_personal++;
     return[
         'nombre'=>$this->nombre[$i],
@@ -43,4 +43,4 @@ $factory->define(Personal::class, function(Faker $faker){
         'telf'=>$this->telf[$i],
         'direccion'=>$this->direccion[$i],
     ];
-});
+}); */

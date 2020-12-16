@@ -17,86 +17,100 @@ Registrar
 
 @endsection 
 @section('rightbar-content')
-<!-- Start Contentbar -->   
-<div class="topbar">
-    <div class="row">
-        <div class="col-md-12 col-lg-12 col-xl-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="text-center mt-3">Buscar alquiler</h4>
-                    <form class="justify-content-center align-items-center ">
-                        <div class="form-group row">
-                            <label for="inputEmail3" class="text-right col-5 col-form-label "> <strong> Codigo alquiler:</strong></label>
-                            <input type="search" class="form-control col-2" id="inputEmail3" name="buscar" placeholder="codigo">
-                            <button type="button" class="btn btn-primary  ml-1">Buscar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> 
-<div class="contentbar">                
+<!-- Start Contentbar -->    
+<div class="contentbar" style="margin-top: -100px">                
     <!-- Start row -->
     <div class="row">
         <!-- Start col -->
         <div class="col-md-12 col-lg-12 col-xl-12">
             <div class="card col-12">
                 <div class="card-head col mx-auto">
-                    <h4 class="text-center mt-3">Alquiler</h4>
-                    <form class="row col-12 mt-3">
-                        <div class="row ml-3">
-                            <div class="form-group">
-                                <div class="form-group row">
-                                    <label for="inputEmail3" class="col-4 text-right col-form-label ">Cliente:</label>
-                                    <input  disabled type="text" name="cliente_id" id="cliente_id" class="form-control col-8" value="{{ 'No hay cliente' ,old('cliente_id',(isset($alquiler[0]->cliente_id))) }}">
-                                    
+                    <h4 class="text-center mt-3">Devolución del alquiler</h4>
+                </div>
+                <div class="card-body ">
+                    <form action="{{route('devolucion.store')}}" method="POST">
+                        @csrf
+                        <div class="row form-group justify-content-center align-items-center col-12">
+                            <div class="col-4 row justify-content-center align-items-center">
+                                <div class="form-group row ">
+                                    <input  type="hidden" name="alquiler_id" id="alquiler_id" class="form-control " value="{{ $alquiler[0]->id }}">
+                                    <label for="inputEmail3" class="col-form-label ">Empleado:</label>
+                                    <input  readonly type="text"  class="form-control " value="{{ $alquiler[0]->personal->nombre }}">                                    
+                                    <input  type="hidden" name="personal_id" id="personal_id" class="form-control " value="{{ $alquiler[0]->personal_id }}">                                    
+                                </div>
+                                <div class="form-group row ">
+                                    <label for="inputEmail3" class="col-form-label ">Cliente:</label>
+                                    <input  readonly type="text"  class="form-control " value="{{ $alquiler[0]->cliente->nombre }}">                                    
+                                    <input  type="hidden" name="cliente_id" id="cliente_id" class="form-control " value="{{ $alquiler[0]->cliente_id }}">                                    
+                                </div>
+                                <div class="form-group row ">
+                                    <label for="inputEmail3" class="col-form-label ">Garantia:</label>    
+                                    <input  readonly type="text" class="form-control" name="garantia" id="garantia" value="{{ ($alquiler[0]->garantia) }}">
+                                    {{-- <input  type="hidden" name="garantia" id="cliente_id" class="form-control " value="{{ $alquiler[0]->garantia }}"> --}}
                                 </div>
                             </div>
+                            <div class="row col-4 justify-content-center align-items-center ml-3">
+                                <div class="form-group row">
+                                    <label for="inputEmail3" class="col-form-label ">Fecha de alquiler:</label>
+                                    <input type="text" class="datepicker-here form-control" readonly
+                                                                                    data-language="es" data-time-format='d-m-Y H:i'  aria-describedby="basic-addon2"  required name="fecha" value="{{\Carbon\Carbon::parse($alquiler[0]->fecha_alquiler)->format('d-m-Y H:i')}}"/>
+                                    {{-- {{dd($alquiler[0])}} --}}
+                                </div>
+                                <div class="form-group row ">
+                                    <label for="inputEmail3" class="col-form-label ">Monto Total:</label>
+                                    <input  readonly type="text" class="form-control" name="monto_total" id="monto_total" value="{{($alquiler[0]->monto_total) }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group justify-content-center align-items-center">
+                        </div>
+                        <div class="table-responsive m-b-30">
+                            <div>
+                                <h5 class="text-center">Detalle del alquiler</h5>
+                            </div>
+                            <table class="table table-hover table-bordered">
+                                <thead class="thead-dark">
+                                    <tr style="text-center">
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">cantidad</th>
+                                        <th scope="col">Precio</th>
+                                        <th  scope="col">Fecha de devolución</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-striped">
+                                    {{-- {{dd($maquinarias)}} --}}
+                                    @forelse ($maquinarias as $maquinaria)
+                                        <tr class="text-center" >                                  
+                                            <th >{{$maquinaria->nombre}}</th>                                    
+                                            <th >{{$maquinaria->cantidad}}</th>                                    
+                                            <th >{{$maquinaria->monto}}</th>                                    
+                                            <th >{{ date("Y-m-d H:i",strtotime($maquinaria->fecha_devolucion) ) }}</th>                                    
+                                        </tr>
+                                    @empty
+                                        <tr class="text-center">
+                                            <th colspan="4" scope="col">No hay productos cargados</th>                                    
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row justify-content-center align-items-center">
                             <div class="form-group row">
-                                <label for="inputEmail3" class="col-8 text-right col-form-label ">Garantia:</label>    
-                                <input  disabled type="text" class="form-control col-4" name="garantia" id="garantia" value="{{ '0' ,old('garantia',(isset($alquiler[0]->garantia))) }}">
+                                <label for="inputEmail3" class="col-form-label ">Multa:</label>
+                                <input  disabled type="text" class="form-control " name="multa" id="multa" value="{{0}}">
                             </div>
-                            <div class="form-group">
-                                <div class="form-group row">
-                                    <label for="inputEmail3" class="col-8  text-right col-form-label ">Fecha de alquiler:</label>
-                                    <input  disabled type="text" class="form-control col-4" name="fecha_alquiler" id="fecha_alquiler" value="{{ 'dd-mm-yyyy' ,old('fecha_alquiler',(isset($alquiler[0]->fecha_alquiler)) ) }}">
-                                </div>
+                            <div class="form-group row ml-5">
+                                <label for="inputEmail3" class="col-form-label ">Observacion</label>
+                                <input  type="text" class="form-control " name="observacion" id="observacion" placeholder="Observaciones" value="">
+                            </div>  
+                        </div>
+                        <div class="card-footer">
+                            <div class="modal-footer justify-content-center align-items-center row">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-success" data-dismiss="modal">Registrar</button>
                             </div>
                         </div>
                     </form>
-                </div>
-                <div class="card-body ">
-                    <div class="table-responsive m-b-30">
-                        <div>
-                            <h5 class="text-center">Detalle del alquiler</h5>
-                        </div>
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">cantidad</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($productos as $producto)
-                                <tr>
-                                    <th scope="row"> $producto->nombre</th>
-                                    <td>$producto->monto</td>
-                                    <td>$producto->fecha_devolucion</td>
-                                </tr>
-                                @endforeach                                
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="modal-footer justify-content-center align-items-center row">
-                        <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>
-                    </div>
                 </div>
             </div>
         </div>
