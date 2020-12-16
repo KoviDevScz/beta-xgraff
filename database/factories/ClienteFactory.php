@@ -6,12 +6,12 @@ use App\Model;
 use App\Models\Cliente;
 use Faker\Generator as Faker;
 
-$this->nombre=[
-    'Antonio',
-    'José',
-    'Manuel',
-    'Francisco',
-    'David',
+$this->nom=[
+    'Antonio Flores',
+    'José Lopez Zuaco',
+    'Manuel Gutierrez Choque',
+    'Francisco Roda Lirio',
+    'David Suarez Urquizu',
     'Javier',
     'Lucía',
     'Daniela',
@@ -86,7 +86,7 @@ $this->indice_cliente=0;
 $factory->define(Cliente::class, function(Faker $faker){
     $i = $this->indice_cliente++;
     return [
-        'nombre'=>$this->nombre[$i],
+        'nombre'=>$this->nom[$i],
         'ci'=>$this->ci[$i],
         'telf'=>$this->telf[$i],
         'direccion'=>$this->direccion[$i],

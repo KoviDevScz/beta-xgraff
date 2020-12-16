@@ -32,7 +32,7 @@ Maquinarias
     <div class="modal fade" id="crearmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg " role="document">
             <div class="modal-content ">
-                <form class="form-validate" action="{{route('maquinaria.store')}}" id="form" method="post">
+                <form class="form-validate" autocomplete="off" action="{{route('maquinaria.store')}}" id="form" method="post">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalCenterTitle">Crear nueva maquinaria</h5>
@@ -67,11 +67,19 @@ Maquinarias
                             </div>
                             <div class="form-group">
                                 <div class="row">
+                                    <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Precio<span class="text-danger">*</span>:</label>
+                                    <div class="col-8 col-sm-8">
+                                        <input type="text" class="form-control {{ $errors->has('precio') ? 'is-invalid' : ''}}" required name="precio" placeholder="precio" value="{{ old('precio',1)}}">
+                                        {!! $errors->first('precio', '<p class="help-block text-danger">:message</p>') !!}
+                                    </div>
+                                </div>                                            
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
                                     <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Categoría<span class="text-danger">*</span>:</label>
                                     <div class="col-8 col-sm-8">
                                         @if (!$categorias->isEmpty())
                                             <select class="form-control {{ $errors->has('categoria') ? 'is-invalid' : ''}}" id="categoria" name="categoria" required placehol>
-                                                
                                                     @foreach ($categorias as $categoria)
                                                         <option value="{{  $categoria->id }}" {{ old('categoria') == $categoria->id ? 'selected' : '' }}>{{$categoria->nombre}}</option>
                                                     @endforeach
@@ -88,15 +96,6 @@ Maquinarias
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Precio<span class="text-danger">*</span>:</label>
-                                    <div class="col-8 col-sm-8">
-                                        <input type="text" class="form-control {{ $errors->has('precio') ? 'is-invalid' : ''}}" required name="precio" placeholder="precio" value="{{ old('precio',1)}}">
-                                        {!! $errors->first('precio', '<p class="help-block text-danger">:message</p>') !!}
-                                    </div>
-                                </div>                                            
-                            </div>
                             <div class="form-group">
                                 <div class="row">
                                     <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Hora:</label>
@@ -276,14 +275,19 @@ Maquinarias
                                                                             </div>
                                                                         </div>                                            
                                                                     </div>
-                                                                    <div class="form-group">
-                                                                        <div class="row">
-                                                                            <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Mes:</label>
-                                                                            <div class="col-8 col-sm-8">
-                                                                                <input type="text" class="form-control {{ $errors->has('mes') ? 'is-invalid' : ''}}" name="mes" placeholder="mes" required value="{{ isset($maquinaria->mes) ? $maquinaria->mes : old('mes')}}">
-                                                                                {!! $errors->first('mes', '<p class="help-block text-danger">:message</p>') !!}
-                                                                            </div>
-                                                                        </div>                                            
+                                                                    <div class="form-group row">
+                                                                        <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Mes:</label>
+                                                                        <div class="col-8 col-sm-8">
+                                                                            <input type="text" class="form-control {{ $errors->has('mes') ? 'is-invalid' : ''}}" name="mes" placeholder="mes" required value="{{ isset($maquinaria->mes) ? $maquinaria->mes : old('mes')}}">
+                                                                            {!! $errors->first('mes', '<p class="help-block text-danger">:message</p>') !!}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Garantia:</label>
+                                                                        <div class="col-8 col-sm-8">
+                                                                            <input type="text" class="form-control {{ $errors->has('garantia') ? 'is-invalid' : ''}}" name="garantia" placeholder="garantia" required value="{{ isset($maquinaria->garantia) ? $maquinaria->garantia : old('garantia')}}">
+                                                                            {!! $errors->first('garantia', '<p class="help-block text-danger">:message</p>') !!}
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -505,8 +509,6 @@ Maquinarias
                 },
                 maxDate: new Date(),
             });
-            
-
        /* --- Form - Datepicker -- */
     });
 </script>

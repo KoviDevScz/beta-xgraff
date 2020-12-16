@@ -27,7 +27,7 @@ Personal
 <div class="modal fade" id="crearmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content ">
-            <form class="form-validate" action="{{route('personal.store')}}" id="form" method="post" enctype="multipart/form-data">
+            <form class="form-validate" autocomplete="off" action="{{route('personal.store')}}" id="form" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Registrar Personal</h5>

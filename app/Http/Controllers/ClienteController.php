@@ -15,7 +15,7 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes= Cliente::get();
+        $clientes= Cliente::latest()->paginate(10);
         return view('cliente.index',compact('clientes'));
     }
 
@@ -78,8 +78,8 @@ class ClienteController extends Controller
      */
     public function update(ClienteRequest $request, $id)
     {
-        $requestdata=$request->except('_token');
-        $requestdata=$request->except('_token');
+        
+        $requestdata=$request->except('_token','method');
         Cliente::where('id',$id)->update([
             'nombre'=>$requestdata['nombre'],
             'ci'=>$requestdata['ci'],

@@ -38,7 +38,7 @@ class ClienteRequest extends FormRequest
             'nombre.min'        => 'El campo tiene que ser mayor a :max caracteres',
             'ci.required'   => 'Usted no ha selecionado una categoría',
             'ci.max'        => 'El campo no puede exceder :max caracteres',
-            'ci.min'        => 'El campo tiene que ser mayor a :max caracteres',
+            'ci.min'        => 'El campo tiene que ser mayor a :min caracteres',
             'telf.required'=> 'El campo :attribute no puede estar vacio',
             'telf.max'        => 'El campo no puede exceder :max caracteres',
             'telf.min'        => 'El campo tiene que ser mayor a :max caracteres',

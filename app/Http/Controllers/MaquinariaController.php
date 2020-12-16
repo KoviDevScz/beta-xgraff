@@ -43,18 +43,25 @@ class MaquinariaController extends Controller
     public function store(MaquinariaRequest $request)
     {
         $requestdata=$request->except('_token');
-        Maquinaria::create([
-            'nombre'=>$requestdata['nombre'],
-            'categoria_id'=>$requestdata['categoria'],
-            'nombre'=>$requestdata['nombre'],
-            'fecha_compra'=>date("Y-m-d h:i:s",strtotime($requestdata['fecha']) ),
-            'garantia'=>$requestdata['precio'],
-            'precio'=>$requestdata['precio'],
-            'hora'=>$requestdata['hora'],
-            'semana'=>$requestdata['semana'],
-            'mes'=>$requestdata['mes'],
-            ]);
-        return redirect('maquinaria')->with('success', 'Maquinaria creada exitosamente!');
+        $garantia=0;
+        $total=100;
+        $garantia =$requestdata['precio']/$total  * 30;
+        if ($requestdata['precio']!=1&&$requestdata['hora']!=1&&$requestdata['semana']!=1&&$requestdata['mes']!=1) {
+            Maquinaria::create([
+                'nombre'=>$requestdata['nombre'],
+                'categoria_id'=>$requestdata['categoria'],
+                'nombre'=>$requestdata['nombre'],
+                'fecha_compra'=>date("Y-m-d h:i:s",strtotime($requestdata['fecha']) ),
+                'garantia'=>$garantia,
+                'precio'=>$requestdata['precio'],
+                'hora'=>$requestdata['hora'],
+                'semana'=>$requestdata['semana'],
+                'mes'=>$requestdata['mes'],
+                ]);
+            return redirect('maquinaria')->with('success', 'Maquinaria creada exitosamente!');
+        } else {
+            return back()->with('delete', 'Maquinaria no se pudo crear por que los campos de precio, hora, semana y mes son 1!');
+        }
     }
 
     /**
@@ -89,18 +96,19 @@ class MaquinariaController extends Controller
     public function update(Request $request, $id)
     {
         $requestData = $request->except('_token','_method');
+        
         Maquinaria::where('id',$id)-> update([
             'nombre'=>$requestData['nombre'],
             'categoria_id'=>$requestData['categoria'],
             'nombre'=>$requestData['nombre'],
             'fecha_compra'=>date("Y-m-d h:i:s",strtotime($requestData['fecha']) ),
-            'garantia'=>$requestData['precio'],
+            'garantia'=>$requestData['garantia'],
             'precio'=>$requestData['precio'],
             'hora'=>$requestData['hora'],
             'semana'=>$requestData['semana'],
             'mes'=>$requestData['mes'],
             ]);
-        return redirect('maquinaria')->with('update', 'Maquinaria Editada!');
+        return redirect('maquinaria')->with('update', 'Maquinaria editada exitosamen!');
     }
 
     /**

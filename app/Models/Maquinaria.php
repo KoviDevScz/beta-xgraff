@@ -31,7 +31,7 @@ class Maquinaria extends Model
     protected $fillable = [
         'nombre','categoria_id', 
         'fecha_compra', 'garantia','precio',
-        'hora','semana','mes'
+        'hora','semana','mes',
     ];
     public function categoria()
     {

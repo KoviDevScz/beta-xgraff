@@ -83,7 +83,7 @@ Alquiler
                                     </tr>
                                 @empty
                                     <tr class="text-center">
-                                        <th colspan="4" scope="col">No hay alquileres registrados</th>                                    
+                                        <th colspan="7" scope="col">No hay alquileres registrados</th>                                    
                                     </tr>
                                 @endforelse
                             </tbody>

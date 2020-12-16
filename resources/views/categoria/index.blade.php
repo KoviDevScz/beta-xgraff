@@ -21,7 +21,7 @@
 <div class="modal fade" id="crearmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered " role="document">
         <div class="modal-content ">
-            <form class="form-validate" action="{{route('categoria.store')}}" id="form" method="post">
+            <form autocomplete="off" class="form-validate" action="{{route('categoria.store')}}" id="form" method="post">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalCenterTitle">Crear nueva categoría</h5>

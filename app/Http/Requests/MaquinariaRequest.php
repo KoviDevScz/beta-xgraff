@@ -27,37 +27,41 @@ class MaquinariaRequest extends FormRequest
             'nombre'=> 'required|string|max:50',
             'categoria'=> 'required',
             'fecha' => 'required|string',
-            'precio'=> 'required|string|max:4',
-            'hora'  => 'nullable|string|max:4',
-            'semana'=> 'nullable|string|max:4',
-            'mes'   => 'nullable|string|max:4',
+            'precio'=> 'required|string|max:5|min:2',
+            'hora'  => 'nullable|string|max:5|min:2',
+            'semana'=> 'nullable|string|max:5|min:2',
+            'mes'   => 'nullable|string|max:5|min:2',
         ];
     }
     public function messages()
     {
         return [
-            'nombre.required'   => 'El campo no puede estar vacio',
+            'nombre.required'   => 'El campo :attribute no puede estar vacio',
             'nombre.max'        => 'El campo :attribute no puede exceder :max caracteres',
             'categoria.required'   => 'Usted no ha selecionado una categoría',
-            'fecha.required'    => 'El campo :attribute tiene que tener fecha',
-            'fecha.date_format'    => 'El campo :attribute tiene formato de fecha',
+            'fecha.required'    => 'El campo fecha no tiene que estar vacio',
+            'fecha.date_format'    => 'El campo fecha no tiene formato de fecha',
             'precio.required'=> 'El campo :attribute no puede estar vacio',
             'precio.max'=> 'El campo :attribute no puede exceder el numero de :max digitos',
+            'precio.min'=> 'El campo :attribute tiene que ser mayor a :min digitos',
             'hora.max'=> 'El campo :attribute no puede exceder el numero de :max digitos',
+            'hora.min'=> 'El campo :attribute tiene que ser mayor a :min digitos',
             'semana.max'=> 'El campo :attribute no puede exceder el numero de :max digitos',
+            'semana.min'=> 'El campo :attribute tiene que ser mayor a :min digitos',
             'mes.max'=> 'El campo :attribute no puede exceder el numero de :max digitos',
+            'mes.min'=> 'El campo :attribute tiene que ser mayor a :min digitos',
         ];
     }
     public function attributes()
     {
         return [
-            'nombre'=> 'required|string|max:50',
+            'nombre'=> 'nombre completo',
             'categoria'=> 'required',
-            'fecha' => 'required|date_format:dd/mm/yyyy',
-            'precio'=> 'required|digits:9',
-            'hora'  => 'nullable|digits:9',
-            'semana'=> 'nullable|digits:9',
-            'mes'   => 'nullable|digits:9',
+            'fecha' => 'fecha de compra',
+            'precio'=> 'precio del producto',
+            'hora'  => 'precio por hora',
+            'semana'=> 'precio por semana',
+            'mes'   => 'precio por mes',
         ];
     }
 }
