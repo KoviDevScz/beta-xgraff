@@ -40,7 +40,7 @@ Cliente
                         <div class="row">
                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Nombre <span class="text-danger">*</span>:</label>
                             <div class="col-8 col-sm-8">
-                                <input type="text" class="form-control {{ $errors->has('nombre') ? 'is-invalid' : ''}}" name="nombre" placeholder="Nombre" value="{{ isset($cliente->nombre) ? $cliente->nombre : old('nombre')}}">
+                                <input type="text" pattern="[A-Za-z0-9_-]{1,15}" class="form-control {{ $errors->has('nombre') ? 'is-invalid' : ''}}" name="nombre"  required placeholder="Nombre" value="{{ isset($cliente->nombre) ? $cliente->nombre : old('nombre')}}">
                                 {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!}
                             </div>
                         </div>                                            
@@ -49,7 +49,7 @@ Cliente
                         <div class="row">
                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">CI:</label>
                             <div class="col-8 col-sm-8">
-                                <input type="text" class="form-control {{ $errors->has('ci') ? 'is-invalid' : ''}}" name="ci" placeholder="Descripcion" value="{{ isset($cliente->ci) ? $cliente->ci : old('ci')}}">
+                                <input type="number" class="form-control {{ $errors->has('ci') ? 'is-invalid' : ''}}" name="ci" pattern="[0-9]{1,8}" min="1"   required placeholder="Descripcion" value="{{ isset($cliente->ci) ? $cliente->ci : old('ci')}}">
                                 {!! $errors->first('ci', '<p class="help-block text-danger">:message</p>') !!}
                             </div>
                         </div>                                            
@@ -58,7 +58,7 @@ Cliente
                         <div class="row">
                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Telefonó:</label>
                             <div class="col-8 col-sm-8">
-                                <input type="text" class="form-control {{ $errors->has('telf') ? 'is-invalid' : ''}}" name="telf" placeholder="Descripcion" value="{{ isset($cliente->telf) ? $cliente->telf : old('telf')}}">
+                                <input type="number" class="form-control {{ $errors->has('telf') ? 'is-invalid' : ''}}" name="telf" pattern="[0-9]{1,8}" min="1"   required placeholder="Descripcion" value="{{ isset($cliente->telf) ? $cliente->telf : old('telf')}}">
                                 {!! $errors->first('telf', '<p class="help-block text-danger">:message</p>') !!}
                             </div>
                         </div>                                            
@@ -67,7 +67,7 @@ Cliente
                         <div class="row">
                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Dirección:</label>
                             <div class="col-8 col-sm-8">
-                                <input type="text" class="form-control {{ $errors->has('direccion') ? 'is-invalid' : ''}}" name="direccion" placeholder="Descripcion" value="{{ isset($cliente->direccion) ? $cliente->direccion : old('direccion')}}">
+                                <input type="text" class="form-control {{ $errors->has('direccion') ? 'is-invalid' : ''}}" name="direccion" placeholder="Descripcion" required value="{{ isset($cliente->direccion) ? $cliente->direccion : old('direccion')}}">
                                 {!! $errors->first('direccion', '<p class="help-block text-danger">:message</p>') !!}
                             </div>
                         </div>                                            
@@ -154,7 +154,7 @@ Cliente
                                                         <div class="row">
                                                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">CI:</label>
                                                             <div class="col-8 col-sm-8">
-                                                                <input type="text" class="form-control {{ $errors->has('ci') ? 'is-invalid' : ''}}" name="ci" placeholder="Descripcion" value="{{ isset($cliente->ci) ? $cliente->ci : old('ci')}}">
+                                                                <input type="text" class="form-control {{ $errors->has('ci') ? 'is-invalid' : ''}}" pattern="[0-9]{1,8}" min="1"   required name="ci" placeholder="Descripcion" value="{{ isset($cliente->ci) ? $cliente->ci : old('ci')}}">
                                                                 {!! $errors->first('ci', '<p class="help-block text-danger">:message</p>') !!}
                                                             </div>
                                                         </div>                                            
@@ -163,7 +163,7 @@ Cliente
                                                         <div class="row">
                                                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Telefonó:</label>
                                                             <div class="col-8 col-sm-8">
-                                                                <input type="text" class="form-control {{ $errors->has('telf') ? 'is-invalid' : ''}}" name="telf" placeholder="Descripcion" value="{{ isset($cliente->telf) ? $cliente->telf : old('telf')}}">
+                                                                <input type="text" class="form-control {{ $errors->has('telf') ? 'is-invalid' : ''}}" pattern="[0-9]{1,8}" min="1"   required name="telf" placeholder="Descripcion" value="{{ isset($cliente->telf) ? $cliente->telf : old('telf')}}">
                                                                 {!! $errors->first('telf', '<p class="help-block text-danger">:message</p>') !!}
                                                             </div>
                                                         </div>                                            
@@ -321,38 +321,7 @@ Cliente
     @endif
 <script>
      $(document).ready(function () {
-        $('#form').validate({ 
-            rules: {
-                nombre: {
-                    required: true,
-                    minlength:2,
-                    maxlength:20,
-                }
-            },
-            messages: {
-				nombre: {
-					required: "El campo no puede estar vacio",
-					minlength: "Tiene que ser mayor a 2 caracteres",
-					maxlength: "No tiene que ser mayor a 20 caracteres",
-				},
-				
-			},
-            highlight: function (element, errorClass, validClass) {
-                $(element).addClass('is-invalid');
-            },
-            unhighlight: function(element) {
-                $(element).closest('.form-group').removeClass('is-invalid');
-            },
-            errorElement: 'span',
-            errorClass: 'help-block text-danger',
-            errorPlacement: function(error, element) {
-                if(element.parent('.input-group').length) {
-                    error.insertAfter(element.parent());
-                } else {
-                    error.insertAfter(element);
-                }
-            }
-        });
+        
         $('#default-datatable').DataTable( {
             //Esto sirve que se auto ajuste la tabla al aplicar un filtro
             "scrollCollapse": true,
