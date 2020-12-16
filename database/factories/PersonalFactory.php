@@ -39,7 +39,7 @@ $factory->define(Personal::class, function(Faker $faker){
     $i = $this->indice_personal++;
     return[
         'nombre'=>$this->nombre[$i],
-        'ci'=>$this->ci=[$i],
+        'ci'=>$this->ci[$i],
         'telf'=>$this->telf[$i],
         'direccion'=>$this->direccion[$i],
     ];

@@ -13,7 +13,7 @@ $this->nombre=[
     'Sheila'
 ];
 
-$this->ic=[
+$this->ci=[
     '48658',
     '89642',
     '87954',
@@ -39,7 +39,7 @@ $factory->define(Empleados::class, function(Faker $faker){
     $i = $this-> indice_empleado++;
     return[
         'nombre'=>$this->nombre[$i],
-        'ic'=>$this->ic[$i],
+        'ci'=>$this->ci[$i],
         'telf'=>$this->telf[$i],
         'direccion'=>$this->direccion[$i],
     ];

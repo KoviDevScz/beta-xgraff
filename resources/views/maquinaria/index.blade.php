@@ -70,8 +70,8 @@ Maquinarias
                                     <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Categoría<span class="text-danger">*</span>:</label>
                                     <div class="col-8 col-sm-8">
                                         @if (!$categorias->isEmpty())
-                                            <select class="form-control {{ $errors->has('categoria') ? 'is-invalid' : ''}}" id="categoria" name="categoria" required >
-                                                <option value="0">Selecione una categoria</option>
+                                            <select class="form-control {{ $errors->has('categoria') ? 'is-invalid' : ''}}" id="categoria" name="categoria" required placehol>
+                                                
                                                     @foreach ($categorias as $categoria)
                                                         <option value="{{  $categoria->id }}" {{ old('categoria') == $categoria->id ? 'selected' : '' }}>{{$categoria->nombre}}</option>
                                                     @endforeach
@@ -101,7 +101,7 @@ Maquinarias
                                 <div class="row">
                                     <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Hora:</label>
                                     <div class="col-8 col-sm-8">
-                                        <input type="text" class="form-control {{ $errors->has('hora') ? 'is-invalid' : ''}}" name="hora" placeholder="hora" value="{{ old('hora',1)}}">
+                                        <input type="text" class="form-control {{ $errors->has('hora') ? 'is-invalid' : ''}}" name="hora" required placeholder="hora" value="{{ old('hora',1)}}">
                                         {!! $errors->first('hora', '<p class="help-block text-danger">:message</p>') !!}
                                     </div>
                                 </div>                                            
@@ -110,7 +110,7 @@ Maquinarias
                                 <div class="row">
                                     <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Semana:</label>
                                     <div class="col-8 col-sm-8">
-                                        <input type="text" class="form-control {{ $errors->has('semana') ? 'is-invalid' : ''}}" name="semana" placeholder="semana" value="{{  old('semana', 1 )}}">
+                                        <input type="text" class="form-control {{ $errors->has('semana') ? 'is-invalid' : ''}}" name="semana" required placeholder="semana" value="{{  old('semana', 1 )}}">
                                         {!! $errors->first('semana', '<p class="help-block text-danger">:message</p>') !!}
                                     </div>
                                 </div>                                            
@@ -118,7 +118,7 @@ Maquinarias
                             <div class="form-group row">
                                 <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Mes:</label>
                                 <div class="col-8 col-sm-8">
-                                    <input type="text" class="form-control {{ $errors->has('mes') ? 'is-invalid' : ''}}" name="mes" placeholder="mes" value="{{ old('mes', 1)}}">
+                                    <input type="text" class="form-control {{ $errors->has('mes') ? 'is-invalid' : ''}}" name="mes" placeholder="mes" required value="{{ old('mes', 1)}}">
                                     {!! $errors->first('mes', '<p class="help-block text-danger">:message</p>') !!}
                                 </div>                                            
                             </div>
@@ -205,7 +205,7 @@ Maquinarias
                                                                         <div class="row">
                                                                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Nombre<span class="text-danger">*</span>:</label>
                                                                             <div class="col-8 col-sm-8">
-                                                                                <input type="text" class="form-control {{ $errors->has('nombre') ? 'is-invalid' : ''}}" name="nombre" placeholder="Nombre" value="{{ isset($maquinaria->nombre) ? $maquinaria->nombre : old('nombre')}}">
+                                                                                <input type="text" class="form-control {{ $errors->has('nombre') ? 'is-invalid' : ''}}" name="nombre" required placeholder="Nombre" value="{{ isset($maquinaria->nombre) ? $maquinaria->nombre : old('nombre')}}">
                                                                                 {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!}
                                                                             </div>
                                                                         </div>                                            
@@ -253,7 +253,7 @@ Maquinarias
                                                                         <div class="row">
                                                                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Precio<span class="text-danger">*</span>:</label>
                                                                             <div class="col-8 col-sm-8">
-                                                                                <input type="text" class="form-control {{ $errors->has('precio') ? 'is-invalid' : ''}}" name="precio" placeholder="precio" value="{{ isset($maquinaria->precio) ? $maquinaria->precio : old('precio')}}">
+                                                                                <input type="text" class="form-control {{ $errors->has('precio') ? 'is-invalid' : ''}}" name="precio" placeholder="precio" required value="{{ isset($maquinaria->precio) ? $maquinaria->precio : old('precio')}}">
                                                                                 {!! $errors->first('precio', '<p class="help-block text-danger">:message</p>') !!}
                                                                             </div>
                                                                         </div>                                            
@@ -262,7 +262,7 @@ Maquinarias
                                                                         <div class="row">
                                                                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Hora:</label>
                                                                             <div class="col-8 col-sm-8">
-                                                                                <input type="text" class="form-control {{ $errors->has('hora') ? 'is-invalid' : ''}}" name="hora" placeholder="hora" value="{{ isset($maquinaria->hora) ? $maquinaria->hora : old('hora')}}">
+                                                                                <input type="text" class="form-control {{ $errors->has('hora') ? 'is-invalid' : ''}}" name="hora" required placeholder="hora" value="{{ isset($maquinaria->hora) ? $maquinaria->hora : old('hora')}}">
                                                                                 {!! $errors->first('hora', '<p class="help-block text-danger">:message</p>') !!}
                                                                             </div>
                                                                         </div>                                            
@@ -271,7 +271,7 @@ Maquinarias
                                                                         <div class="row">
                                                                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Semana:</label>
                                                                             <div class="col-8 col-sm-8">
-                                                                                <input type="text" class="form-control {{ $errors->has('semana') ? 'is-invalid' : ''}}" name="semana" placeholder="semana" value="{{ isset($maquinaria->semana) ? $maquinaria->semana : old('semana')}}">
+                                                                                <input type="text" class="form-control {{ $errors->has('semana') ? 'is-invalid' : ''}}" name="semana" placeholder="semana" required value="{{ isset($maquinaria->semana) ? $maquinaria->semana : old('semana')}}">
                                                                                 {!! $errors->first('semana', '<p class="help-block text-danger">:message</p>') !!}
                                                                             </div>
                                                                         </div>                                            
@@ -280,7 +280,7 @@ Maquinarias
                                                                         <div class="row">
                                                                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Mes:</label>
                                                                             <div class="col-8 col-sm-8">
-                                                                                <input type="text" class="form-control {{ $errors->has('mes') ? 'is-invalid' : ''}}" name="mes" placeholder="mes" value="{{ isset($maquinaria->mes) ? $maquinaria->mes : old('mes')}}">
+                                                                                <input type="text" class="form-control {{ $errors->has('mes') ? 'is-invalid' : ''}}" name="mes" placeholder="mes" required value="{{ isset($maquinaria->mes) ? $maquinaria->mes : old('mes')}}">
                                                                                 {!! $errors->first('mes', '<p class="help-block text-danger">:message</p>') !!}
                                                                             </div>
                                                                         </div>                                            
@@ -506,100 +506,7 @@ Maquinarias
                 maxDate: new Date(),
             });
             
-        $('#form').validate({
-            groups: {
-                tiempo: "hora semana mes"
-            }, 
-            rules: {
-                nombre: {
-                    required: true,
-                    minlength:1,
-                    maxlength:20,
-                },
-                categoria:{
-                    valueNotEquals:"",
-                    required:true
-                },
-                fecha: {
-                    date:true,
-                    required: true,
-                },
-                precio: {
-                    required: true,
-                    minlength:1,
-                    maxlength:7,
-                    min:1,
-                    number: true
-                },
-                hora: {
-                    required:true,
-                    maxlength:7,
-                    number: true
-                },
-                semana: {
-                    required:true,
-                    maxlength:7,
-                    number: true
-                },
-                mes: {
-                    required:true,                    
-                    maxlength:7,
-                    number: true
-                },
-            },
-            messages: {
-				nombre: {
-					required: "El campo no puede estar vacio",
-					minlength: "Tiene que ser mayor a 2 caracteres",
-					maxlength: "No tiene que ser mayor a 20 caracteres",
-				},
-				categoria: {
-                    valueNotEquals: "Debes selecionar una categoria",
-					required: "Debes selecionar una categoria",
-                },
-                fecha: {
-                    date: true,
-					required: "Se necesita la fecha de la compra",
-                },
-                precio: {
-					required: "El campo no puede estar vacio",
-					minlength: "Tiene que ser mayor a 1 digito",
-                    maxlength: "No tiene que ser mayor a 7 digitos",
-                    min:"El valor minimo es 1",
-                    number:"El campo solo permite digitos "
-                },
-                hora: {
-                    required: "El campo no puede estar vacio",
-                    number:"El campo solo permite digitos ",
-                    maxlength: "No tiene que ser mayor a 7 digitos",
-                },
-                semana: {
-                    required: "El campo no puede estar vacio",
-                    number:"El campo solo permite digitos ",
-                    maxlength: "No tiene que ser mayor a 7 digitos",
-                },
-                mes: {
-                    required: "El campo no puede estar vacio",
-                    number:"El campo solo permite digitos ",
-                    maxlength: "No tiene que ser mayor a 7 digitos",
-                },
-			},
-            highlight: function (element, errorClass, validClass) {
-                $(element).addClass('is-invalid');
-            },
-            unhighlight: function(element) {
-                $(element).closest('.form-group').removeClass('is-invalid');
-            },
-            errorElement: 'span',
-            errorClass: 'help-block text-danger',
-            errorPlacement: function(error, element) {
-                if(element.parent('.input-group').length) {
-                    error.insertAfter(element.parent());
-                } else {
-                    error.insertAfter(element);
-                }
-            }
-        });
+
        /* --- Form - Datepicker -- */
     });
 </script>
