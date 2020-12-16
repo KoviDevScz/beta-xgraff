@@ -2,8 +2,6 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Model;
-use App\Models\Empleados;
 use App\Models\Personal;
 use Faker\Generator as Faker;
 
