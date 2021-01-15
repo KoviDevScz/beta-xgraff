@@ -9,7 +9,10 @@ class DetalleDevolucion extends Model
     protected $table='detalle_devolucion_maquinaria';
     protected $primaryKey='id';
     protected $fillable = [
-        'alquiler_id','maquinaria_id', 'cantidad'
+        'devolucion_id','maquinaria_id', 'cantidad'
     ];
-    
+    public function cliente()
+    {
+        return $this->belongsTo('App\Models\Cliente');
+    }
 }

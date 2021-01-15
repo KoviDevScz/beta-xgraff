@@ -74,11 +74,13 @@ Alquiler
                                         <td>{{$alquiler->monto_total}}</td>
                                         <td>{{$alquiler->garantia}}</td>
                                         <td>{{$alquiler->fecha_alquiler->format('d-m-Y H:i')}}</td>
-                                        <td>{{$alquiler->estado}}</td>
+                                        <td >{!! ($alquiler->estado == 1) ? ( '<span class="badge badge-danger shadow">Alquiler pendiente</span>'): '<span class="badge badge-success shadow">Alquiler devuelto</span>' !!}
                                         <td>
-                                            <a class="btn btn btn-round btn-outline-warning m-r-5" href="{{route('alquiler.edit',$alquiler->id )}}" ><i class="feather icon-settings"></i></a>
-                                            <button type="button" class="btn btn btn-round btn-outline-info m-r-5" data-toggle="modal" data-target="#infoalquiler{{$alquiler->id}}"><i class="feather icon-settings"></i></button>
-                                            <button type="button" class="btn btn btn-round btn-outline-danger m-r-5" data-toggle="modal" data-target="#editarmaqui{{$alquiler->id}}"><i class="feather icon-settings"></i></button>
+                                            @if ($alquiler->estado == 1)
+                                            <a class="btn btn btn-round btn-outline-success m-r-5" href="{{route('alquiler.edit',$alquiler->id )}}" ><i class="feather icon-settings"></i></a>
+                                            @else
+                                            <a class="btn btn-round btn-outline-info" href="{{route('alquiler.show',$alquiler->id)}}"> <i class="dripicons-preview"></i></a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

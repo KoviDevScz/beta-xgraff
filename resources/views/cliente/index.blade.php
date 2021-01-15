@@ -43,7 +43,7 @@ Cliente
                         <div class="row">
                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Nombre <span class="text-danger">*</span>:</label>
                             <div class="col-8 col-sm-8">
-                                <input type="text" pattern="[A-Za-z0-9_-]{1,15}" class="form-control {{ $errors->has('nombre') ? 'is-invalid' : ''}}" name="nombre"   required placeholder="Nombre" value="{{ isset($cliente->nombre) ? $cliente->nombre : old('nombre')}}">
+                                <input type="text"  class="form-control {{ $errors->has('nombre') ? 'is-invalid' : ''}}" name="nombre"   required placeholder="Nombre completo" value="{{ isset($cliente->nombre) ? $cliente->nombre : old('nombre')}}">
                                 {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!}
                             </div>
                         </div>                                            
@@ -268,22 +268,25 @@ Cliente
                                 <div class="modal fade" id="eliminarmodal{{$cliente->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered " role="document">
                                         <div class="modal-content ">
-                                            <form class="form-validate" action="{{route('cliente.destroy',$cliente->id)}}"method="post">
+                                            <form class="form-validate" action="{{route('cliente.destroy',$cliente->id)}}" method="post">
                                                 @csrf
-                                                <div class="modal-header text-white bg-danger">
-                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Eliminar cliente - {{$cliente->nombre}}</h5>
+                                                @method('DELETE')
+                                                <div class="modal-header bg-danger">
+                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Crear nuevo personal</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
+                                                    <input type="hidden" value="{{$cliente->id}}" name="id"> 
                                                     <div class="container">
                                                         <h6> Estas seguro de eliminar al cliente?</h6>
-                                                    <h3 class="justify-content-center align-items-center "> El cliente  <strong>{{$cliente->nombre}}</strong> </h3>
+                                                    <h3 class="justify-content-center align-items-center "> cliente <strong>{{$cliente->nombre}}</strong> </h3>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer justify-content-center align-items-center row">
-                                                    <button type="submit" class="btn btn-danger" data-dismiss="modal">Eliminar</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                    <button type="submit" class="btn btn-danger">Eliminar</button>
                                                 </div>
                                             </form>
                                         </div>

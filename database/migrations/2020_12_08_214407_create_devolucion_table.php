@@ -20,6 +20,7 @@ class CreateDevolucionTable extends Migration
             $table->unsignedBigInteger('personal_id')->nullable();
             $table->double('garantia_devolucion')->nullable();
             $table->dateTime('fecha_alquiler');
+            $table->string('observacion');
             $table->dateTime('fecha_devolucion')->nullable();
             $table->unsignedTinyInteger('estado')->default(1);
             $table->timestamps();

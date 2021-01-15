@@ -99,6 +99,6 @@ class ClienteController extends Controller
     public function destroy($id)
     {
         Cliente::where('id',$id)->delete();
-        return back()->with('danger', 'Cliente modificado exitosamente!');
+        return back()->with('danger', 'Cliente eliminado exitosamente!');
     }
 }

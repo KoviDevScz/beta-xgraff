@@ -40,7 +40,7 @@ Personal
                         <div class="row">
                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Nombre <span class="text-danger">*</span>:</label>
                             <div class="col-8 col-sm-8">
-                                <input type="text" class="form-control {{ $errors->has('nombre') ? 'is-invalid' : ''}}" name="nombre" required placeholder="Nombre" value="{{ isset($personal->nombre) ? $personal->nombre : old('nombre')}}">
+                                <input type="text" class="form-control {{ $errors->has('nombre') ? 'is-invalid' : ''}}" name="nombre" required placeholder="Nombre completo" value="{{ isset($personal->nombre) ? $personal->nombre : old('nombre')}}">
                                 {!! $errors->first('nombre', '<p class="help-block text-danger">:message</p>') !!}
                             </div>
                         </div>                                            
@@ -76,7 +76,7 @@ Personal
                         <div class="row">
                             <label class="col-4 col-sm-4 mt-1 p-0 control-label text-right">Foto:</label>
                             <div class="col-8 col-sm-8">
-                                <input type="file" class="form-control {{ $errors->has('telf') ? 'is-invalid' : ''}}" name="foto" placeholder="foto" value="{{ isset($personal->foto) ? $personal->foto : old('telf')}}">
+                                <input accept="image/*" type="file" class="form-control {{ $errors->has('telf') ? 'is-invalid' : ''}}" name="foto" placeholder="foto" value="{{ isset($personal->foto) ? $personal->foto : old('telf')}}">
                                 {!! $errors->first('telf', '<p class="help-block text-danger">:message</p>') !!}
                             </div>
                         </div>                                            

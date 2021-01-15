@@ -1,11 +1,11 @@
 @section('title') 
-XGRAFF - Devolucion
+XGRAFF - Detalle de la devolucion
 @endsection
 @section('title-page') 
-Registrar
+Detalle de la devolucion
 @endsection
 @section('page') 
-Registrar
+Detalle de la devolucion
 @endsection 
 @section('link-page')
     <li class="breadcrumb-item"><a href="{{url('/')}}">CMS</a></li>
@@ -25,7 +25,7 @@ Registrar
         <div class="col-md-12 col-lg-12 col-xl-12">
             <div class="card col-12">
                 <div class="card-head col mx-auto">
-                    <h4 class="text-center mt-3">Devolución del alquiler</h4>
+                    <h4 class="text-center mt-3">Detalle de la devolucion</h4>
                 </div>
                 <div class="card-body ">
                     <form action="{{route('devolucion.store')}}" method="POST">
@@ -38,27 +38,30 @@ Registrar
                                     <input  readonly type="text"  class="form-control " value="{{ $alquiler[0]->personal->nombre }}">                                    
                                     <input  type="hidden" name="personal_id" id="personal_id" class="form-control " value="{{ $alquiler[0]->personal_id }}">                                    
                                 </div>
-                                <div class="form-group row ">
-                                    <label for="inputEmail3" class="col-form-label ">Cliente:</label>
-                                    <input  readonly type="text"  class="form-control " value="{{ $alquiler[0]->cliente->nombre }}">                                    
-                                    <input  type="hidden" name="cliente_id" id="cliente_id" class="form-control " value="{{ $alquiler[0]->cliente_id }}">                                    
+                                <div class=" row justify-content-center align-items-center">
+                                    <div class="form-group row ">
+                                        <label for="inputEmail3" class="col-form-label ">Cliente:</label>
+                                        <input  readonly type="text"  class="form-control " value="{{ $alquiler[0]->cliente->nombre }}">                                    
+                                        <input  type="hidden" name="cliente_id" id="cliente_id" class="form-control " value="{{ $alquiler[0]->cliente_id }}">                                    
+                                    </div>
                                 </div>
                                 <div class="form-group row ">
                                     <label for="inputEmail3" class="col-form-label ">Garantia:</label>    
-                                    <input  readonly type="text" class="form-control" name="garantia" id="garantia" value="{{ ($alquiler[0]->garantia) }}">
+                                    <input  readonly type="text" class="form-control" name="garantia" id="garantia" value="{{ ($alquiler[0]->garantia_devolucion) }}">
                                     {{-- <input  type="hidden" name="garantia" id="cliente_id" class="form-control " value="{{ $alquiler[0]->garantia }}"> --}}
                                 </div>
                             </div>
-                            <div class="row col-4 justify-content-center align-items-center ml-3">
+                            <div class="row col-4 mb-5 justify-content-center align-items-center ml-3">
                                 <div class="form-group row">
                                     <label for="inputEmail3" class="col-form-label ">Fecha de alquiler:</label>
-                                    <input type="text" class="datepicker-here form-control" readonly
-                                                                                    data-language="es" data-time-format='d-m-Y H:i'  aria-describedby="basic-addon2"  required name="fecha" value="{{\Carbon\Carbon::parse($alquiler[0]->fecha_alquiler)->format('d-m-Y H:i')}}"/>
+                                    <input type="text" class="datepicker-here form-control" readonly  data-language="es" data-time-format='d-m-Y H:i'  aria-describedby="basic-addon2"  required name="fecha" value="{{\Carbon\Carbon::parse($alquiler[0]->fecha_alquiler)->format('d-m-Y H:i')}}"/>
                                     {{-- {{dd($alquiler[0])}} --}}
                                 </div>
-                                <div class="form-group row ">
-                                    <label for="inputEmail3" class="col-form-label ">Monto Total:</label>
-                                    <input  readonly type="text" class="form-control" name="monto_total" id="monto_total" value="{{($alquiler[0]->monto_total) }}">
+                                <div class="row mb-5 justify-content-center align-items-center mr-3">
+                                    <div class="form-group row">
+                                        <label for="inputEmail3" class="col-form-label ">Observacion</label>
+                                        <input  type="text" class="form-control" readonly required name="observacion" id="observacion" placeholder="Observaciones" value="{{($alquiler[0]->observacion) }}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -69,9 +72,9 @@ Registrar
                                 <h5 class="text-center">Detalle del alquiler</h5>
                             </div>
                             <table class="table table-hover table-bordered">
-                                <thead class="thead-dark">
-                                    <tr style="text-center">
-                                        <th scope="col">Nombre</th>
+                                <thead class="thead-dark text-center">
+                                    <tr >
+                                        <th scope="col">Nombre del producto</th>
                                         <th scope="col">cantidad</th>
                                         <th scope="col">Precio</th>
                                         <th  scope="col">Fecha de devolución</th>
@@ -94,20 +97,9 @@ Registrar
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row justify-content-center align-items-center">
-                            <div class="form-group row">
-                                <label for="inputEmail3" class="col-form-label ">Multa:</label>
-                                <input  disabled type="text" class="form-control " name="multa" id="multa" value="{{0}}">
-                            </div>
-                            <div class="form-group row ml-5">
-                                <label for="inputEmail3" class="col-form-label ">Observacion</label>
-                                <input  type="text" class="form-control" required name="observacion" id="observacion" placeholder="Observaciones" value="">
-                            </div>  
-                        </div>
                         <div class="card-footer">
                             <div class="modal-footer justify-content-center align-items-center row">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-success" data-dismiss="modal">Registrar</button>
+                                <a href="{{url('devolucion')}}" type="button" class="btn btn-info" data-dismiss="modal"><i class="feather icon-arrow-left"></i> Cancelar</a>
                             </div>
                         </div>
                     </form>

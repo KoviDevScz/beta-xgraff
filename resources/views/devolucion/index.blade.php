@@ -12,14 +12,6 @@ Devolución
     <li class="breadcrumb-item active" aria-current="page">@yield('page')</li>
 @endsection
 @extends('layouts.app')
-@section('style')
-
-@endsection
-@section('button')
-    <a class="btn btn-primary-rgba" href="{{url('devolucion/create')}}" >
-        <i class="feather icon-plus mr-2"></i>Crear 
-    </a>
-@endsection 
 @section('rightbar-content')
 <!-- Start Contentbar -->    
 <div class="contentbar">                
@@ -56,32 +48,29 @@ Devolución
                 <div class="card-body">
                     <div class="table-responsive m-b-30">
                         <table class="table table-hover">
-                            <thead>
+                            <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">Codigo del alquiler</th>
+                                    <th scope="col">Nombre del cliente</th>
+                                    <th scope="col">Fecha devolución</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
+                                @forelse ($devoluciones as $devolucion)
+                                <tr class="table-striped text-center">
+                                    <th scope="row">{{$devolucion->alquiler_id}}</th>
+                                    <td>{{$devolucion->cliente->nombre}}</td>
+                                    <td>{{$devolucion->fecha_devolucion}}</td>
+                                    <td >{!! ($devolucion->estado == 1) ? ( '<span class="badge badge-success shadow">Alquiler devuelto</span>'): '<span class="badge badge-danger shadow">Alquiler pendiente</span>' !!}
+                                    <td><a class="btn btn-round btn-outline-info" href="{{route('devolucion.show',$devolucion->id)}}"> <i class="dripicons-preview"></i></a></td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
+                                @empty
+                                <tr class="text-center">
+                                    <th colspan="4" scope="col">No hay devoluciones</th>                                    
                                 </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td colspan="2">Larry the Bird</td>
-                                    <td>@twitter</td>
-                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

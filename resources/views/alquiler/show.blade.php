@@ -1,15 +1,15 @@
 @section('title') 
-XGRAFF - Devolucion
+XGRAFF - Detalle del alquiler
 @endsection
 @section('title-page') 
-Registrar
+Detalle del alquiler
 @endsection
 @section('page') 
-Registrar
+Detalle del alquiler
 @endsection 
 @section('link-page')
     <li class="breadcrumb-item"><a href="{{url('/')}}">CMS</a></li>
-    <li class="breadcrumb-item"><a >Devolución</a></li>
+    <li class="breadcrumb-item"><a >Alquiler</a></li>
     <li class="breadcrumb-item active" aria-current="page">@yield('page')</li>
 @endsection
 @extends('layouts.app')
@@ -25,7 +25,7 @@ Registrar
         <div class="col-md-12 col-lg-12 col-xl-12">
             <div class="card col-12">
                 <div class="card-head col mx-auto">
-                    <h4 class="text-center mt-3">Devolución del alquiler</h4>
+                    <h4 class="text-center mt-3">Detalle del alquiler</h4>
                 </div>
                 <div class="card-body ">
                     <form action="{{route('devolucion.store')}}" method="POST">
@@ -69,9 +69,9 @@ Registrar
                                 <h5 class="text-center">Detalle del alquiler</h5>
                             </div>
                             <table class="table table-hover table-bordered">
-                                <thead class="thead-dark">
-                                    <tr style="text-center">
-                                        <th scope="col">Nombre</th>
+                                <thead class="thead-dark text-center">
+                                    <tr >
+                                        <th scope="col">Nombre del producto</th>
                                         <th scope="col">cantidad</th>
                                         <th scope="col">Precio</th>
                                         <th  scope="col">Fecha de devolución</th>
@@ -94,20 +94,9 @@ Registrar
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row justify-content-center align-items-center">
-                            <div class="form-group row">
-                                <label for="inputEmail3" class="col-form-label ">Multa:</label>
-                                <input  disabled type="text" class="form-control " name="multa" id="multa" value="{{0}}">
-                            </div>
-                            <div class="form-group row ml-5">
-                                <label for="inputEmail3" class="col-form-label ">Observacion</label>
-                                <input  type="text" class="form-control" required name="observacion" id="observacion" placeholder="Observaciones" value="">
-                            </div>  
-                        </div>
                         <div class="card-footer">
                             <div class="modal-footer justify-content-center align-items-center row">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-success" data-dismiss="modal">Registrar</button>
+                                <a href="{{url('alquiler')}}" type="button" class="btn btn-info" data-dismiss="modal"><i class="feather icon-arrow-left"></i> Cancelar</a>
                             </div>
                         </div>
                     </form>

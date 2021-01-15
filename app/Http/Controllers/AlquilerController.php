@@ -82,7 +82,12 @@ class AlquilerController extends Controller
      */
     public function show($id)
     {
-        //
+        $alquiler=Alquiler::where('id',$id)->get();
+        $maquinarias=DB::table('detalle_alquiler_maquinaria_cliente')
+                            ->select('maquinarias.*','detalle_alquiler_maquinaria_cliente.id as detalle_id','detalle_alquiler_maquinaria_cliente.*')
+                            ->join('maquinarias','maquinarias.id','=','detalle_alquiler_maquinaria_cliente.maquinaria_id')
+                            ->get();
+        return view('alquiler.show',compact('alquiler','maquinarias' ));
     }
 
     /**
